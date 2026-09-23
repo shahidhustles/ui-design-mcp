@@ -221,6 +221,12 @@ async function getFlowsOnboarding(failures: string[]): Promise<void> {
     const refero = flows.filter((f) => f?.source === 'refero');
     check(failures, refero.length >= 1, `≥1 Refero flow (got ${refero.length} of ${flows.length})`);
     check(failures, refero.every((f) => Array.isArray(f.steps) && f.steps.length > 1), 'every Refero flow has >1 step');
+    const firstFlowCache = refero[0]?.cachedUrls?.[0] ? fileUrl(refero[0].cachedUrls[0]) : undefined;
+    check(
+      failures,
+      Boolean(firstFlowCache && fs.existsSync(firstFlowCache) && fs.statSync(firstFlowCache).size > 0),
+      'first flow has a cached first-step image on disk (file:// path is usable)',
+    );
   } finally {
     c.close();
   }

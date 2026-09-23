@@ -61,39 +61,59 @@ export function interleaveMerge<T extends { sourceUrl?: string; id: string }>(
   return out;
 }
 
+const IMAGE_POOL = 4;
+
+/**
+ * Bounded-concurrency map that preserves input order. The per-source
+ * RateLimiter (src/http.ts) reserves slots, so concurrent workers pace
+ * themselves instead of bursting.
+ */
+export async function mapPool<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+  const results: R[] = new Array(items.length);
+  let next = 0;
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await fn(items[i]!);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
 /**
  * Download each record's FULL-RES primary image once into the local cache
  * and fill `cachedUrls` with file:// paths. Failures → notes.
  */
 export async function cacheFullRes(records: UIScreen[], max: number, cfg: Config, notes: string[]): Promise<void> {
-  let done = 0;
-  for (const rec of records) {
-    if (done >= max) break;
-    const url = rec.imageUrls[0];
-    if (!url) continue;
+  const targets = records
+    .slice(0, max)
+    .map((rec) => ({ rec, url: rec.imageUrls[0] }))
+    .filter((t): t is { rec: UIScreen; url: string } => Boolean(t.url));
+  await mapPool(targets, IMAGE_POOL, async ({ rec, url }) => {
     try {
       const file = await ensureImage(rec.source, url, cfg);
       rec.cachedUrls = [`file://${file}`];
-      done++;
     } catch (e) {
       notes.push(`cache miss ${rec.id}: ${e instanceof Error ? e.message : String(e)}`);
     }
-  }
+  });
 }
 
 /** Inline base64 image blocks from thumbnails (small by design). */
 export async function withImages(records: UIScreen[], maxBlocks: number, cfg: Config, notes: string[]): Promise<{ data: string; mimeType: string }[]> {
-  const blocks: { data: string; mimeType: string }[] = [];
-  for (const rec of records) {
-    if (blocks.length >= maxBlocks) break;
-    const url = rec.thumbnailUrl ?? rec.imageUrls[0];
-    if (!url) continue;
+  const targets = records
+    .slice(0, maxBlocks)
+    .map((rec) => ({ rec, url: rec.thumbnailUrl ?? rec.imageUrls[0] }))
+    .filter((t): t is { rec: UIScreen; url: string } => Boolean(t.url));
+  const results = await mapPool(targets, IMAGE_POOL, async ({ rec, url }) => {
     try {
       const file = await ensureImage(rec.source, url, cfg);
-      blocks.push(readImage(file));
+      return readImage(file);
     } catch (e) {
       notes.push(`thumb ${rec.id}: ${e instanceof Error ? e.message : String(e)}`);
+      return null;
     }
-  }
-  return blocks;
+  });
+  return results.filter((b): b is { data: string; mimeType: string } => b !== null);
 }

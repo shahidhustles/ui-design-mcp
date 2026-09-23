@@ -38,15 +38,21 @@ export function registerGetFlowsTool(server: McpServer, store: MetadataStore, cf
         const merged = interleaveMerge(perAdapter, limit, (f: UIFlow) => f.id);
         if (merged.length === 0) notes.push('no flows found');
         // Cache the first step image of each flow (not every step).
-        await cacheFullRes(
-          merged.map((f) => ({ ...f, imageUrls: f.steps[0]?.imageUrls ?? f.imageUrls, cachedUrls: [] })),
-          merged.length,
-          cfg,
-          notes,
-        );
-        for (const f of merged) {
-          f.cachedUrls = f.steps[0]?.cachedUrls ?? [];
-        }
+        // cacheFullRes mutates cachedUrls on the objects it is given —
+        // keep the copies so the results can be written back onto both the
+        // flow and its first step.
+        const cacheTargets = merged.map((f) => ({
+          ...f,
+          imageUrls: f.steps[0]?.imageUrls ?? f.imageUrls,
+          cachedUrls: [] as string[],
+        }));
+        await cacheFullRes(cacheTargets, merged.length, cfg, notes);
+        merged.forEach((f, i) => {
+          const urls = cacheTargets[i]!.cachedUrls;
+          f.cachedUrls = urls;
+          const first = f.steps[0];
+          if (first) first.cachedUrls = urls;
+        });
         const blocks = await withImages(merged, 8, cfg, notes);
         return toolResult({ count: merged.length, flows: merged, notes }, blocks);
       } catch (e) {
