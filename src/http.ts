@@ -74,10 +74,17 @@ function parseRetryAfter(header: string | null): number | undefined {
 /**
  * fetch with browser-like UA, per-source rate limit, timeout, and
  * 3 retries with backoff on network errors / timeouts / 429 / 5xx.
+ * `intervalMs` overrides the per-source spacing (bulk syncs use slower keys).
  */
-async function fetchWithRetry(source: string, url: string, cfg: Config, opts: FetchOpts = {}): Promise<Response> {
+async function fetchWithRetry(
+  source: string,
+  url: string,
+  cfg: Config,
+  opts: FetchOpts = {},
+  intervalMs?: number,
+): Promise<Response> {
   if (cfg.fakeOffline) throw new HttpError(`fake offline (source=${source})`, undefined, url);
-  const limiter = limiterFor(source, cfg.rateLimitMs);
+  const limiter = limiterFor(source, intervalMs ?? cfg.rateLimitMs);
   let lastErr: unknown;
   for (let attempt = 0; attempt < 4; attempt++) {
     await limiter.acquire();
@@ -120,18 +127,36 @@ async function fetchWithRetry(source: string, url: string, cfg: Config, opts: Fe
   throw lastErr instanceof Error ? lastErr : new HttpError(`failed after retries: ${url}`, undefined, url);
 }
 
-export async function fetchJson<T>(source: string, url: string, cfg: Config, opts?: FetchOpts): Promise<T> {
-  const res = await fetchWithRetry(source, url, cfg, opts);
+export async function fetchJson<T>(
+  source: string,
+  url: string,
+  cfg: Config,
+  opts?: FetchOpts,
+  intervalMs?: number,
+): Promise<T> {
+  const res = await fetchWithRetry(source, url, cfg, opts, intervalMs);
   return (await res.json()) as T;
 }
 
-export async function fetchText(source: string, url: string, cfg: Config, opts?: FetchOpts): Promise<string> {
-  const res = await fetchWithRetry(source, url, cfg, opts);
+export async function fetchText(
+  source: string,
+  url: string,
+  cfg: Config,
+  opts?: FetchOpts,
+  intervalMs?: number,
+): Promise<string> {
+  const res = await fetchWithRetry(source, url, cfg, opts, intervalMs);
   return res.text();
 }
 
-export async function fetchBuffer(source: string, url: string, cfg: Config, opts?: FetchOpts): Promise<Buffer> {
-  const res = await fetchWithRetry(source, url, cfg, opts);
+export async function fetchBuffer(
+  source: string,
+  url: string,
+  cfg: Config,
+  opts?: FetchOpts,
+  intervalMs?: number,
+): Promise<Buffer> {
+  const res = await fetchWithRetry(source, url, cfg, opts, intervalMs);
   return Buffer.from(await res.arrayBuffer());
 }
 
