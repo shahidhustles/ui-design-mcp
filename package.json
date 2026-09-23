@@ -1,0 +1,28 @@
+{
+  "name": "ui-design-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP server exposing real-world UI screenshots and flows from free design-reference backends",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node --disable-warning=ExperimentalWarning node_modules/tsx/dist/cli.mjs src/index.ts",
+    "start": "node --disable-warning=ExperimentalWarning node_modules/tsx/dist/cli.mjs src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify": "node --disable-warning=ExperimentalWarning node_modules/tsx/dist/cli.mjs scripts/verify.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1"
+  }
+}
