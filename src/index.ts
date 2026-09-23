@@ -12,8 +12,7 @@ import { registerGetAppTool } from './tools/get-app.js';
 import { registerGetFlowsTool } from './tools/get-flows.js';
 import { registerGetImageTool } from './tools/get-image.js';
 import { registerListSourcesTool } from './tools/list-sources.js';
-import { registerSearchAppsTool } from './tools/search-apps.js';
-import { registerSearchScreensTool } from './tools/search-screens.js';
+import { registerSearchTool } from './tools/search.js';
 
 async function main(): Promise<void> {
   const cfg = loadConfig();
@@ -24,8 +23,7 @@ async function main(): Promise<void> {
   registerAdapter(createAppleAdapter(cfg));
 
   const server = new McpServer({ name: 'ui-design', version: '0.1.0' });
-  registerSearchScreensTool(server, store, cfg);
-  registerSearchAppsTool(server, store, cfg);
+  registerSearchTool(server, store, cfg);
   registerGetAppTool(server, store, cfg);
   registerGetFlowsTool(server, store, cfg);
   registerGetImageTool(server, cfg);

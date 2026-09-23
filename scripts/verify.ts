@@ -149,8 +149,8 @@ async function searchCheckout(failures: string[]): Promise<void> {
   const c = createClient();
   try {
     await c.init();
-    const r = await c.callTool('search_screens', { query: 'checkout', limit: 10 });
-    check(failures, !r.isError, 'search_screens(checkout) ok');
+    const r = await c.callTool('search', { type: 'screens', query: 'checkout', limit: 10 });
+    check(failures, !r.isError, 'search(screens:checkout) ok');
     const p = r.payload;
     const results: any[] = p?.results ?? [];
     check(failures, results.length >= 5, `≥5 records (got ${results.length})`);
@@ -173,8 +173,8 @@ async function searchDashboard(failures: string[]): Promise<void> {
   const c = createClient();
   try {
     await c.init();
-    const r = await c.callTool('search_screens', { query: 'dashboard', limit: 10 });
-    check(failures, !r.isError, 'search_screens(dashboard) ok');
+    const r = await c.callTool('search', { type: 'screens', query: 'dashboard', limit: 10 });
+    check(failures, !r.isError, 'search(screens:dashboard) ok');
     const results: any[] = r.payload?.results ?? [];
     const web = results.filter((x) => x?.platform === 'web');
     check(failures, web.length >= 1, `≥1 web record (got ${web.length})`);
@@ -273,22 +273,22 @@ async function offlineCache(failures: string[]): Promise<void> {
   }
 }
 
-/** §8.7 — search_apps: live name search finds Spotify, music query returns several apps. */
+/** §8.7 — search(type apps): live name search finds Spotify, music query returns several apps. */
 async function searchApps(failures: string[]): Promise<void> {
   const c = createClient();
   try {
     await c.init();
-    const r = await c.callTool('search_apps', { query: 'spotify', limit: 5 });
-    check(failures, !r.isError, 'search_apps(spotify) ok');
+    const r = await c.callTool('search', { type: 'apps', query: 'spotify', limit: 5 });
+    check(failures, !r.isError, 'search(apps:spotify) ok');
     const apps: any[] = r.payload?.apps ?? [];
     check(
       failures,
       apps.some((a) => /spotify/i.test(a?.name ?? '')),
       `spotify found (got: ${apps.map((a) => a?.name).join(' | ') || 'none'})`,
     );
-    const r2 = await c.callTool('search_apps', { query: 'music', limit: 10 });
+    const r2 = await c.callTool('search', { type: 'apps', query: 'music', limit: 10 });
     const apps2: any[] = r2.payload?.apps ?? [];
-    check(failures, apps2.length >= 5, `search_apps(music) returns ≥5 apps (got ${apps2.length})`);
+    check(failures, apps2.length >= 5, `search(apps:music) returns ≥5 apps (got ${apps2.length})`);
   } finally {
     c.close();
   }

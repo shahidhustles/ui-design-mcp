@@ -17,8 +17,7 @@ backends behind them are open.
 
 | tool | arguments | what you get |
 |---|---|---|
-| `search_screens` | `query?`, `platform?`, `tags?`, `limit?` (≤48, default 10) | unified screen records from every search-capable source, interleaved; `cachedUrls` (local `file://` full-res) + ≤8 inline base64 thumbnails |
-| `search_apps` | `query?`, `category?`, `limit?` (≤50, default 10) | browse the per-app catalogs to **choose** an app before `get_app` — live ScreensDesign name search (`?name=` substring, with match count: "music" → 48 apps), category filter on the local catalog |
+| `search` | `type: "screens" \| "apps"` (required), `query?`, `platform?`, `tags?` (screens), `category?` (apps), `limit?` (default 10) | **the entry point — one tool, no "which search?" confusion.** `type "screens"`: unified screen records from every search-capable source, interleaved; `colors[]` hex, fonts, tags, `cachedUrls` (local `file://` full-res) + ≤8 inline base64 thumbnails. `type "apps"`: browse the per-app catalogs to **choose** an app before `get_app` — live ScreensDesign name search ("music" → 48 apps), category filter on the local catalog |
 | `get_app` | `name`, `platform?` | one app's full profile (revenue, paywall, rating…), its complete ordered screen sequence with per-screen captions, 720p `videoUrl`, plus official App Store screenshots |
 | `get_flows` | `query?`, `platform?`, `limit?` | named user flows (Refero) — ordered screenshot sequences; for a whole app session use `get_app` |
 | `get_image` | `url`, `format?` (auto/png/jpeg), `maxDim?` (default 1600) | one screenshot returned **as an inline image block** — no local Read needed, webp/webm/avif work as bytes; `format` transcodes (webp→png), `maxDim` downscales |
@@ -84,8 +83,8 @@ a warm one answers from disk.
   and degrades per-page size under load — a cold sync typically takes 30–60
   minutes wall-clock. It is idempotent, resumes from where it stopped, and is
   re-run only after the catalog TTL expires.
-- **Refero anonymous tier is web-only in practice.** `search_screens(platform:
-  "ios")` returns web results with a note when iOS coverage is thin.
+- **Refero anonymous tier is web-only in practice.** `search(type: "screens",
+  platform: "ios")` returns web results with a note when iOS coverage is thin.
 - **Response size is bounded.** ≤8 base64 thumbnail blocks per tool response;
   full-res images stay on disk and are referenced via `cachedUrls`.
 - **A failing source never crashes the server** — it surfaces in the `notes`
