@@ -129,7 +129,10 @@ async function fetchWithRetry(
     lastErr = new HttpError(`HTTP ${res.status} for ${url}`, res.status, url, retryAfterMs);
     if (!retryable) throw lastErr;
     await res.body?.cancel().catch(() => {});
-    await sleep(jitter(Math.min(retryAfterMs ?? cfg.retryBaseMs * 2 ** attempt, 5_000)));
+    // Cap 120s (was 5s): a 429 with retry-after: 640 must not be retried
+    // 4× in ~20s — that re-arms the sliding window. Callers needing total
+    // silence for the full window use noRetry and manage their own sleep.
+    await sleep(jitter(Math.min(retryAfterMs ?? cfg.retryBaseMs * 2 ** attempt, 120_000)));
   }
   throw lastErr instanceof Error ? lastErr : new HttpError(`failed after retries: ${url}`, undefined, url);
 }

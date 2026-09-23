@@ -16,6 +16,9 @@ export function buildLookupUrl(storeId: string, country = 'us'): string {
   return `https://itunes.apple.com/lookup?id=${encodeURIComponent(storeId)}&country=${encodeURIComponent(country)}`;
 }
 
+/** Human-browsable App Store page (sourceUrl/storeUrl), not the lookup JSON endpoint. */
+export const appStorePageUrl = (trackId: number): string => `https://apps.apple.com/us/app/id${trackId}`;
+
 interface ItunesResult {
   trackId: number;
   trackName: string;
@@ -54,7 +57,7 @@ export function mapLookupResult(body: ItunesLookupResponse): { app: Partial<AppR
       tags: ['app-store'],
       imageUrls: [url],
       cachedUrls: [],
-      sourceUrl: `https://apps.apple.com/lookup?id=${r.trackId}`,
+      sourceUrl: appStorePageUrl(r.trackId),
       capturedAt: r.currentVersionReleaseDate ?? r.releaseDate,
     }));
   return {
@@ -63,7 +66,7 @@ export function mapLookupResult(body: ItunesLookupResponse): { app: Partial<AppR
       storeId: String(r.trackId),
       platform: 'ios',
       iconUrl: r.artworkUrl512x512,
-      storeUrl: `https://apps.apple.com/lookup?id=${r.trackId}`,
+      storeUrl: appStorePageUrl(r.trackId),
       category: r.primaryGenreName,
       rating: r.averageUserRating,
       version: r.version,
@@ -98,7 +101,9 @@ export function createAppleAdapter(cfg: Config): Adapter {
         throw new SourceError(`iTunes lookup empty for store id ${storeId} (country=${country})`, SOURCE);
       }
       return {
-        app: { name: mapped.app.name ?? `App ${storeId}`, platform: 'ios', ...mapped.app } as AppRecord,
+        // Spread FIRST: mapped.app may carry name: undefined when the API
+        // omits trackName, and a trailing spread would clobber the fallback.
+        app: { ...mapped.app, name: mapped.app.name ?? `App ${storeId}`, platform: 'ios' } as AppRecord,
         screens: mapped.screens,
       };
     },
