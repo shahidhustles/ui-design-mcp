@@ -109,9 +109,15 @@ function asIndexList(v: unknown): number[] {
  * Resolve a turbo-stream v2 flat array from its root index (0).
  * `values[index]` that is a non-negative number is a LITERAL;
  * references only occur as array elements / object values / root position.
+ * A NEGATIVE reference is an inline sentinel (null = -5 etc.), not an
+ * array position — the real decoder switch-cases the sign before indexing.
  */
 export function resolveTurbo<T = unknown>(values: unknown[]): T {
   const resolveAt = (index: number): unknown => {
+    // Sign check FIRST: values[-5] is a missing key → undefined, so a
+    // sentinel routed through an object value / N / Z alias would decode
+    // as undefined instead of null without it.
+    if (index < 0) return SENTINELS[index];
     const v = values[index];
     if (typeof v === 'number') {
       // Note: no `?? undefined` — the -5 sentinel IS null, and `??` would

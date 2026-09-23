@@ -1,5 +1,8 @@
 import { readFileSync } from 'node:fs';
-import { describe, expect, it } from 'vitest';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   DecodeError,
   extractAppPage,
@@ -9,6 +12,17 @@ import {
   resolveTurbo,
   unescapeJsString,
 } from '../src/adapters/screensdesign/decode.js';
+import { syncCatalog } from '../src/adapters/screensdesign/catalog.js';
+import { MetadataStore } from '../src/cache/metadata.js';
+import { fetchJson } from '../src/http.js';
+import type { Config } from '../src/config.js';
+
+// The catalog tests drive syncCatalog with a mocked fetchJson; the decode
+// tests never touch the network.
+vi.mock('../src/http.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/http.js')>();
+  return { ...actual, fetchJson: vi.fn() };
+});
 
 // ── synthetic turbo-stream v2 payloads ────────────────────────────────────
 //
@@ -65,6 +79,31 @@ describe('resolveTurbo', () => {
     expect(out['inf']).toBe(Infinity);
     expect(out['undef']).toBeUndefined();
     expect(out['nul']).toBeNull();
+  });
+
+  it('resolves -5 (null) sentinels routed through object values, N and Z paths', () => {
+    const flat: unknown[] = [
+      // 0: { "direct": <1>, "np": <2>, "alias": <3> }
+      { _4: 1, _5: 2, _6: 3 },
+      // 1: plain object whose value is the raw -5 sentinel
+      { _7: -5 },
+      // 2: null-prototype object (N tag) with a -5 value
+      ['N', { _8: -5 }],
+      // 3: alias (Z tag) to the -5 sentinel
+      ['Z', -5],
+      // 4..6: keys
+      'direct', 'np', 'alias',
+      // 7..8: inner keys
+      'a', 'b',
+    ];
+    const out = resolveTurbo<Record<string, unknown>>(flat);
+    const direct = out['direct'] as Record<string, unknown>;
+    expect('a' in direct).toBe(true);
+    expect(direct['a']).toBeNull(); // was undefined before the sign check
+    const np = out['np'] as Record<string, unknown>;
+    expect(Object.getPrototypeOf(np)).toBeNull();
+    expect(np['b']).toBeNull();
+    expect(out['alias']).toBeNull();
   });
 
   it('resolves typed values: BigInt, RegExp, Set, Map, Symbol', () => {
@@ -214,5 +253,68 @@ describe('extractAppPage (live fixture)', () => {
 
   it('exposes the detail holder with replay_screens', () => {
     expect(Array.isArray(page.detail['replay_screens'])).toBe(true);
+  });
+});
+
+// ── syncCatalog resume (livelock guard) ───────────────────────────────────
+
+const CFG: Config = {
+  cacheDir: '/tmp/uimcp-test',
+  rateLimitMs: 0,
+  maxResults: 24,
+  timeoutMs: 15_000,
+  retryBaseMs: 500,
+  fakeOffline: false,
+  catalogTtlDays: 7,
+  facetTtlDays: 7,
+};
+
+describe('syncCatalog resume', () => {
+  let dir: string;
+  let store: MetadataStore;
+  const requested: number[] = [];
+  const LAST_PAGE = 3;
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'uimcp-catalog-'));
+    store = new MetadataStore(path.join(dir, 'meta.sqlite'));
+    requested.length = 0;
+    vi.mocked(fetchJson).mockImplementation(
+      async function <T>(_source: string, url: string): Promise<T> {
+        const page = Number(new URL(url).searchParams.get('page'));
+        requested.push(page);
+        return {
+          count: LAST_PAGE,
+          next: page < LAST_PAGE ? `https://api.screensdesign.com/v1/apps/?page=${page + 1}` : null,
+          previous: null,
+          results: [{ id: page, slug: `app-${page}`, name: `App ${page}` }],
+        } as T;
+      },
+    );
+  });
+  afterEach(() => {
+    store.close();
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('falls back to a full resync from page 1 when the resume point passed the cap', async () => {
+    // Previous pass died exactly at the cap (550): resume would be page 551,
+    // which executes zero pages and re-marks partial forever without the guard.
+    store.setMeta('catalog_last_page', '550');
+    store.setCatalogSyncedAt(new Date().toISOString(), true);
+    const res = await syncCatalog(store, CFG);
+    expect(requested[0]).toBe(1);
+    expect(requested).toEqual([1, 2, 3]);
+    expect(res.partial).toBe(false);
+    expect(store.catalogPartial()).toBe(false);
+    expect(store.appCount()).toBe(LAST_PAGE);
+  });
+
+  it('resumes mid-catalog from last_page + 1 while under the cap', async () => {
+    store.setMeta('catalog_last_page', '1');
+    store.setCatalogSyncedAt(new Date().toISOString(), true);
+    const res = await syncCatalog(store, CFG);
+    expect(requested[0]).toBe(2);
+    expect(res.partial).toBe(false);
   });
 });

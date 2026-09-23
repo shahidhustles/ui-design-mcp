@@ -109,9 +109,12 @@ async function fetchCatalogPage(url: string, cfg: Config): Promise<CatalogPage> 
 /**
  * Full catalog sync: follow `next` links until null (2,711 apps).
  * Idempotent upserts; on mid-sync failure sets `catalog_partial` and the
- * next call resumes from `catalog_last_page + 1`. Resume is safe while the
- * API holds its (degraded) per-page size steady — if the size shifts, a
- * few apps slip between pages and the 7-day TTL full resync picks them up.
+ * next call resumes from `catalog_last_page + 1`. If that point has already
+ * passed the page cap, resume falls back to a full resync from page 1 —
+ * otherwise a pass that died exactly at the cap would re-run zero pages
+ * forever. Resume is safe while the API holds its (degraded) per-page size
+ * steady — if the size shifts, a few apps slip between pages and the 7-day
+ * TTL full resync picks them up.
  */
 export async function syncCatalog(
   store: MetadataStore,
@@ -119,7 +122,11 @@ export async function syncCatalog(
 ): Promise<{ synced: number; partial: boolean }> {
   const syncedAt = new Date().toISOString();
   const resumeFrom = Number(store.getMeta('catalog_last_page') ?? 0) || 0;
-  const startPage = store.catalogPartial() && resumeFrom > 0 ? resumeFrom + 1 : 1;
+  let startPage = store.catalogPartial() && resumeFrom > 0 ? resumeFrom + 1 : 1;
+  if (startPage > HARD_CAP_PAGES) {
+    log(`catalog resume at page ${startPage} exceeds cap ${HARD_CAP_PAGES} — full resync from page 1`);
+    startPage = 1;
+  }
   let next: string | null = `${CATALOG_API}?page=${startPage}`;
   let page = startPage;
   let synced = 0;
