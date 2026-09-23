@@ -1,6 +1,6 @@
 import type { MetadataStore } from '../../cache/metadata.js';
 import type { Config } from '../../config.js';
-import { fetchJson } from '../../http.js';
+import { HttpError, fetchJson } from '../../http.js';
 import { log } from '../../log.js';
 import type { CatalogApp } from '../../types.js';
 
@@ -72,27 +72,34 @@ export function mapCatalogApp(raw: RawCatalogApp): CatalogApp {
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 /**
- * Observed throttle behavior (2026-09-23): the API runs a token bucket
- * (~30 req / 15s) AND degrades per-page size under sustained load
- * (50 → 6/page, occasionally empty pages) before 429ing. A slow crawl at
- * 1 req/s on its own limiter key stays under the refill rate; failed pages
- * still get 15s/30s waits.
+ * Observed throttle behavior (2026-09-23): a token bucket (~30 req) that
+ * on exhaustion 429s with `retry-after: 640` — and the window SLIDES:
+ * any request (even a 429'd one) inside the cooldown re-arms it. The API
+ * also degrades per-page size under sustained load (50 → 6/page) before
+ * 429ing. So a burst of ~30 pages must be followed by total silence for
+ * the full retry-after; fast retries otherwise keep the cooldown alive
+ * forever. Crawl on its own limiter key, single-shot per page.
  */
 const SYNC_SOURCE = 'screensdesign-catalog';
-const SYNC_INTERVAL_MS = 1200; // observed 429s exactly at 1 req/s — leave headroom
+const SYNC_INTERVAL_MS = 1200;
 const HARD_CAP_PAGES = 550; // 2,711 apps even at the degraded 6/page
 
 async function fetchCatalogPage(url: string, cfg: Config): Promise<CatalogPage> {
   let lastErr: unknown;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 4; attempt++) {
     try {
-      return await fetchJson<CatalogPage>(SYNC_SOURCE, url, cfg, undefined, SYNC_INTERVAL_MS);
+      return await fetchJson<CatalogPage>(SYNC_SOURCE, url, cfg, { noRetry: true }, SYNC_INTERVAL_MS);
     } catch (e) {
       lastErr = e;
-      if (attempt < 2) {
-        const wait = 15_000 * (attempt + 1);
-        log(`catalog page failed (${e instanceof Error ? e.message : e}) — retrying in ${wait / 1000}s`);
+      if (e instanceof HttpError && e.status === 429) {
+        const wait = (e.retryAfterMs ?? 600_000) + 30_000;
+        log(`catalog 429 — silent for ${Math.round(wait / 1000)}s (full retry-after window)`);
         await sleep(wait);
+        continue;
+      }
+      if (attempt < 3) {
+        log(`catalog page failed (${e instanceof Error ? e.message : e}) — retrying in 60s`);
+        await sleep(60_000);
       }
     }
   }

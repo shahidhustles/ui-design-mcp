@@ -9,6 +9,7 @@ export class HttpError extends Error {
     message: string,
     public readonly status?: number,
     public readonly url?: string,
+    public readonly retryAfterMs?: number,
   ) {
     super(message);
     this.name = 'HttpError';
@@ -19,6 +20,13 @@ export interface FetchOpts {
   method?: string;
   headers?: Record<string, string>;
   body?: string | Buffer;
+  /**
+   * Single shot: throw on the first non-2xx instead of retrying. For
+   * callers that manage their own (long) cooldown — e.g. the catalog
+   * sync, where a 429 re-arms a sliding window and fast retries keep it
+   * alive forever.
+   */
+  noRetry?: boolean;
 }
 
 class RateLimiter {
@@ -116,13 +124,12 @@ async function fetchWithRetry(
       clearTimeout(timer);
     }
     if (res.ok) return res;
-    lastErr = new HttpError(`HTTP ${res.status} for ${url}`, res.status, url);
-    if (res.status !== 429 && res.status < 500) throw lastErr;
+    const retryAfterMs = parseRetryAfter(res.headers.get('retry-after'));
+    const retryable = (res.status === 429 || res.status >= 500) && !opts.noRetry;
+    lastErr = new HttpError(`HTTP ${res.status} for ${url}`, res.status, url, retryAfterMs);
+    if (!retryable) throw lastErr;
     await res.body?.cancel().catch(() => {});
-    await sleep(jitter(Math.min(
-      parseRetryAfter(res.headers.get('retry-after')) ?? cfg.retryBaseMs * 2 ** attempt,
-      5_000,
-    )));
+    await sleep(jitter(Math.min(retryAfterMs ?? cfg.retryBaseMs * 2 ** attempt, 5_000)));
   }
   throw lastErr instanceof Error ? lastErr : new HttpError(`failed after retries: ${url}`, undefined, url);
 }
