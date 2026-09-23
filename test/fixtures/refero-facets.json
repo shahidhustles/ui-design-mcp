@@ -1,0 +1,5813 @@
+{
+ "page_types": [
+  {
+   "id": 3,
+   "kind": "Onboarding",
+   "name": "Launch Screen",
+   "description": "This is a static, initial loading interface that appears immediately when an iOS app is launched, serving as a brief transition while the app loads its main interface in the background. Launch screens are characterized by minimal, lightweight design with basic branding elements, simple layouts that closely match the app's first screen, and no interactive elements or loading indicators as per Apple's guidelines.",
+   "aliases": [
+    "splash",
+    "startup screen",
+    "intro",
+    "loading screen",
+    "welcome",
+    "boot"
+   ],
+   "mobile": true,
+   "desktop": false,
+   "app_name": ""
+  },
+  {
+   "id": 4,
+   "kind": "Onboarding",
+   "name": "Welcome Screen",
+   "description": "This is an introductory interface pattern that appears when users first launch an iOS app or after major updates, designed to onboard users and highlight key features or functionality. Welcome screens are characterized by full-screen presentations with large, visually appealing graphics or illustrations, concise explanatory text, and prominent call-to-action buttons that guide users through setup or directly into the app experience.",
+   "aliases": [
+    "Start Screen",
+    "Introduction",
+    "Opening Screen"
+   ],
+   "mobile": true,
+   "desktop": false,
+   "app_name": ""
+  },
+  {
+   "id": 5,
+   "kind": "Commerce",
+   "name": "Catalog Page",
+   "description": "Displays a collection of items\u2014such as products, services, or resources\u2014organized for browsing and selection. Typically includes grid or list views with filters, sorting options, search functionality, and pagination or infinite scroll. Each item usually features an image, name, brief description, and price or key metadata. Designed for discoverability and comparison, often used in e-commerce, SaaS, or library platforms. May also include category navigation, promotional banners, or badges like \"New\" or \"Sale.\"",
+   "aliases": [
+    "catalogue",
+    "storefront",
+    "assortment",
+    "inventory",
+    "product listing"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 6,
+   "kind": "Marketing",
+   "name": "Blog Post Page",
+   "description": "Displays a single article or content piece, typically including a title, author name, publish date, featured image, and body content. Often supports rich media such as images, videos, quotes, and embeds. May include tags or categories, social sharing buttons, comment sections, and related posts. Designed for readability and content engagement, usually with clean typography, white space, and responsive layout. Commonly found in content-driven sites, news platforms, and marketing blogs.",
+   "aliases": [
+    "article",
+    "post"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 8,
+   "kind": "Content",
+   "name": "Content Management Page",
+   "description": "Provides tools and interfaces for users to create, edit, organize, and manage digital content such as text, images, videos, documents, or product data. Often includes search, filters, bulk actions, version control, and publishing workflows. Designed for efficiency and clarity, it may feature content previews, inline editing, status indicators (e.g., draft, published), and role-based permissions. Common in CMS platforms, blogs, e-commerce admin panels, and enterprise tools.",
+   "aliases": [
+    "CMS",
+    "admin",
+    "editing",
+    "management",
+    "editorial"
+   ],
+   "mobile": false,
+   "desktop": true,
+   "app_name": ""
+  }
+ ],
+ "design_patterns": [
+  {
+   "id": 110,
+   "kind": "page state",
+   "name": "Edit",
+   "description": "A condition of a webpage when it is being modified or edited by a user. This state is often indicated by a change in the webpage's appearance, such as a highlighted menu item or tab.",
+   "aliases": [
+    "modifying"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 111,
+   "kind": "page state",
+   "name": "Filter & Sorting",
+   "description": "A feature on a website or application that allows users to narrow down or organize content based on certain criteria. This design pattern is often represented by a drop-down menu or set of checkboxes and may include options for sorting content by date, relevance, or other factors.",
+   "aliases": [
+    "filter",
+    "sorting",
+    "organize",
+    "refine",
+    "narrow",
+    "arrange",
+    "categorize",
+    "prioritize",
+    "sort by",
+    "group",
+    "filter by",
+    "order",
+    "sift",
+    "rank"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 112,
+   "kind": "page state",
+   "name": "Success",
+   "description": "A condition of a webpage when an action or process has been completed successfully.",
+   "aliases": [
+    ""
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 113,
+   "kind": "page state",
+   "name": "Loading & Connecting",
+   "description": "A condition of a webpage when it is in the process of loading or connecting to a server or other resource. This state is often indicated by a change in the webpage's appearance, such as a loading spinner or message.",
+   "aliases": [
+    "loading state",
+    "connecting state",
+    "loading spinner",
+    "buffering",
+    "fetching data",
+    "loading screen",
+    "network request"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 114,
+   "kind": "page state",
+   "name": "Permission",
+   "description": "A condition of a webpage when a user is being asked to provide permission or consent for an action or process.",
+   "aliases": [
+    ""
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  }
+ ],
+ "page_elements": [
+  {
+   "id": 55,
+   "kind": "layout",
+   "name": "Media Gallery",
+   "description": "The Media Gallery element displays a collection of media items such as images, videos, or audio clips arranged in a grid, carousel, or masonry layout. Each item typically includes thumbnails, titles, and may support interactions like zoom, play, download, or share. Galleries often provide filtering, sorting, and pagination options to help users browse large media collections efficiently. Used in portfolios, social platforms, e-commerce sites, and content management systems.",
+   "aliases": [
+    "Picture",
+    "collection",
+    "showcase"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 109,
+   "kind": "overlay",
+   "name": "Dropdown Menu",
+   "description": "Is a list of options that is revealed when the user interacts with it, either by clicking or hovering. The options are then displayed vertically and disappear once the user disengages",
+   "aliases": [
+    "context menu"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 110,
+   "kind": "layout",
+   "name": "Nodes",
+   "description": "In a tree or flowchart, nodes are the points where lines intersect or branch off. They signify an element or decision in the tree or flowchart and can be connected to other nodes through lines or arrows.",
+   "aliases": [
+    "Tree",
+    "Flowchart"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 62,
+   "kind": "input controls",
+   "name": "Checkbox & Radio",
+   "description": "A checkbox is a form input that allows the user to choose from a predefined set of options, either as a binary choice (checked/unchecked) or by selecting multiple values from a list.",
+   "aliases": [
+    ""
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  },
+  {
+   "id": 54,
+   "kind": "layout",
+   "name": "Cards & Tiles",
+   "description": "A design element that holds and presents the content of a single entity in a clear and organized manner, such as a contact, article, or task.",
+   "aliases": [
+    "grid"
+   ],
+   "mobile": true,
+   "desktop": true,
+   "app_name": ""
+  }
+ ],
+ "apps": [
+  {
+   "id": 308,
+   "name": "tone",
+   "description": "Photos, printed",
+   "store_url": "https://apps.apple.com/us/app/tone-photos-printed/id6792391699",
+   "icon_url": "https://images.refero.design/favicon/app_308/7dbd1bab-e4b8-4004-bd67-bd2066d862b1.jpg",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/app_308/74b29165-0d84-4695-af4d-fd8f7ee9ff4f.jpg",
+   "screenshots": [
+    {
+     "id": 188634,
+     "page_id": null,
+     "created_at": "2026-09-16T14:19:40.783Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/be48d698-befd-43ed-82dd-b8da232ee0d6.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/be48d698-befd-43ed-82dd-b8da232ee0d6_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       75,
+       81,
+       80
+      ],
+      [
+       200,
+       82,
+       195
+      ],
+      [
+       46,
+       202,
+       126
+      ],
+      [
+       148,
+       155,
+       168
+      ],
+      [
+       68,
+       106,
+       244
+      ]
+     ],
+     "uuid": "5f357242-2dd9-4ac0-bf69-c9d0ae43a9e5"
+    },
+    {
+     "id": 188635,
+     "page_id": null,
+     "created_at": "2026-09-16T14:19:42.593Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/b990af84-de01-465c-9d3a-8d81e0226280.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/b990af84-de01-465c-9d3a-8d81e0226280_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       72,
+       77,
+       76
+      ],
+      [
+       200,
+       82,
+       195
+      ],
+      [
+       46,
+       202,
+       126
+      ],
+      [
+       146,
+       151,
+       170
+      ],
+      [
+       68,
+       106,
+       244
+      ]
+     ],
+     "uuid": "003f0600-ff08-4fb3-b5e3-5a57b1b28dad"
+    },
+    {
+     "id": 188636,
+     "page_id": null,
+     "created_at": "2026-09-16T14:19:44.363Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/8addc140-f864-4b85-8141-9bcf1ca4674b.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/8addc140-f864-4b85-8141-9bcf1ca4674b_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       72,
+       76,
+       78
+      ],
+      [
+       242,
+       251,
+       251
+      ],
+      [
+       161,
+       167,
+       187
+      ],
+      [
+       146,
+       130,
+       123
+      ],
+      [
+       124,
+       131,
+       139
+      ]
+     ],
+     "uuid": "6baecf80-846b-492c-85e2-c7fbc8850c52"
+    },
+    {
+     "id": 188637,
+     "page_id": null,
+     "created_at": "2026-09-16T14:19:46.256Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/f72bbe90-9821-4a93-93d0-5123606388af.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/f72bbe90-9821-4a93-93d0-5123606388af_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       73,
+       77,
+       78
+      ],
+      [
+       242,
+       251,
+       251
+      ],
+      [
+       155,
+       162,
+       167
+      ],
+      [
+       141,
+       128,
+       121
+      ],
+      [
+       122,
+       127,
+       140
+      ]
+     ],
+     "uuid": "05cd072f-ecbe-4669-912e-cb27db7ae856"
+    },
+    {
+     "id": 188638,
+     "page_id": null,
+     "created_at": "2026-09-16T14:19:48.087Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/5d6327a8-786c-4b68-9195-f42306208a17.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/5d6327a8-786c-4b68-9195-f42306208a17_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       73,
+       77,
+       79
+      ],
+      [
+       142,
+       149,
+       153
+      ],
+      [
+       242,
+       251,
+       251
+      ],
+      [
+       174,
+       78,
+       215
+      ],
+      [
+       6,
+       6,
+       6
+      ]
+     ],
+     "uuid": "6ce9ae2a-beeb-4896-8749-85f54134fc1b"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 188640,
+     "page_id": null,
+     "created_at": "2026-09-16T14:19:51.652Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/50a1c995-6177-4870-a48e-54be838df6f3.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/50a1c995-6177-4870-a48e-54be838df6f3_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       201,
+       82,
+       195
+      ],
+      [
+       65,
+       106,
+       244
+      ],
+      [
+       31,
+       31,
+       34
+      ],
+      [
+       146,
+       150,
+       173
+      ],
+      [
+       243,
+       251,
+       251
+      ]
+     ],
+     "uuid": "81a9dd6b-51d6-4f0a-9d89-d475d4ea702e"
+    },
+    {
+     "id": 188647,
+     "page_id": null,
+     "created_at": "2026-09-16T14:20:10.820Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/1e3dea1f-fbef-45e6-abbe-22f8c8f973dd.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/1e3dea1f-fbef-45e6-abbe-22f8c8f973dd_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       84,
+       96,
+       126
+      ],
+      [
+       141,
+       156,
+       183
+      ],
+      [
+       158,
+       98,
+       108
+      ],
+      [
+       166,
+       131,
+       89
+      ],
+      [
+       197,
+       220,
+       231
+      ]
+     ],
+     "uuid": "1e160e06-0f55-499a-abd9-77814c30f904"
+    },
+    {
+     "id": 188650,
+     "page_id": null,
+     "created_at": "2026-09-16T14:20:19.529Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/38b89d90-4ec8-49f5-b569-c75056db3ae8.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/38b89d90-4ec8-49f5-b569-c75056db3ae8_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       245,
+       241,
+       226
+      ],
+      [
+       197,
+       152,
+       77
+      ],
+      [
+       179,
+       95,
+       57
+      ],
+      [
+       190,
+       154,
+       133
+      ],
+      [
+       96,
+       78,
+       54
+      ]
+     ],
+     "uuid": "304cab10-1e34-4239-89ee-e9a7272865aa"
+    },
+    {
+     "id": 188655,
+     "page_id": null,
+     "created_at": "2026-09-16T14:20:44.068Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/224c760c-d785-4b6d-9a23-0411f39cd4b0.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/224c760c-d785-4b6d-9a23-0411f39cd4b0_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       37,
+       43,
+       49
+      ],
+      [
+       60,
+       212,
+       213
+      ],
+      [
+       63,
+       121,
+       231
+      ],
+      [
+       145,
+       165,
+       207
+      ],
+      [
+       186,
+       92,
+       119
+      ]
+     ],
+     "uuid": "193a0deb-6181-4103-91f0-59fb378e9999"
+    },
+    {
+     "id": 188659,
+     "page_id": null,
+     "created_at": "2026-09-16T14:21:07.142Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/bb28ab70-81dd-4727-8d3e-50d4fab6bc00.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/bb28ab70-81dd-4727-8d3e-50d4fab6bc00_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       34,
+       39,
+       45
+      ],
+      [
+       59,
+       120,
+       237
+      ],
+      [
+       53,
+       214,
+       207
+      ],
+      [
+       143,
+       158,
+       204
+      ],
+      [
+       190,
+       90,
+       132
+      ]
+     ],
+     "uuid": "903f23b9-806a-4037-9075-75faf9627b1f"
+    },
+    {
+     "id": 188662,
+     "page_id": null,
+     "created_at": "2026-09-16T14:21:23.969Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/00c808ef-f961-47b2-b073-f844d2820b34.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/00c808ef-f961-47b2-b073-f844d2820b34_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       65,
+       103,
+       137
+      ],
+      [
+       148,
+       93,
+       149
+      ],
+      [
+       150,
+       144,
+       78
+      ],
+      [
+       121,
+       145,
+       176
+      ],
+      [
+       186,
+       144,
+       169
+      ]
+     ],
+     "uuid": "cc1389b7-ee8f-412c-acb9-be86d60a34cc"
+    },
+    {
+     "id": 188665,
+     "page_id": null,
+     "created_at": "2026-09-16T14:21:41.332Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/76686bf1-eabb-45fa-8674-1edb514b107d.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/76686bf1-eabb-45fa-8674-1edb514b107d_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       50,
+       83,
+       181
+      ],
+      [
+       157,
+       103,
+       64
+      ],
+      [
+       44,
+       50,
+       37
+      ],
+      [
+       140,
+       161,
+       179
+      ],
+      [
+       190,
+       200,
+       201
+      ]
+     ],
+     "uuid": "6de7b880-d1bd-436d-a4ba-30bd4ff5a31d"
+    },
+    {
+     "id": 188668,
+     "page_id": null,
+     "created_at": "2026-09-16T14:21:58.257Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/9fcce1a6-e0ad-4d72-aa66-4a0dae6a5e57.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/9fcce1a6-e0ad-4d72-aa66-4a0dae6a5e57_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       178,
+       120,
+       80
+      ],
+      [
+       70,
+       112,
+       226
+      ],
+      [
+       52,
+       57,
+       44
+      ],
+      [
+       124,
+       131,
+       140
+      ],
+      [
+       156,
+       168,
+       179
+      ]
+     ],
+     "uuid": "85cfee66-1909-4523-a5bd-499fd0e45957"
+    },
+    {
+     "id": 188672,
+     "page_id": null,
+     "created_at": "2026-09-16T14:22:18.933Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/31bff0df-b7d1-4c90-8888-a45c42b3b6d4.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/31bff0df-b7d1-4c90-8888-a45c42b3b6d4_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       179,
+       120,
+       79
+      ],
+      [
+       52,
+       58,
+       45
+      ],
+      [
+       70,
+       113,
+       230
+      ],
+      [
+       124,
+       131,
+       140
+      ],
+      [
+       156,
+       168,
+       179
+      ]
+     ],
+     "uuid": "1fce3855-af25-4ce1-b69d-b325de3d02f0"
+    },
+    {
+     "id": 188682,
+     "page_id": null,
+     "created_at": "2026-09-16T14:22:57.226Z",
+     "url": "https://images.refero.design/screenshots/308/mobile/fd348ff8-9834-4f23-a753-be5986470255.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/308/mobile/fd348ff8-9834-4f23-a753-be5986470255_thumb.jpg",
+     "single_screen": true,
+     "app_id": 308,
+     "colors": [
+      [
+       247,
+       248,
+       246
+      ],
+      [
+       94,
+       165,
+       84
+      ],
+      [
+       178,
+       154,
+       47
+      ],
+      [
+       112,
+       123,
+       39
+      ],
+      [
+       26,
+       26,
+       26
+      ]
+     ],
+     "uuid": "fd831bf6-4e78-47ce-88ea-58ef7a203f50"
+    }
+   ]
+  },
+  {
+   "id": 309,
+   "name": "Clucky",
+   "description": "No Snooze, Wake Up Missions",
+   "store_url": "https://apps.apple.com/us/app/clucky-loud-alarm-clock/id6792550911",
+   "icon_url": "https://images.refero.design/favicon/app_309/fbff56bc-1f1d-416c-8042-c2655d5668c7.jpg",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/app_309/3e1e9d9a-e618-4379-8987-f04f5d9742ab.jpg",
+   "screenshots": [
+    {
+     "id": 188685,
+     "page_id": null,
+     "created_at": "2026-09-16T15:20:56.049Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/810ed789-4adc-4188-82d3-3411e99bc481.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/810ed789-4adc-4188-82d3-3411e99bc481_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       7,
+       7,
+       7
+      ],
+      [
+       227,
+       227,
+       227
+      ],
+      [
+       12,
+       84,
+       204
+      ],
+      [
+       44,
+       171,
+       235
+      ],
+      [
+       235,
+       171,
+       45
+      ]
+     ],
+     "uuid": "a557cbf7-6e3f-4a65-9c54-e38e37c4f738"
+    },
+    {
+     "id": 188686,
+     "page_id": null,
+     "created_at": "2026-09-16T15:20:57.741Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/b994f83a-35dc-4ef4-adc5-54f68bef8ab0.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/b994f83a-35dc-4ef4-adc5-54f68bef8ab0_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       13,
+       84,
+       203
+      ],
+      [
+       227,
+       227,
+       227
+      ],
+      [
+       44,
+       172,
+       235
+      ],
+      [
+       6,
+       6,
+       6
+      ],
+      [
+       204,
+       84,
+       12
+      ]
+     ],
+     "uuid": "dd6dabb8-f013-459f-87fc-7f7bd2747e6f"
+    },
+    {
+     "id": 188687,
+     "page_id": null,
+     "created_at": "2026-09-16T15:20:59.462Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/0c2c2bbd-27df-45cf-a5a6-750ec8e63cae.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/0c2c2bbd-27df-45cf-a5a6-750ec8e63cae_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       227,
+       227,
+       227
+      ],
+      [
+       8,
+       8,
+       8
+      ],
+      [
+       13,
+       85,
+       204
+      ],
+      [
+       44,
+       172,
+       235
+      ],
+      [
+       204,
+       84,
+       12
+      ]
+     ],
+     "uuid": "abb4ccba-2e3c-4901-a377-b0cc211c2a22"
+    },
+    {
+     "id": 188688,
+     "page_id": null,
+     "created_at": "2026-09-16T15:21:01.308Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/36676471-aa54-4be2-ac21-4c1e876c81df.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/36676471-aa54-4be2-ac21-4c1e876c81df_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       17,
+       17,
+       18
+      ],
+      [
+       227,
+       227,
+       227
+      ],
+      [
+       140,
+       140,
+       147
+      ],
+      [
+       204,
+       60,
+       4
+      ],
+      [
+       244,
+       156,
+       19
+      ]
+     ],
+     "uuid": "ea35f329-a862-4204-99c1-e62cc6bcde07"
+    },
+    {
+     "id": 188689,
+     "page_id": null,
+     "created_at": "2026-09-16T15:21:03.217Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/e89b4c7f-7241-49d3-bb0f-f97276fd648a.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/e89b4c7f-7241-49d3-bb0f-f97276fd648a_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       134,
+       153,
+       207
+      ],
+      [
+       18,
+       18,
+       18
+      ],
+      [
+       233,
+       233,
+       233
+      ],
+      [
+       15,
+       159,
+       246
+      ],
+      [
+       216,
+       156,
+       133
+      ]
+     ],
+     "uuid": "c5072dd3-44b3-4ac7-9942-fd2a0c3d4f52"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 188685,
+     "page_id": null,
+     "created_at": "2026-09-16T15:20:56.049Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/810ed789-4adc-4188-82d3-3411e99bc481.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/810ed789-4adc-4188-82d3-3411e99bc481_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       7,
+       7,
+       7
+      ],
+      [
+       227,
+       227,
+       227
+      ],
+      [
+       12,
+       84,
+       204
+      ],
+      [
+       44,
+       171,
+       235
+      ],
+      [
+       235,
+       171,
+       45
+      ]
+     ],
+     "uuid": "a557cbf7-6e3f-4a65-9c54-e38e37c4f738"
+    },
+    {
+     "id": 188690,
+     "page_id": null,
+     "created_at": "2026-09-16T15:21:05.074Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/d5005a21-4bb4-4d39-9699-8f1621e796e9.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/d5005a21-4bb4-4d39-9699-8f1621e796e9_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       5,
+       61,
+       203
+      ],
+      [
+       20,
+       20,
+       20
+      ],
+      [
+       205,
+       62,
+       4
+      ],
+      [
+       20,
+       195,
+       251
+      ],
+      [
+       250,
+       193,
+       20
+      ]
+     ],
+     "uuid": "4f7f74fa-c4b8-4249-a615-01e9de54d20d"
+    },
+    {
+     "id": 188698,
+     "page_id": null,
+     "created_at": "2026-09-16T15:21:20.603Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/1d87ffc5-4a0d-49d2-b9d6-9349e0290a99.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/1d87ffc5-4a0d-49d2-b9d6-9349e0290a99_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       4,
+       61,
+       205
+      ],
+      [
+       12,
+       12,
+       12
+      ],
+      [
+       205,
+       62,
+       5
+      ],
+      [
+       234,
+       234,
+       234
+      ],
+      [
+       144,
+       141,
+       145
+      ]
+     ],
+     "uuid": "85d988d0-450e-483e-9a67-a69f34bcccd6"
+    },
+    {
+     "id": 188729,
+     "page_id": null,
+     "created_at": "2026-09-16T15:22:59.757Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/569d927a-08ad-42e2-a8c0-63f990a77707.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/569d927a-08ad-42e2-a8c0-63f990a77707_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       36,
+       35,
+       33
+      ],
+      [
+       203,
+       60,
+       4
+      ],
+      [
+       250,
+       194,
+       20
+      ],
+      [
+       241,
+       242,
+       241
+      ],
+      [
+       141,
+       141,
+       141
+      ]
+     ],
+     "uuid": "f01c7a7a-d22f-4009-823d-7beb90085a17"
+    },
+    {
+     "id": 188735,
+     "page_id": null,
+     "created_at": "2026-09-16T15:23:11.492Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/ee940d5a-ebbd-4eba-b47a-9c135cdf6871.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/ee940d5a-ebbd-4eba-b47a-9c135cdf6871_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       4,
+       60,
+       204
+      ],
+      [
+       204,
+       60,
+       4
+      ],
+      [
+       8,
+       8,
+       8
+      ],
+      [
+       246,
+       246,
+       246
+      ],
+      [
+       188,
+       188,
+       188
+      ]
+     ],
+     "uuid": "5e95f680-671a-4f84-8f94-61af5a468131"
+    },
+    {
+     "id": 188756,
+     "page_id": null,
+     "created_at": "2026-09-16T15:23:52.394Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/3ba92ff1-a893-43ab-b015-df05b4441c99.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/3ba92ff1-a893-43ab-b015-df05b4441c99_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       14,
+       20,
+       19
+      ],
+      [
+       4,
+       60,
+       204
+      ],
+      [
+       204,
+       62,
+       6
+      ],
+      [
+       170,
+       177,
+       181
+      ],
+      [
+       251,
+       251,
+       251
+      ]
+     ],
+     "uuid": "597a26a8-8a28-4a83-a6e2-7314266d9b98"
+    },
+    {
+     "id": 188758,
+     "page_id": null,
+     "created_at": "2026-09-16T15:23:55.804Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/bd22a448-ca4d-43a4-b383-9429b86830a6.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/bd22a448-ca4d-43a4-b383-9429b86830a6_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       204,
+       60,
+       4
+      ],
+      [
+       5,
+       5,
+       5
+      ],
+      [
+       235,
+       235,
+       235
+      ],
+      [
+       242,
+       177,
+       8
+      ],
+      [
+       211,
+       211,
+       211
+      ]
+     ],
+     "uuid": "ad675d85-4435-4348-85ef-18e6c35d1cff"
+    },
+    {
+     "id": 188760,
+     "page_id": null,
+     "created_at": "2026-09-16T15:24:00.533Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/7bd59c60-96ad-493d-aa2d-d8b1e6b2bf3b.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/7bd59c60-96ad-493d-aa2d-d8b1e6b2bf3b_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       236,
+       235,
+       234
+      ],
+      [
+       204,
+       60,
+       5
+      ],
+      [
+       229,
+       166,
+       8
+      ],
+      [
+       51,
+       195,
+       91
+      ],
+      [
+       94,
+       79,
+       65
+      ]
+     ],
+     "uuid": "1d16117f-4b4e-4e78-9d13-e36cc7109365"
+    },
+    {
+     "id": 188766,
+     "page_id": null,
+     "created_at": "2026-09-16T15:24:12.141Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/a386bd21-85d1-42d6-a4ea-4fc61d9a9351.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/a386bd21-85d1-42d6-a4ea-4fc61d9a9351_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       235,
+       235,
+       235
+      ],
+      [
+       5,
+       180,
+       243
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       4,
+       60,
+       204
+      ],
+      [
+       204,
+       60,
+       4
+      ]
+     ],
+     "uuid": "92d0fcd1-b694-403e-b35f-74e57256f2ce"
+    },
+    {
+     "id": 188768,
+     "page_id": null,
+     "created_at": "2026-09-16T15:24:15.797Z",
+     "url": "https://images.refero.design/screenshots/309/mobile/e7b66789-052e-48b1-8d80-79e7dbb0e565.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/309/mobile/e7b66789-052e-48b1-8d80-79e7dbb0e565_thumb.jpg",
+     "single_screen": true,
+     "app_id": 309,
+     "colors": [
+      [
+       204,
+       62,
+       7
+      ],
+      [
+       247,
+       171,
+       8
+      ],
+      [
+       17,
+       16,
+       11
+      ],
+      [
+       244,
+       244,
+       244
+      ],
+      [
+       196,
+       196,
+       196
+      ]
+     ],
+     "uuid": "8e0d7ea2-2af5-413c-95ce-f3eaadf774cf"
+    }
+   ]
+  },
+  {
+   "id": 306,
+   "name": "RAD Weather",
+   "description": "Brutal briefings. No BS.",
+   "store_url": "https://apps.apple.com/us/app/rad-weather-honest-forecast/id6758575355",
+   "icon_url": "https://images.refero.design/favicon/app_306/1500cb86-de04-444e-9691-9983664b9a1c.jpg",
+   "background_color": "e49e58",
+   "background_url": "https://images.refero.design/backgrounds/app_306/f5775abb-09eb-4c79-bace-7a81088420b1.jpg",
+   "screenshots": [
+    {
+     "id": 187185,
+     "page_id": null,
+     "created_at": "2026-08-19T11:45:08.439Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/d2445298-fecf-4344-9815-2e68e785c83b.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/d2445298-fecf-4344-9815-2e68e785c83b_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       234,
+       237,
+       234
+      ],
+      [
+       9,
+       184,
+       248
+      ],
+      [
+       237,
+       184,
+       15
+      ],
+      [
+       100,
+       88,
+       60
+      ],
+      [
+       6,
+       76,
+       108
+      ]
+     ],
+     "uuid": "083ca03c-5f90-459c-bde1-7937fe048d97"
+    },
+    {
+     "id": 187186,
+     "page_id": null,
+     "created_at": "2026-08-19T11:45:10.493Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/79de2397-42ca-44d2-9571-c6189ef311dd.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/79de2397-42ca-44d2-9571-c6189ef311dd_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       4,
+       171,
+       251
+      ],
+      [
+       228,
+       228,
+       228
+      ],
+      [
+       76,
+       74,
+       73
+      ],
+      [
+       250,
+       170,
+       4
+      ],
+      [
+       148,
+       148,
+       148
+      ]
+     ],
+     "uuid": "8d51eedc-49fd-4e74-8d4f-ce0edb15d027"
+    },
+    {
+     "id": 187189,
+     "page_id": null,
+     "created_at": "2026-08-19T11:45:16.971Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/90db94e4-ebe2-498e-bff6-cef3086e833e.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/90db94e4-ebe2-498e-bff6-cef3086e833e_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       4,
+       171,
+       251
+      ],
+      [
+       228,
+       228,
+       227
+      ],
+      [
+       77,
+       74,
+       70
+      ],
+      [
+       249,
+       170,
+       4
+      ],
+      [
+       148,
+       148,
+       148
+      ]
+     ],
+     "uuid": "61ddb34a-d12d-4958-abad-af7bc7bce921"
+    },
+    {
+     "id": 187191,
+     "page_id": null,
+     "created_at": "2026-08-19T11:45:21.025Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/5ff405ad-e035-40d5-b42f-907c1d1b748a.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/5ff405ad-e035-40d5-b42f-907c1d1b748a_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       81,
+       67,
+       53
+      ],
+      [
+       229,
+       229,
+       229
+      ],
+      [
+       53,
+       232,
+       105
+      ],
+      [
+       243,
+       165,
+       4
+      ],
+      [
+       140,
+       45,
+       22
+      ]
+     ],
+     "uuid": "c0272b94-cbe5-47de-bbe6-4767ab8616b0"
+    },
+    {
+     "id": 187192,
+     "page_id": null,
+     "created_at": "2026-08-19T11:45:23.202Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/b2e06e80-9d8b-4a07-8434-c53e05ddc380.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/b2e06e80-9d8b-4a07-8434-c53e05ddc380_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       222,
+       222,
+       222
+      ],
+      [
+       252,
+       172,
+       4
+      ],
+      [
+       68,
+       68,
+       68
+      ],
+      [
+       103,
+       82,
+       44
+      ],
+      [
+       28,
+       27,
+       27
+      ]
+     ],
+     "uuid": "7630a3df-d4ca-44af-a550-96f64385142a"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 187215,
+     "page_id": null,
+     "created_at": "2026-08-19T11:46:17.366Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/f15a38c9-71d8-42ea-b00c-0755c0d75019.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/f15a38c9-71d8-42ea-b00c-0755c0d75019_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       59,
+       251,
+       115
+      ],
+      [
+       252,
+       172,
+       4
+      ],
+      [
+       214,
+       214,
+       214
+      ],
+      [
+       77,
+       68,
+       59
+      ],
+      [
+       145,
+       100,
+       4
+      ]
+     ],
+     "uuid": "73e8fde4-a6be-48bb-af0a-5630a844fccf"
+    },
+    {
+     "id": 187222,
+     "page_id": null,
+     "created_at": "2026-08-19T11:46:35.031Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/7fd4457f-ed54-4d9f-9dcb-6be52c44f3f3.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/7fd4457f-ed54-4d9f-9dcb-6be52c44f3f3_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       224,
+       224,
+       224
+      ],
+      [
+       238,
+       162,
+       4
+      ],
+      [
+       104,
+       98,
+       85
+      ],
+      [
+       9,
+       9,
+       9
+      ],
+      [
+       58,
+       57,
+       56
+      ]
+     ],
+     "uuid": "25d34e75-5b3b-47a6-af0f-ba938e376965"
+    },
+    {
+     "id": 187225,
+     "page_id": null,
+     "created_at": "2026-08-19T11:46:42.924Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/cd7758b2-264f-4f9e-8d50-45da0d9bfc70.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/cd7758b2-264f-4f9e-8d50-45da0d9bfc70_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       203,
+       203,
+       203
+      ],
+      [
+       101,
+       95,
+       82
+      ],
+      [
+       226,
+       154,
+       4
+      ],
+      [
+       8,
+       8,
+       8
+      ],
+      [
+       30,
+       197,
+       157
+      ]
+     ],
+     "uuid": "f875f5fc-613f-4aea-aa22-f7ae25e94582"
+    },
+    {
+     "id": 187231,
+     "page_id": null,
+     "created_at": "2026-08-19T11:46:55.095Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/e085c8b5-08eb-4277-9eff-9d24f7e40f51.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/e085c8b5-08eb-4277-9eff-9d24f7e40f51_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       204,
+       140,
+       20
+      ],
+      [
+       222,
+       224,
+       224
+      ],
+      [
+       50,
+       157,
+       129
+      ],
+      [
+       20,
+       20,
+       20
+      ],
+      [
+       107,
+       90,
+       63
+      ]
+     ],
+     "uuid": "a296582e-7ed5-4f41-9261-6fd8f15b605f"
+    },
+    {
+     "id": 187243,
+     "page_id": null,
+     "created_at": "2026-08-19T11:47:23.384Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/630d808d-de6e-4a42-b58a-20b0c8a19959.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/630d808d-de6e-4a42-b58a-20b0c8a19959_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       215,
+       215,
+       215
+      ],
+      [
+       105,
+       247,
+       66
+      ],
+      [
+       244,
+       196,
+       4
+      ],
+      [
+       4,
+       174,
+       250
+      ],
+      [
+       40,
+       79,
+       218
+      ]
+     ],
+     "uuid": "17984020-ceeb-4133-95f1-1774919d90f1"
+    },
+    {
+     "id": 187267,
+     "page_id": null,
+     "created_at": "2026-08-19T11:48:15.187Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/2098bcbd-1f0e-46fc-b333-c1f850b10a69.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/2098bcbd-1f0e-46fc-b333-c1f850b10a69_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       222,
+       222,
+       222
+      ],
+      [
+       77,
+       76,
+       76
+      ],
+      [
+       17,
+       178,
+       222
+      ],
+      [
+       41,
+       40,
+       40
+      ],
+      [
+       143,
+       143,
+       143
+      ]
+     ],
+     "uuid": "8eac584b-1aa1-434b-bd91-9ca5d8f954db"
+    },
+    {
+     "id": 187320,
+     "page_id": null,
+     "created_at": "2026-08-19T11:50:09.759Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/7e8ffb79-c863-4262-b0a6-c719abc25efc.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/7e8ffb79-c863-4262-b0a6-c719abc25efc_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       75,
+       73,
+       66
+      ],
+      [
+       4,
+       165,
+       233
+      ],
+      [
+       214,
+       214,
+       214
+      ],
+      [
+       201,
+       163,
+       4
+      ],
+      [
+       12,
+       90,
+       155
+      ]
+     ],
+     "uuid": "f3f358e4-71da-4afb-bba7-d7de56ddf529"
+    },
+    {
+     "id": 187327,
+     "page_id": null,
+     "created_at": "2026-08-19T11:50:25.074Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/f4eac45a-ad86-48e7-9a7a-0ebcf892538b.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/f4eac45a-ad86-48e7-9a7a-0ebcf892538b_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       194,
+       189,
+       197
+      ],
+      [
+       13,
+       12,
+       12
+      ],
+      [
+       16,
+       36,
+       100
+      ],
+      [
+       110,
+       122,
+       145
+      ],
+      [
+       241,
+       164,
+       4
+      ]
+     ],
+     "uuid": "451ad262-1237-41db-9089-ec7160b21e21"
+    },
+    {
+     "id": 187335,
+     "page_id": null,
+     "created_at": "2026-08-19T11:50:42.626Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/bc078ea3-737d-4fa7-8d32-ecd2b05b9602.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/bc078ea3-737d-4fa7-8d32-ecd2b05b9602_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       235,
+       237,
+       236
+      ],
+      [
+       240,
+       164,
+       16
+      ],
+      [
+       31,
+       163,
+       211
+      ],
+      [
+       220,
+       99,
+       27
+      ],
+      [
+       97,
+       96,
+       95
+      ]
+     ],
+     "uuid": "811c2923-1a26-4885-80c0-bbc2bdf641af"
+    },
+    {
+     "id": 187360,
+     "page_id": null,
+     "created_at": "2026-08-19T11:51:39.781Z",
+     "url": "https://images.refero.design/screenshots/306/mobile/4014d586-9a35-471b-8c70-8f53f4709ec4.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/306/mobile/4014d586-9a35-471b-8c70-8f53f4709ec4_thumb.jpg",
+     "single_screen": true,
+     "app_id": 306,
+     "colors": [
+      [
+       44,
+       51,
+       59
+      ],
+      [
+       13,
+       13,
+       13
+      ],
+      [
+       83,
+       84,
+       91
+      ],
+      [
+       242,
+       172,
+       9
+      ],
+      [
+       227,
+       231,
+       228
+      ]
+     ],
+     "uuid": "531f13a4-9d21-4b34-aaac-8b3702228d51"
+    }
+   ]
+  },
+  {
+   "id": 305,
+   "name": "pushr",
+   "description": "the #1 push-up counting app",
+   "store_url": "https://apps.apple.com/us/app/pushr-push-up-workouts/id1587610077",
+   "icon_url": "https://images.refero.design/favicon/app_305/f4c6b315-36b0-4394-9b2d-8ec091f9dc6d.jpg",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/app_305/2178463a-5da4-409a-bbd0-3814acc1fde1.jpg",
+   "screenshots": [
+    {
+     "id": 187108,
+     "page_id": null,
+     "created_at": "2026-08-19T11:41:52.152Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/f880a93f-8f1c-4bea-b57e-5855432728ce.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/f880a93f-8f1c-4bea-b57e-5855432728ce_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       24,
+       24,
+       24
+      ],
+      [
+       144,
+       143,
+       143
+      ],
+      [
+       247,
+       247,
+       247
+      ],
+      [
+       200,
+       200,
+       200
+      ],
+      [
+       216,
+       216,
+       216
+      ]
+     ],
+     "uuid": "4f4a9f67-f5a1-4b5d-b8cc-6a791fd8b504"
+    },
+    {
+     "id": 187109,
+     "page_id": null,
+     "created_at": "2026-08-19T11:41:54.519Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/7661c689-a479-4b80-9afa-94b34d9ea34e.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/7661c689-a479-4b80-9afa-94b34d9ea34e_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       27,
+       27,
+       27
+      ],
+      [
+       144,
+       143,
+       143
+      ],
+      [
+       201,
+       200,
+       200
+      ],
+      [
+       92,
+       92,
+       92
+      ],
+      [
+       249,
+       249,
+       249
+      ]
+     ],
+     "uuid": "d97123ef-cd8e-4280-bde8-b8cbf50cc80c"
+    },
+    {
+     "id": 187110,
+     "page_id": null,
+     "created_at": "2026-08-19T11:41:56.712Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/1e9da2de-3263-4cbd-979d-78a517f16935.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/1e9da2de-3263-4cbd-979d-78a517f16935_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       23,
+       23,
+       23
+      ],
+      [
+       158,
+       158,
+       157
+      ],
+      [
+       199,
+       200,
+       199
+      ],
+      [
+       249,
+       249,
+       249
+      ],
+      [
+       94,
+       94,
+       93
+      ]
+     ],
+     "uuid": "b0373845-8d3c-4c5e-93d8-1471d071c032"
+    },
+    {
+     "id": 187112,
+     "page_id": null,
+     "created_at": "2026-08-19T11:42:00.694Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/cede23b2-215e-48d8-bd65-4d720d5ece41.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/cede23b2-215e-48d8-bd65-4d720d5ece41_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       23,
+       23,
+       23
+      ],
+      [
+       160,
+       161,
+       161
+      ],
+      [
+       188,
+       188,
+       188
+      ],
+      [
+       195,
+       196,
+       196
+      ],
+      [
+       207,
+       208,
+       208
+      ]
+     ],
+     "uuid": "6e140392-5f76-4b4d-a602-fd07c243f5a9"
+    },
+    {
+     "id": 187114,
+     "page_id": null,
+     "created_at": "2026-08-19T11:42:04.827Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/5f790a3c-a11a-4434-b67b-0f3549e5dcd3.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/5f790a3c-a11a-4434-b67b-0f3549e5dcd3_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       21,
+       21,
+       21
+      ],
+      [
+       145,
+       145,
+       144
+      ],
+      [
+       210,
+       209,
+       209
+      ],
+      [
+       249,
+       249,
+       249
+      ],
+      [
+       224,
+       224,
+       224
+      ]
+     ],
+     "uuid": "b26d9934-dc1c-46ea-b6cd-1da5ecc8f9ee"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 187108,
+     "page_id": null,
+     "created_at": "2026-08-19T11:41:52.152Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/f880a93f-8f1c-4bea-b57e-5855432728ce.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/f880a93f-8f1c-4bea-b57e-5855432728ce_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       24,
+       24,
+       24
+      ],
+      [
+       144,
+       143,
+       143
+      ],
+      [
+       247,
+       247,
+       247
+      ],
+      [
+       200,
+       200,
+       200
+      ],
+      [
+       216,
+       216,
+       216
+      ]
+     ],
+     "uuid": "4f4a9f67-f5a1-4b5d-b8cc-6a791fd8b504"
+    },
+    {
+     "id": 187127,
+     "page_id": null,
+     "created_at": "2026-08-19T11:42:29.328Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/93d630b9-ef4d-4ea4-bafa-52cf24017248.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/93d630b9-ef4d-4ea4-bafa-52cf24017248_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       252,
+       61,
+       68
+      ],
+      [
+       126,
+       124,
+       124
+      ],
+      [
+       139,
+       140,
+       141
+      ],
+      [
+       249,
+       250,
+       250
+      ]
+     ],
+     "uuid": "f8227499-2903-4f1c-9868-817510186e55"
+    },
+    {
+     "id": 187139,
+     "page_id": null,
+     "created_at": "2026-08-19T11:42:53.092Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/f1fed077-cf78-44f1-8fcc-ab81a9c8996f.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/f1fed077-cf78-44f1-8fcc-ab81a9c8996f_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       239,
+       239,
+       240
+      ],
+      [
+       86,
+       86,
+       87
+      ],
+      [
+       160,
+       160,
+       160
+      ],
+      [
+       56,
+       57,
+       57
+      ],
+      [
+       30,
+       30,
+       31
+      ]
+     ],
+     "uuid": "b8cab702-77c9-4a08-ad68-a959babde306"
+    },
+    {
+     "id": 187145,
+     "page_id": null,
+     "created_at": "2026-08-19T11:43:06.520Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/ead46566-c0f5-4789-a70e-0232d30ad1b8.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/ead46566-c0f5-4789-a70e-0232d30ad1b8_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       25,
+       25,
+       25
+      ],
+      [
+       155,
+       156,
+       157
+      ],
+      [
+       98,
+       103,
+       103
+      ],
+      [
+       124,
+       124,
+       124
+      ],
+      [
+       252,
+       252,
+       252
+      ]
+     ],
+     "uuid": "08e3906b-7486-4187-8d34-c0b3cadac7d0"
+    },
+    {
+     "id": 187153,
+     "page_id": null,
+     "created_at": "2026-08-19T11:43:23.306Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/734ec2d9-31cf-4c06-80c7-54e1efd7a28f.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/734ec2d9-31cf-4c06-80c7-54e1efd7a28f_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       234,
+       225,
+       231
+      ],
+      [
+       41,
+       37,
+       41
+      ],
+      [
+       111,
+       109,
+       117
+      ],
+      [
+       171,
+       70,
+       73
+      ],
+      [
+       174,
+       112,
+       92
+      ]
+     ],
+     "uuid": "0458c417-91a1-4e78-a243-3647350d2d4e"
+    },
+    {
+     "id": 187156,
+     "page_id": null,
+     "created_at": "2026-08-19T11:43:30.506Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/2d4db931-480e-48f5-86e2-337069dfd1d1.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/2d4db931-480e-48f5-86e2-337069dfd1d1_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       28,
+       28,
+       29
+      ],
+      [
+       124,
+       124,
+       124
+      ],
+      [
+       152,
+       153,
+       153
+      ],
+      [
+       205,
+       208,
+       208
+      ],
+      [
+       131,
+       132,
+       132
+      ]
+     ],
+     "uuid": "dd327deb-544c-4f84-a757-21a1680365bc"
+    },
+    {
+     "id": 187163,
+     "page_id": null,
+     "created_at": "2026-08-19T11:43:47.042Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/667da8fe-3c65-49bb-84af-21b679e27fe3.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/667da8fe-3c65-49bb-84af-21b679e27fe3_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       5,
+       5,
+       5
+      ],
+      [
+       149,
+       150,
+       151
+      ],
+      [
+       252,
+       252,
+       252
+      ],
+      [
+       87,
+       87,
+       87
+      ],
+      [
+       124,
+       124,
+       124
+      ]
+     ],
+     "uuid": "cb3f3b53-4839-48df-a893-de0491ff21ff"
+    },
+    {
+     "id": 187172,
+     "page_id": null,
+     "created_at": "2026-08-19T11:44:07.775Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/5a97a446-04ff-4f21-ae8f-d0498f1ba40b.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/5a97a446-04ff-4f21-ae8f-d0498f1ba40b_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       16,
+       20,
+       20
+      ],
+      [
+       252,
+       68,
+       68
+      ],
+      [
+       165,
+       166,
+       166
+      ],
+      [
+       250,
+       250,
+       250
+      ],
+      [
+       206,
+       215,
+       209
+      ]
+     ],
+     "uuid": "08df72d4-498d-4319-a89d-95737480fe4c"
+    },
+    {
+     "id": 187173,
+     "page_id": null,
+     "created_at": "2026-08-19T11:44:09.963Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/78426498-282f-45d2-bd3e-2c93871a9f39.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/78426498-282f-45d2-bd3e-2c93871a9f39_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       6,
+       6,
+       6
+      ],
+      [
+       124,
+       124,
+       123
+      ],
+      [
+       53,
+       196,
+       85
+      ],
+      [
+       252,
+       252,
+       251
+      ],
+      [
+       161,
+       163,
+       161
+      ]
+     ],
+     "uuid": "05798f39-5c3f-4fe6-9ba8-88e0f1c74027"
+    },
+    {
+     "id": 187178,
+     "page_id": null,
+     "created_at": "2026-08-19T11:44:19.713Z",
+     "url": "https://images.refero.design/screenshots/305/mobile/d01fcab9-66af-42d1-b8d7-5f346ab347a1.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/305/mobile/d01fcab9-66af-42d1-b8d7-5f346ab347a1_thumb.jpg",
+     "single_screen": true,
+     "app_id": 305,
+     "colors": [
+      [
+       19,
+       19,
+       19
+      ],
+      [
+       146,
+       146,
+       146
+      ],
+      [
+       131,
+       132,
+       132
+      ],
+      [
+       91,
+       91,
+       91
+      ],
+      [
+       252,
+       252,
+       252
+      ]
+     ],
+     "uuid": "83810a2a-8da0-4d2b-91f9-d11ac741b875"
+    }
+   ]
+  },
+  {
+   "id": 295,
+   "name": "Binge",
+   "description": "Track movies and TV shows",
+   "store_url": "https://apps.apple.com/us/app/binge-movies-and-shows/id6755895331",
+   "icon_url": "https://images.refero.design/favicon/app_295/09fc9d9a-5e58-493c-85a2-750e4a6c6fe5.jpg",
+   "background_color": "c491f8",
+   "background_url": "https://images.refero.design/backgrounds/app_295/fb1c39d5-44d9-4f4d-a75c-63e592ec7811.jpg",
+   "screenshots": [
+    {
+     "id": 180532,
+     "page_id": null,
+     "created_at": "2026-07-14T19:32:21.525Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/cd5250ce-ebaa-48d8-bc7e-2d33fe5f52be.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/cd5250ce-ebaa-48d8-bc7e-2d33fe5f52be_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       4,
+       132,
+       251
+      ],
+      [
+       156,
+       163,
+       166
+      ],
+      [
+       15,
+       12,
+       11
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       214,
+       167,
+       159
+      ]
+     ],
+     "uuid": "98641b42-164f-4959-85fd-a031e078a3d5"
+    },
+    {
+     "id": 180533,
+     "page_id": null,
+     "created_at": "2026-07-14T19:32:23.886Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/aafc7cf7-6b8d-40ff-8b61-bcde74a4c71c.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/aafc7cf7-6b8d-40ff-8b61-bcde74a4c71c_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       15,
+       20,
+       23
+      ],
+      [
+       5,
+       132,
+       251
+      ],
+      [
+       156,
+       163,
+       165
+      ],
+      [
+       32,
+       82,
+       99
+      ],
+      [
+       54,
+       120,
+       146
+      ]
+     ],
+     "uuid": "8dc878b1-878f-4a99-a04c-a79a48f50efa"
+    },
+    {
+     "id": 180535,
+     "page_id": null,
+     "created_at": "2026-07-14T19:32:28.593Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/191b3184-36a0-4989-b4b7-46c23871d5b2.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/191b3184-36a0-4989-b4b7-46c23871d5b2_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       4,
+       132,
+       252
+      ],
+      [
+       45,
+       28,
+       20
+      ],
+      [
+       160,
+       78,
+       43
+      ],
+      [
+       204,
+       139,
+       94
+      ],
+      [
+       250,
+       250,
+       250
+      ]
+     ],
+     "uuid": "aae94e07-0a8f-4beb-aa8c-732dd551d99d"
+    },
+    {
+     "id": 180536,
+     "page_id": null,
+     "created_at": "2026-07-14T19:32:31.174Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/12b5312d-645e-4c28-92e4-ef62cc0be524.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/12b5312d-645e-4c28-92e4-ef62cc0be524_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       39,
+       44,
+       45
+      ],
+      [
+       177,
+       71,
+       47
+      ],
+      [
+       5,
+       132,
+       250
+      ],
+      [
+       210,
+       156,
+       73
+      ],
+      [
+       76,
+       119,
+       133
+      ]
+     ],
+     "uuid": "81c7aaaa-733c-45dd-8836-6b842fa78974"
+    },
+    {
+     "id": 180537,
+     "page_id": null,
+     "created_at": "2026-07-14T19:32:33.512Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/39a166f1-d29c-40dd-b710-65c38618d527.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/39a166f1-d29c-40dd-b710-65c38618d527_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       20,
+       16,
+       13
+      ],
+      [
+       4,
+       132,
+       252
+      ],
+      [
+       147,
+       147,
+       149
+      ],
+      [
+       90,
+       84,
+       73
+      ],
+      [
+       166,
+       72,
+       53
+      ]
+     ],
+     "uuid": "df4b9914-b144-4eee-a3fc-4e61a048aad3"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 180637,
+     "page_id": null,
+     "created_at": "2026-07-14T19:37:22.721Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/b2edf039-20ce-44b4-bbab-eb16e4e01cf7.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/b2edf039-20ce-44b4-bbab-eb16e4e01cf7_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       14,
+       105,
+       215
+      ],
+      [
+       239,
+       239,
+       239
+      ],
+      [
+       149,
+       153,
+       156
+      ],
+      [
+       121,
+       111,
+       109
+      ],
+      [
+       22,
+       23,
+       25
+      ]
+     ],
+     "uuid": "3ff981f5-ba17-4b18-9499-5ecf24090e9f"
+    },
+    {
+     "id": 180638,
+     "page_id": null,
+     "created_at": "2026-07-14T19:37:25.157Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/52bf32fe-2cfc-4b66-a58c-537b7d7d6b60.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/52bf32fe-2cfc-4b66-a58c-537b7d7d6b60_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       31,
+       31,
+       32
+      ],
+      [
+       106,
+       102,
+       95
+      ],
+      [
+       133,
+       144,
+       148
+      ],
+      [
+       143,
+       128,
+       76
+      ],
+      [
+       169,
+       165,
+       161
+      ]
+     ],
+     "uuid": "79db236e-debb-4893-85d7-9340db024a47"
+    },
+    {
+     "id": 180639,
+     "page_id": null,
+     "created_at": "2026-07-14T19:37:27.596Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/e484974f-ee16-4791-810f-6d5d464e74f8.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/e484974f-ee16-4791-810f-6d5d464e74f8_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       30,
+       25,
+       21
+      ],
+      [
+       96,
+       95,
+       95
+      ],
+      [
+       148,
+       98,
+       68
+      ],
+      [
+       150,
+       149,
+       148
+      ],
+      [
+       172,
+       137,
+       98
+      ]
+     ],
+     "uuid": "f532564d-35b0-4ffa-ab61-77dbcd3c4601"
+    },
+    {
+     "id": 180646,
+     "page_id": null,
+     "created_at": "2026-07-14T19:37:53.856Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/79b62ae0-799a-4812-ae05-b35402afaf6c.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/79b62ae0-799a-4812-ae05-b35402afaf6c_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       34,
+       35,
+       32
+      ],
+      [
+       100,
+       103,
+       99
+      ],
+      [
+       149,
+       151,
+       144
+      ],
+      [
+       138,
+       101,
+       78
+      ],
+      [
+       145,
+       134,
+       104
+      ]
+     ],
+     "uuid": "cf9591d7-03ce-4046-86e5-80afe2102de2"
+    },
+    {
+     "id": 180654,
+     "page_id": null,
+     "created_at": "2026-07-14T19:38:30.586Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/8b7c1f7d-38c5-47be-ad3b-40f8077d4929.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/8b7c1f7d-38c5-47be-ad3b-40f8077d4929_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       28,
+       22,
+       17
+      ],
+      [
+       157,
+       156,
+       153
+      ],
+      [
+       163,
+       79,
+       152
+      ],
+      [
+       15,
+       141,
+       240
+      ],
+      [
+       82,
+       99,
+       91
+      ]
+     ],
+     "uuid": "c6969af6-dc16-457d-9bce-9f409cf9f2ac"
+    },
+    {
+     "id": 180659,
+     "page_id": null,
+     "created_at": "2026-07-14T19:38:46.596Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/ff4c997b-19fd-49ff-b71a-d31d0e067ef8.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/ff4c997b-19fd-49ff-b71a-d31d0e067ef8_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       221,
+       236,
+       246
+      ],
+      [
+       6,
+       7,
+       7
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       187,
+       194,
+       196
+      ],
+      [
+       88,
+       105,
+       111
+      ]
+     ],
+     "uuid": "188e35db-deef-44a5-ad42-d13b2e4be6b1"
+    },
+    {
+     "id": 180662,
+     "page_id": null,
+     "created_at": "2026-07-14T19:38:54.130Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/2466d7f2-0f04-4c1d-980b-42a6fdbf8b63.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/2466d7f2-0f04-4c1d-980b-42a6fdbf8b63_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       149,
+       44,
+       50
+      ],
+      [
+       27,
+       21,
+       21
+      ],
+      [
+       161,
+       155,
+       161
+      ],
+      [
+       8,
+       122,
+       244
+      ],
+      [
+       192,
+       180,
+       184
+      ]
+     ],
+     "uuid": "430c42b5-f301-4931-a4e2-5e68b54bfbc4"
+    },
+    {
+     "id": 180670,
+     "page_id": null,
+     "created_at": "2026-07-14T19:39:14.360Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/84b319cb-69a3-4393-8008-21404aa46a5a.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/84b319cb-69a3-4393-8008-21404aa46a5a_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       17,
+       17,
+       17
+      ],
+      [
+       9,
+       141,
+       251
+      ],
+      [
+       247,
+       247,
+       251
+      ],
+      [
+       144,
+       151,
+       161
+      ],
+      [
+       79,
+       170,
+       247
+      ]
+     ],
+     "uuid": "ec7aa2bd-a902-41c6-a8f7-7a2c445eebca"
+    },
+    {
+     "id": 180675,
+     "page_id": null,
+     "created_at": "2026-07-14T19:39:25.480Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/b172d7e5-c1ae-40b8-b385-d297e72fe66e.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/b172d7e5-c1ae-40b8-b385-d297e72fe66e_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       15,
+       15,
+       15
+      ],
+      [
+       100,
+       84,
+       244
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       152,
+       150,
+       173
+      ],
+      [
+       95,
+       95,
+       95
+      ]
+     ],
+     "uuid": "e1c4ae4f-1ced-4a89-8895-40731ce89e00"
+    },
+    {
+     "id": 180534,
+     "page_id": null,
+     "created_at": "2026-07-14T19:32:26.245Z",
+     "url": "https://images.refero.design/screenshots/295/mobile/1adf22cc-700a-4c85-9a9b-138392b367d8.jpg",
+     "thumbnail_url": "https://images.refero.design/screenshots/295/mobile/1adf22cc-700a-4c85-9a9b-138392b367d8_thumb.jpg",
+     "single_screen": true,
+     "app_id": 295,
+     "colors": [
+      [
+       12,
+       156,
+       251
+      ],
+      [
+       229,
+       236,
+       243
+      ],
+      [
+       6,
+       45,
+       78
+      ],
+      [
+       4,
+       18,
+       32
+      ],
+      [
+       60,
+       93,
+       116
+      ]
+     ],
+     "uuid": "14c75b39-59d8-45e2-9238-5ad279c9fb18"
+    }
+   ]
+  }
+ ],
+ "sites": [
+  {
+   "id": 1131,
+   "domain": "curater.org",
+   "favicon_url": "https://images.refero.design/favicon/curater.org/c13fb95b-b2d7-4369-9884-85436f86e821.jpg",
+   "description": "A platform for curating and discovering taste.",
+   "name": "Curater",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/curater.org/4b7064d0-7a00-4815-8ab3-2b7c07270e7a.jpg",
+   "screenshots": [
+    {
+     "id": 188436,
+     "page_id": 37535,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/f879c081-6754-40b8-8afa-30df86c94e97/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/f879c081-6754-40b8-8afa-30df86c94e97_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       17,
+       17,
+       17
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       151,
+       149,
+       147
+      ],
+      [
+       100,
+       99,
+       100
+      ],
+      [
+       187,
+       63,
+       44
+      ]
+     ],
+     "page_url": "https://curater.org/",
+     "uuid": "f879c081-6754-40b8-8afa-30df86c94e97"
+    },
+    {
+     "id": 188442,
+     "page_id": 37537,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/014a6c90-8fa2-400b-817a-bd8e4fc6bd02/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/014a6c90-8fa2-400b-817a-bd8e4fc6bd02_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       252,
+       252,
+       252
+      ],
+      [
+       126,
+       126,
+       130
+      ],
+      [
+       180,
+       180,
+       184
+      ],
+      [
+       200,
+       199,
+       203
+      ],
+      [
+       188,
+       188,
+       188
+      ]
+     ],
+     "page_url": "https://curater.org/auth/callback#",
+     "uuid": "014a6c90-8fa2-400b-817a-bd8e4fc6bd02"
+    },
+    {
+     "id": 188443,
+     "page_id": 37538,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/dad8fa1c-7277-45b3-8a96-b64760124dd4/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/dad8fa1c-7277-45b3-8a96-b64760124dd4_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       26,
+       26,
+       26
+      ],
+      [
+       132,
+       251,
+       115
+      ],
+      [
+       214,
+       76,
+       200
+      ],
+      [
+       154,
+       155,
+       151
+      ]
+     ],
+     "page_url": "https://curater.org/onboarding",
+     "uuid": "dad8fa1c-7277-45b3-8a96-b64760124dd4"
+    },
+    {
+     "id": 188444,
+     "page_id": 37538,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/b93e7a95-9d10-47e8-b033-9298a827418b/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/b93e7a95-9d10-47e8-b033-9298a827418b_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       23,
+       24,
+       24
+      ],
+      [
+       212,
+       76,
+       198
+      ],
+      [
+       132,
+       251,
+       115
+      ],
+      [
+       153,
+       155,
+       151
+      ]
+     ],
+     "page_url": "https://curater.org/onboarding",
+     "uuid": "b93e7a95-9d10-47e8-b033-9298a827418b"
+    },
+    {
+     "id": 188446,
+     "page_id": 37538,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/d2889a7c-8fb0-4cd5-8b73-2806df1a9b50/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/d2889a7c-8fb0-4cd5-8b73-2806df1a9b50_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       212,
+       72,
+       177
+      ],
+      [
+       165,
+       193,
+       159
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       15,
+       19,
+       15
+      ],
+      [
+       131,
+       251,
+       115
+      ]
+     ],
+     "page_url": "https://curater.org/onboarding",
+     "uuid": "d2889a7c-8fb0-4cd5-8b73-2806df1a9b50"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 188436,
+     "page_id": 37535,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/f879c081-6754-40b8-8afa-30df86c94e97/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/f879c081-6754-40b8-8afa-30df86c94e97_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       17,
+       17,
+       17
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       151,
+       149,
+       147
+      ],
+      [
+       100,
+       99,
+       100
+      ],
+      [
+       187,
+       63,
+       44
+      ]
+     ],
+     "page_url": "https://curater.org/",
+     "uuid": "f879c081-6754-40b8-8afa-30df86c94e97"
+    },
+    {
+     "id": 188443,
+     "page_id": 37538,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/dad8fa1c-7277-45b3-8a96-b64760124dd4/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/dad8fa1c-7277-45b3-8a96-b64760124dd4_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       26,
+       26,
+       26
+      ],
+      [
+       132,
+       251,
+       115
+      ],
+      [
+       214,
+       76,
+       200
+      ],
+      [
+       154,
+       155,
+       151
+      ]
+     ],
+     "page_url": "https://curater.org/onboarding",
+     "uuid": "dad8fa1c-7277-45b3-8a96-b64760124dd4"
+    },
+    {
+     "id": 188459,
+     "page_id": 37541,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/ef49ef75-38bb-4057-9dcd-845ed434e4db/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/ef49ef75-38bb-4057-9dcd-845ed434e4db_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       19,
+       18,
+       10
+      ],
+      [
+       215,
+       201,
+       61
+      ],
+      [
+       189,
+       77,
+       123
+      ],
+      [
+       64,
+       173,
+       170
+      ],
+      [
+       21,
+       131,
+       153
+      ]
+     ],
+     "page_url": "https://curater.org/curation/WP6BGDUQ",
+     "uuid": "ef49ef75-38bb-4057-9dcd-845ed434e4db"
+    },
+    {
+     "id": 188480,
+     "page_id": 37541,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/c03014fb-3274-463a-865b-8107626ec70d/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/c03014fb-3274-463a-865b-8107626ec70d_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       16,
+       30,
+       24
+      ],
+      [
+       89,
+       89,
+       28
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       123,
+       123,
+       123
+      ],
+      [
+       96,
+       39,
+       66
+      ]
+     ],
+     "page_url": "https://curater.org/curation/WP6BGDUQ",
+     "uuid": "c03014fb-3274-463a-865b-8107626ec70d"
+    },
+    {
+     "id": 188505,
+     "page_id": 37554,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/1debdfef-3944-4f36-a0c8-5474ed3a967f/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/1debdfef-3944-4f36-a0c8-5474ed3a967f_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       18,
+       18,
+       16
+      ],
+      [
+       92,
+       162,
+       189
+      ],
+      [
+       153,
+       154,
+       151
+      ],
+      [
+       96,
+       100,
+       95
+      ],
+      [
+       149,
+       135,
+       104
+      ]
+     ],
+     "page_url": "https://curater.org/collection/street-photography",
+     "uuid": "1debdfef-3944-4f36-a0c8-5474ed3a967f"
+    },
+    {
+     "id": 188521,
+     "page_id": 37556,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/fbccea9f-8f7e-4dff-a2e6-07782020f12f/0.jpg",
+      "https://images.refero.design/screenshots/curater.org/desktop/fbccea9f-8f7e-4dff-a2e6-07782020f12f/1.jpg",
+      "https://images.refero.design/screenshots/curater.org/desktop/fbccea9f-8f7e-4dff-a2e6-07782020f12f/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/fbccea9f-8f7e-4dff-a2e6-07782020f12f_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": false,
+     "colors": [
+      [
+       23,
+       24,
+       28
+      ],
+      [
+       251,
+       247,
+       247
+      ],
+      [
+       159,
+       84,
+       81
+      ],
+      [
+       156,
+       164,
+       165
+      ],
+      [
+       102,
+       104,
+       107
+      ]
+     ],
+     "page_url": "https://curater.org/curation/new?collection=summer-tracks",
+     "uuid": "fbccea9f-8f7e-4dff-a2e6-07782020f12f"
+    },
+    {
+     "id": 188530,
+     "page_id": 37547,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/fe172c9a-e58a-4619-a123-4ec2aa195cd6/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/fe172c9a-e58a-4619-a123-4ec2aa195cd6_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       47,
+       46,
+       41
+      ],
+      [
+       160,
+       163,
+       163
+      ],
+      [
+       151,
+       98,
+       83
+      ],
+      [
+       200,
+       204,
+       210
+      ],
+      [
+       56,
+       129,
+       115
+      ]
+     ],
+     "page_url": "https://curater.org/feed",
+     "uuid": "fe172c9a-e58a-4619-a123-4ec2aa195cd6"
+    },
+    {
+     "id": 188534,
+     "page_id": 37561,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/4dfd20c1-ed40-4499-8cf5-bc2627901cb8/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/4dfd20c1-ed40-4499-8cf5-bc2627901cb8_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       17,
+       31,
+       56
+      ],
+      [
+       124,
+       124,
+       124
+      ],
+      [
+       116,
+       31,
+       22
+      ],
+      [
+       205,
+       48,
+       29
+      ]
+     ],
+     "page_url": "https://curater.org/user/settings",
+     "uuid": "4dfd20c1-ed40-4499-8cf5-bc2627901cb8"
+    },
+    {
+     "id": 188548,
+     "page_id": 37562,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/5025c52c-c6f3-47fb-8960-c346b2a69b6c/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/5025c52c-c6f3-47fb-8960-c346b2a69b6c_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       185,
+       72,
+       109
+      ],
+      [
+       206,
+       194,
+       53
+      ],
+      [
+       25,
+       22,
+       12
+      ],
+      [
+       29,
+       133,
+       163
+      ],
+      [
+       50,
+       169,
+       162
+      ]
+     ],
+     "page_url": "https://curater.org/referodesign",
+     "uuid": "5025c52c-c6f3-47fb-8960-c346b2a69b6c"
+    },
+    {
+     "id": 188553,
+     "page_id": 37547,
+     "url": [
+      "https://images.refero.design/screenshots/curater.org/desktop/f1704318-5c78-4973-bb7a-c74765696308/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/curater.org/desktop/f1704318-5c78-4973-bb7a-c74765696308_thumb.jpg",
+     "site_id": 1131,
+     "single_screen": true,
+     "colors": [
+      [
+       154,
+       86,
+       59
+      ],
+      [
+       22,
+       22,
+       25
+      ],
+      [
+       61,
+       116,
+       84
+      ],
+      [
+       163,
+       161,
+       68
+      ],
+      [
+       155,
+       160,
+       160
+      ]
+     ],
+     "page_url": "https://curater.org/feed",
+     "uuid": "f1704318-5c78-4973-bb7a-c74765696308"
+    }
+   ]
+  },
+  {
+   "id": 1130,
+   "domain": "zellerfeld.com",
+   "favicon_url": "https://images.refero.design/favicon/zellerfeld.com/0676630a-f056-4c0d-9ecc-e2843c6c0038.jpg",
+   "description": "Zellerfeld - printed shoes on every foot",
+   "name": "Zellerfeld",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/zellerfeld.com/de59d5ed-94b1-4532-8b87-2a8195c618f9.jpg",
+   "screenshots": [
+    {
+     "id": 188386,
+     "page_id": 37526,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/0.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/1.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/2.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/3.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/4.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/5.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/6.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944/7.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/43a7b9e8-750b-4a1a-be39-893fdcb12944_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": false,
+     "colors": [
+      [
+       204,
+       213,
+       207
+      ],
+      [
+       113,
+       108,
+       102
+      ],
+      [
+       248,
+       94,
+       62
+      ],
+      [
+       124,
+       169,
+       160
+      ],
+      [
+       72,
+       94,
+       83
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/discover",
+     "uuid": "43a7b9e8-750b-4a1a-be39-893fdcb12944"
+    },
+    {
+     "id": 188387,
+     "page_id": 37526,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/890c8d44-b161-49b1-97b2-4bec12389025/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/890c8d44-b161-49b1-97b2-4bec12389025_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       250,
+       103,
+       74
+      ],
+      [
+       164,
+       161,
+       161
+      ],
+      [
+       114,
+       113,
+       112
+      ],
+      [
+       119,
+       136,
+       137
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/discover",
+     "uuid": "890c8d44-b161-49b1-97b2-4bec12389025"
+    },
+    {
+     "id": 188388,
+     "page_id": 37526,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/30e27064-3bcc-4fbb-bfc4-fc16a16e5c2c/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/30e27064-3bcc-4fbb-bfc4-fc16a16e5c2c_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       250,
+       103,
+       74
+      ],
+      [
+       112,
+       111,
+       111
+      ],
+      [
+       117,
+       141,
+       132
+      ],
+      [
+       162,
+       158,
+       157
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/discover",
+     "uuid": "30e27064-3bcc-4fbb-bfc4-fc16a16e5c2c"
+    },
+    {
+     "id": 188389,
+     "page_id": 37526,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/20a4e885-637c-4a9a-aded-68ce93f6cbb1/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/20a4e885-637c-4a9a-aded-68ce93f6cbb1_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": true,
+     "colors": [
+      [
+       250,
+       103,
+       75
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       161,
+       161,
+       161
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       112,
+       108,
+       108
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/discover",
+     "uuid": "20a4e885-637c-4a9a-aded-68ce93f6cbb1"
+    },
+    {
+     "id": 188390,
+     "page_id": 37526,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/2fe5cc00-127e-4b7f-a257-fd10d91ff989/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/2fe5cc00-127e-4b7f-a257-fd10d91ff989_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": true,
+     "colors": [
+      [
+       250,
+       103,
+       75
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       109,
+       106,
+       105
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       158,
+       158,
+       158
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/discover",
+     "uuid": "2fe5cc00-127e-4b7f-a257-fd10d91ff989"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 188394,
+     "page_id": 37527,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/c9bbb183-6375-4f31-be6a-fa5388de6936/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/c9bbb183-6375-4f31-be6a-fa5388de6936_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": true,
+     "colors": [
+      [
+       223,
+       218,
+       208
+      ],
+      [
+       20,
+       20,
+       20
+      ],
+      [
+       192,
+       144,
+       57
+      ],
+      [
+       105,
+       102,
+       96
+      ],
+      [
+       213,
+       183,
+       113
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/onboarding",
+     "uuid": "c9bbb183-6375-4f31-be6a-fa5388de6936"
+    },
+    {
+     "id": 188406,
+     "page_id": 37526,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/0.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/1.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/2.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/3.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/4.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/5.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/6.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/7.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1/8.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/64f0165b-3d2a-4159-89df-b1af98b381a1_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": false,
+     "colors": [
+      [
+       205,
+       213,
+       209
+      ],
+      [
+       126,
+       153,
+       151
+      ],
+      [
+       244,
+       122,
+       59
+      ],
+      [
+       100,
+       92,
+       83
+      ],
+      [
+       99,
+       110,
+       144
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/discover",
+     "uuid": "64f0165b-3d2a-4159-89df-b1af98b381a1"
+    },
+    {
+     "id": 188413,
+     "page_id": 37530,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/85fd5a04-ef06-4c6b-8b4b-f0b0f2a16278/0.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/85fd5a04-ef06-4c6b-8b4b-f0b0f2a16278/1.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/85fd5a04-ef06-4c6b-8b4b-f0b0f2a16278/2.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/85fd5a04-ef06-4c6b-8b4b-f0b0f2a16278/3.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/85fd5a04-ef06-4c6b-8b4b-f0b0f2a16278_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": false,
+     "colors": [
+      [
+       245,
+       246,
+       247
+      ],
+      [
+       93,
+       85,
+       80
+      ],
+      [
+       158,
+       152,
+       156
+      ],
+      [
+       157,
+       100,
+       71
+      ],
+      [
+       47,
+       95,
+       150
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/creators",
+     "uuid": "85fd5a04-ef06-4c6b-8b4b-f0b0f2a16278"
+    },
+    {
+     "id": 188415,
+     "page_id": 37532,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba/0.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba/1.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba/2.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba/3.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba/4.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba/5.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/86edc091-a53b-4e6f-b164-567b578148ba_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": false,
+     "colors": [
+      [
+       198,
+       144,
+       99
+      ],
+      [
+       93,
+       87,
+       79
+      ],
+      [
+       242,
+       241,
+       241
+      ],
+      [
+       186,
+       141,
+       29
+      ],
+      [
+       246,
+       222,
+       143
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/products/hezi-ii",
+     "uuid": "86edc091-a53b-4e6f-b164-567b578148ba"
+    },
+    {
+     "id": 188432,
+     "page_id": 37533,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/fb7e702e-5eb5-47e2-8af7-d49cb2252e54/0.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/fb7e702e-5eb5-47e2-8af7-d49cb2252e54/1.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/fb7e702e-5eb5-47e2-8af7-d49cb2252e54/2.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/fb7e702e-5eb5-47e2-8af7-d49cb2252e54/3.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/fb7e702e-5eb5-47e2-8af7-d49cb2252e54/4.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/fb7e702e-5eb5-47e2-8af7-d49cb2252e54_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": false,
+     "colors": [
+      [
+       248,
+       247,
+       246
+      ],
+      [
+       250,
+       92,
+       60
+      ],
+      [
+       165,
+       155,
+       167
+      ],
+      [
+       95,
+       93,
+       92
+      ],
+      [
+       207,
+       170,
+       73
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/collections/sneakers",
+     "uuid": "fb7e702e-5eb5-47e2-8af7-d49cb2252e54"
+    },
+    {
+     "id": 188568,
+     "page_id": 37566,
+     "url": [
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/a6be199f-6d06-4bf2-ae65-70f49e16f642/0.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/a6be199f-6d06-4bf2-ae65-70f49e16f642/1.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/a6be199f-6d06-4bf2-ae65-70f49e16f642/2.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/a6be199f-6d06-4bf2-ae65-70f49e16f642/3.jpg",
+      "https://images.refero.design/screenshots/zellerfeld.com/desktop/a6be199f-6d06-4bf2-ae65-70f49e16f642/4.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/zellerfeld.com/desktop/a6be199f-6d06-4bf2-ae65-70f49e16f642_thumb.jpg",
+     "site_id": 1130,
+     "single_screen": false,
+     "colors": [
+      [
+       251,
+       92,
+       60
+      ],
+      [
+       249,
+       248,
+       248
+      ],
+      [
+       92,
+       91,
+       90
+      ],
+      [
+       159,
+       154,
+       148
+      ],
+      [
+       27,
+       27,
+       27
+      ]
+     ],
+     "page_url": "https://www.zellerfeld.com/collections/welcome-to-zellerfeld",
+     "uuid": "a6be199f-6d06-4bf2-ae65-70f49e16f642"
+    }
+   ]
+  },
+  {
+   "id": 1133,
+   "domain": "raus.life",
+   "favicon_url": "https://images.refero.design/favicon/raus.life/1bbcab5a-293e-4908-8095-804a3b823b21.jpg",
+   "description": "Escape the everyday and immerse yourself in nature",
+   "name": "Raus",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/raus.life/f219e4e2-1aa5-4f0c-9890-f6d8d6c948f4.jpg",
+   "screenshots": [
+    {
+     "id": 188591,
+     "page_id": 37578,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/0.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/1.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/2.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/3.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/4.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/5.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/6.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": false,
+     "colors": [
+      [
+       146,
+       97,
+       52
+      ],
+      [
+       34,
+       46,
+       32
+      ],
+      [
+       154,
+       134,
+       93
+      ],
+      [
+       165,
+       155,
+       136
+      ],
+      [
+       165,
+       217,
+       245
+      ]
+     ],
+     "page_url": "https://www.raus.life/",
+     "uuid": "9247884a-f467-4bdc-bb37-fda2797783c7"
+    },
+    {
+     "id": 188593,
+     "page_id": 37579,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/0.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/1.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/2.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/3.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/4.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/5.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/6.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/7.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/8.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/9.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/10.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/11.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/12.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/13.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/14.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/15.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/16.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/17.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/18.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd/19.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/a7e28702-444c-4ad1-b40f-719014c8fdbd_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": false,
+     "colors": [
+      [
+       153,
+       157,
+       72
+      ],
+      [
+       34,
+       37,
+       25
+      ],
+      [
+       135,
+       107,
+       74
+      ],
+      [
+       156,
+       185,
+       218
+      ],
+      [
+       104,
+       140,
+       200
+      ]
+     ],
+     "page_url": "https://www.raus.life/search",
+     "uuid": "a7e28702-444c-4ad1-b40f-719014c8fdbd"
+    },
+    {
+     "id": 188594,
+     "page_id": 37579,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/e4112be2-c3b3-4b88-86e7-b92f9994f556/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/e4112be2-c3b3-4b88-86e7-b92f9994f556_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": true,
+     "colors": [
+      [
+       36,
+       40,
+       25
+      ],
+      [
+       104,
+       140,
+       201
+      ],
+      [
+       133,
+       107,
+       74
+      ],
+      [
+       148,
+       171,
+       212
+      ],
+      [
+       159,
+       147,
+       82
+      ]
+     ],
+     "page_url": "https://www.raus.life/search",
+     "uuid": "e4112be2-c3b3-4b88-86e7-b92f9994f556"
+    },
+    {
+     "id": 188595,
+     "page_id": 37580,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/045a9c03-5969-4c65-b63d-90b71c78b52b/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/045a9c03-5969-4c65-b63d-90b71c78b52b_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": true,
+     "colors": [
+      [
+       36,
+       46,
+       27
+      ],
+      [
+       192,
+       89,
+       25
+      ],
+      [
+       107,
+       140,
+       176
+      ],
+      [
+       103,
+       116,
+       82
+      ],
+      [
+       144,
+       147,
+       80
+      ]
+     ],
+     "page_url": "https://www.raus.life/search?$=cities@=berlin;;",
+     "uuid": "045a9c03-5969-4c65-b63d-90b71c78b52b"
+    },
+    {
+     "id": 188596,
+     "page_id": 37580,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/4d4ce214-2109-4a08-ace4-445a5a1866fd/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/4d4ce214-2109-4a08-ace4-445a5a1866fd_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": true,
+     "colors": [
+      [
+       35,
+       46,
+       26
+      ],
+      [
+       192,
+       89,
+       24
+      ],
+      [
+       106,
+       140,
+       176
+      ],
+      [
+       153,
+       160,
+       81
+      ],
+      [
+       104,
+       116,
+       83
+      ]
+     ],
+     "page_url": "https://www.raus.life/search?$=cities@=berlin;;",
+     "uuid": "4d4ce214-2109-4a08-ace4-445a5a1866fd"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 188591,
+     "page_id": 37578,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/0.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/1.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/2.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/3.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/4.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/5.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7/6.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/9247884a-f467-4bdc-bb37-fda2797783c7_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": false,
+     "colors": [
+      [
+       146,
+       97,
+       52
+      ],
+      [
+       34,
+       46,
+       32
+      ],
+      [
+       154,
+       134,
+       93
+      ],
+      [
+       165,
+       155,
+       136
+      ],
+      [
+       165,
+       217,
+       245
+      ]
+     ],
+     "page_url": "https://www.raus.life/",
+     "uuid": "9247884a-f467-4bdc-bb37-fda2797783c7"
+    },
+    {
+     "id": 188603,
+     "page_id": 37583,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/0.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/1.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/2.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/3.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/4.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/5.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/6.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/7.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/8.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/9.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/10.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc/11.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/bdaf88b5-3e7a-4442-a81b-970b5195d1cc_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": false,
+     "colors": [
+      [
+       34,
+       45,
+       26
+      ],
+      [
+       158,
+       156,
+       138
+      ],
+      [
+       136,
+       144,
+       96
+      ],
+      [
+       130,
+       105,
+       76
+      ],
+      [
+       102,
+       119,
+       77
+      ]
+     ],
+     "page_url": "https://www.raus.life/locations/reiterhof?$=cities@=berlin;&dogs:true&from=2026-10-09&to=2026-10-11;;",
+     "uuid": "bdaf88b5-3e7a-4442-a81b-970b5195d1cc"
+    },
+    {
+     "id": 188606,
+     "page_id": 37584,
+     "url": [
+      "https://images.refero.design/screenshots/raus.life/desktop/45674957-a704-49f0-aa1e-2604cae92f3b/0.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/45674957-a704-49f0-aa1e-2604cae92f3b/1.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/45674957-a704-49f0-aa1e-2604cae92f3b/2.jpg",
+      "https://images.refero.design/screenshots/raus.life/desktop/45674957-a704-49f0-aa1e-2604cae92f3b/3.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/raus.life/desktop/45674957-a704-49f0-aa1e-2604cae92f3b_thumb.jpg",
+     "site_id": 1133,
+     "single_screen": false,
+     "colors": [
+      [
+       16,
+       96,
+       53
+      ],
+      [
+       36,
+       35,
+       36
+      ],
+      [
+       251,
+       251,
+       236
+      ],
+      [
+       157,
+       157,
+       140
+      ],
+      [
+       199,
+       202,
+       86
+      ]
+     ],
+     "page_url": "https://www.raus.life/checkout/rate/locations/reiterhof?$=cities@=berlin;&dogs:true&from=2026-10-09&to=2026-10-11;;",
+     "uuid": "45674957-a704-49f0-aa1e-2604cae92f3b"
+    }
+   ]
+  },
+  {
+   "id": 764,
+   "domain": "wealthsimple.com",
+   "favicon_url": "https://images.refero.design/favicon/wealthsimple.com/7d2955bc-6366-4bd1-ae60-d81335d0661c.jpg",
+   "description": "Better than your bank",
+   "name": "Wealthsimple",
+   "background_color": "",
+   "background_url": "https://images.refero.design/backgrounds/wealthsimple.com/25c45d33-d1db-4c7d-8213-0430267ba7a9.jpg",
+   "screenshots": [
+    {
+     "id": 144803,
+     "page_id": 29122,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/5.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/6.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/7.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/8.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/9.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/10.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/11.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/12.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       154,
+       184,
+       211
+      ],
+      [
+       62,
+       55,
+       35
+      ],
+      [
+       158,
+       147,
+       79
+      ],
+      [
+       98,
+       142,
+       176
+      ],
+      [
+       139,
+       105,
+       56
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca",
+     "uuid": "c72690ed-5480-4fd0-89c5-1a1cfbaf460c"
+    },
+    {
+     "id": 144823,
+     "page_id": 29122,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/ce1c6952-8f81-4248-a182-981a58b9a48a/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/ce1c6952-8f81-4248-a182-981a58b9a48a/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/ce1c6952-8f81-4248-a182-981a58b9a48a/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/ce1c6952-8f81-4248-a182-981a58b9a48a_thumb.jpg",
+     "site_id": 764,
+     "single_screen": true,
+     "colors": [
+      [
+       131,
+       108,
+       86
+      ],
+      [
+       81,
+       72,
+       60
+      ],
+      [
+       151,
+       132,
+       100
+      ],
+      [
+       160,
+       155,
+       150
+      ],
+      [
+       14,
+       20,
+       29
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca",
+     "uuid": "718a69e4-259b-4df6-baba-b01c70fe9c22"
+    },
+    {
+     "id": 144825,
+     "page_id": 29125,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/5.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/6.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/7.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/8.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/9.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/10.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/11.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/12.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/13.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/14.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/15.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a/16.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/cb673c73-e76d-4c9f-9d97-b3ec257b9b7a_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       154,
+       161,
+       108
+      ],
+      [
+       50,
+       42,
+       40
+      ],
+      [
+       153,
+       98,
+       58
+      ],
+      [
+       166,
+       165,
+       134
+      ],
+      [
+       108,
+       104,
+       71
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca/chequing",
+     "uuid": "db722e5f-0e60-4a39-a6d9-cf105396e2a5"
+    },
+    {
+     "id": 144827,
+     "page_id": 29126,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/5.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/6.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/7.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/8.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/9.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/10.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/11.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/12.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd/13.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/c6760ae2-b16f-4abc-b280-9c31da39e8bd_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       123,
+       90,
+       77
+      ],
+      [
+       242,
+       240,
+       246
+      ],
+      [
+       15,
+       14,
+       13
+      ],
+      [
+       152,
+       156,
+       157
+      ],
+      [
+       217,
+       156,
+       100
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca/credit-card",
+     "uuid": "dc212a3d-f9df-4c4f-bce6-225c66134c6e"
+    },
+    {
+     "id": 144828,
+     "page_id": 29127,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/5.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/6.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/7.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/8.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/9.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda/10.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/3b23ebe1-a728-4f19-85af-2fcb65eadcda_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       157,
+       164,
+       171
+      ],
+      [
+       51,
+       49,
+       50
+      ],
+      [
+       236,
+       243,
+       251
+      ],
+      [
+       235,
+       219,
+       220
+      ],
+      [
+       101,
+       118,
+       128
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca/accounts/usd",
+     "uuid": "33b5c418-fd55-40e3-a67f-fcbc43bedaeb"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 144803,
+     "page_id": 29122,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/5.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/6.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/7.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/8.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/9.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/10.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/11.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493/12.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/34c9577f-f9a1-4dca-9f5f-1dcaaed05493_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       154,
+       184,
+       211
+      ],
+      [
+       62,
+       55,
+       35
+      ],
+      [
+       158,
+       147,
+       79
+      ],
+      [
+       98,
+       142,
+       176
+      ],
+      [
+       139,
+       105,
+       56
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca",
+     "uuid": "c72690ed-5480-4fd0-89c5-1a1cfbaf460c"
+    },
+    {
+     "id": 144834,
+     "page_id": 29133,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/5.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/6.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/7.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/8.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/9.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/10.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/11.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/12.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673/13.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/74960e4a-cc36-4559-9b73-e5a449c25673_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       51,
+       48,
+       47
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       164,
+       164,
+       164
+      ],
+      [
+       132,
+       132,
+       131
+      ],
+      [
+       199,
+       187,
+       176
+      ]
+     ],
+     "page_url": "https://www.wealthsimple.com/en-ca/portfolios",
+     "uuid": "08ad4aea-447d-42d8-b11d-160b03d4c1a9"
+    },
+    {
+     "id": 144846,
+     "page_id": 29143,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/d63fd8d8-7792-4042-a082-7df862fd517f/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/d63fd8d8-7792-4042-a082-7df862fd517f/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/d63fd8d8-7792-4042-a082-7df862fd517f/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/d63fd8d8-7792-4042-a082-7df862fd517f/3.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/d63fd8d8-7792-4042-a082-7df862fd517f_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       110,
+       91,
+       106
+      ],
+      [
+       32,
+       45,
+       57
+      ],
+      [
+       163,
+       163,
+       136
+      ],
+      [
+       137,
+       114,
+       127
+      ],
+      [
+       164,
+       136,
+       76
+      ]
+     ],
+     "page_url": "https://insights.wealthsimple.com/",
+     "uuid": "05b1c43d-f051-4a3f-8199-0d0b60737bfa"
+    },
+    {
+     "id": 144847,
+     "page_id": 29144,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11/4.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11/5.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/6a1e95ea-eb9a-4476-9796-4350e7c9ca11_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       41,
+       45,
+       53
+      ],
+      [
+       155,
+       158,
+       160
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       242,
+       241,
+       210
+      ],
+      [
+       103,
+       107,
+       125
+      ]
+     ],
+     "page_url": "https://insights.wealthsimple.com/why-you-shouldnt-compare-your-returns-to-the-sp-500",
+     "uuid": "4bc13b91-53b9-491c-94e4-4391c6157105"
+    },
+    {
+     "id": 144863,
+     "page_id": 29156,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/017168ba-3758-4fca-a8be-4a77212c521c/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/017168ba-3758-4fca-a8be-4a77212c521c/1.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/017168ba-3758-4fca-a8be-4a77212c521c/2.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/017168ba-3758-4fca-a8be-4a77212c521c/3.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/017168ba-3758-4fca-a8be-4a77212c521c/4.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/017168ba-3758-4fca-a8be-4a77212c521c_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       237,
+       185,
+       98
+      ],
+      [
+       69,
+       67,
+       66
+      ],
+      [
+       251,
+       248,
+       248
+      ],
+      [
+       153,
+       155,
+       154
+      ],
+      [
+       5,
+       5,
+       5
+      ]
+     ],
+     "page_url": "https://help.wealthsimple.com/hc/en-ca",
+     "uuid": "0290ea36-e362-4df2-990e-b62e229a5ee6"
+    },
+    {
+     "id": 145363,
+     "page_id": 29226,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/49ead172-e44f-45a6-a982-5e391d05cfb9/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/49ead172-e44f-45a6-a982-5e391d05cfb9/1.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/49ead172-e44f-45a6-a982-5e391d05cfb9_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       38,
+       104,
+       181
+      ],
+      [
+       26,
+       34,
+       28
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       152,
+       154,
+       156
+      ],
+      [
+       229,
+       34,
+       26
+      ]
+     ],
+     "page_url": "https://my.wealthsimple.com/tax/2024/?lang=en&activatedProfileId=c8766f21-ffbd-4b88-bc38-f216afb214e7",
+     "uuid": "9d14a576-fb5a-48d8-80c4-9b7cc806014a"
+    },
+    {
+     "id": 145382,
+     "page_id": 29232,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/faec5f68-92a9-4c2e-a86a-14528ce0af55/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/faec5f68-92a9-4c2e-a86a-14528ce0af55_thumb.jpg",
+     "site_id": 764,
+     "single_screen": true,
+     "colors": [
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       79,
+       102,
+       148
+      ],
+      [
+       52,
+       52,
+       52
+      ],
+      [
+       178,
+       161,
+       157
+      ],
+      [
+       181,
+       78,
+       72
+      ]
+     ],
+     "page_url": "https://my.wealthsimple.com/app/security-details/sec-s-220e8c65080c441aa87da8089460fae4?tab=option_chain&expiryDate=2026-03-20&optionType=PUT&legs=sec-o-feb0220a853d43ebb411b5deb1114720%23sto%2Csec-o-c203e10586124ec78d3f4ec1e2f6ce50%23bto",
+     "uuid": "e2f4525a-5328-4c50-aadd-ad6482bb37b5"
+    },
+    {
+     "id": 145386,
+     "page_id": 29233,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/afd3da63-f6f4-4a8e-9ba8-219020b32a26/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/afd3da63-f6f4-4a8e-9ba8-219020b32a26_thumb.jpg",
+     "site_id": 764,
+     "single_screen": true,
+     "colors": [
+      [
+       231,
+       106,
+       97
+      ],
+      [
+       47,
+       55,
+       70
+      ],
+      [
+       146,
+       201,
+       165
+      ],
+      [
+       226,
+       139,
+       107
+      ],
+      [
+       251,
+       251,
+       251
+      ]
+     ],
+     "page_url": "https://my.wealthsimple.com/app/advanced-chart/sec-s-220e8c65080c441aa87da8089460fae4",
+     "uuid": "3b72d3c5-e90b-4a77-a96c-adf5fb03aaa4"
+    },
+    {
+     "id": 145413,
+     "page_id": 29124,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/b9c9980b-78ff-48d0-bbbd-b93f7a1bd641/0.jpg",
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/b9c9980b-78ff-48d0-bbbd-b93f7a1bd641/1.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/b9c9980b-78ff-48d0-bbbd-b93f7a1bd641_thumb.jpg",
+     "site_id": 764,
+     "single_screen": false,
+     "colors": [
+      [
+       50,
+       48,
+       51
+      ],
+      [
+       251,
+       251,
+       251
+      ],
+      [
+       153,
+       153,
+       158
+      ],
+      [
+       193,
+       80,
+       55
+      ],
+      [
+       216,
+       174,
+       49
+      ]
+     ],
+     "page_url": "https://my.wealthsimple.com/app/home",
+     "uuid": "378ed9b6-883a-4480-8d26-24bf46d08e1a"
+    },
+    {
+     "id": 145608,
+     "page_id": 29283,
+     "url": [
+      "https://images.refero.design/screenshots/wealthsimple.com/desktop/df0e1e1f-3bed-495c-87b7-baad63809f82/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/df0e1e1f-3bed-495c-87b7-baad63809f82_thumb.jpg",
+     "site_id": 764,
+     "single_screen": true,
+     "colors": [
+      [
+       27,
+       20,
+       20
+      ],
+      [
+       240,
+       239,
+       239
+      ],
+      [
+       110,
+       195,
+       131
+      ],
+      [
+       126,
+       179,
+       140
+      ],
+      [
+       115,
+       113,
+       112
+      ]
+     ],
+     "page_url": "https://my.wealthsimple.com/app/password/reset",
+     "uuid": "e195803e-d555-40f7-aa93-05be605098d8"
+    }
+   ]
+  },
+  {
+   "id": 506,
+   "domain": "claude.ai",
+   "favicon_url": "https://images.refero.design/favicon/claude.ai/a792437f-ba0d-4005-80bb-837d1808ca4f.jpg",
+   "description": "Talk with Claude, an AI assistant from Anthropic",
+   "name": "Claude",
+   "background_color": "d7c1a3",
+   "background_url": "https://images.refero.design/backgrounds/claude.ai/30f39ad9-89cc-4ee0-806f-53bb7fa83da0.jpg",
+   "screenshots": [
+    {
+     "id": 84022,
+     "page_id": 19487,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/2a6149c4-07fb-498a-9906-78d184d9d5be/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/2a6149c4-07fb-498a-9906-78d184d9d5be/1.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/2a6149c4-07fb-498a-9906-78d184d9d5be/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/2a6149c4-07fb-498a-9906-78d184d9d5be_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       237,
+       233,
+       224
+      ],
+      [
+       185,
+       93,
+       63
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       88,
+       86,
+       75
+      ],
+      [
+       146,
+       144,
+       134
+      ]
+     ],
+     "page_url": "https://claude.ai/login?returnTo=%2F%3F",
+     "uuid": "6e19972f-7479-4295-b387-4dce72a4a20b"
+    },
+    {
+     "id": 86423,
+     "page_id": 19487,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/1205a7dc-4274-4644-8bb4-4e08644cabd7/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/1205a7dc-4274-4644-8bb4-4e08644cabd7/1.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/1205a7dc-4274-4644-8bb4-4e08644cabd7/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/1205a7dc-4274-4644-8bb4-4e08644cabd7_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       238,
+       234,
+       224
+      ],
+      [
+       186,
+       93,
+       63
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       87,
+       85,
+       75
+      ],
+      [
+       146,
+       144,
+       134
+      ]
+     ],
+     "page_url": "https://claude.ai/login?returnTo=%2F%3F",
+     "uuid": "7cc8e685-d3a2-43c6-8456-3cce653871d8"
+    },
+    {
+     "id": 86424,
+     "page_id": 19487,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/3c69c665-ebca-4382-b931-9de0a4c2ea1a/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/3c69c665-ebca-4382-b931-9de0a4c2ea1a/1.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/3c69c665-ebca-4382-b931-9de0a4c2ea1a/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/3c69c665-ebca-4382-b931-9de0a4c2ea1a_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       238,
+       234,
+       224
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       88,
+       86,
+       76
+      ],
+      [
+       146,
+       144,
+       134
+      ],
+      [
+       127,
+       118,
+       103
+      ]
+     ],
+     "page_url": "https://claude.ai/login?returnTo=%2F%3F",
+     "uuid": "adbd8f3a-d20a-4bac-b1cf-a3ff12a2b9eb"
+    },
+    {
+     "id": 86425,
+     "page_id": 19487,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/97d64346-8117-4cf0-9600-dcb80fcacfad/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/97d64346-8117-4cf0-9600-dcb80fcacfad/1.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/97d64346-8117-4cf0-9600-dcb80fcacfad/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/97d64346-8117-4cf0-9600-dcb80fcacfad_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       237,
+       234,
+       224
+      ],
+      [
+       185,
+       93,
+       63
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       90,
+       89,
+       78
+      ],
+      [
+       146,
+       144,
+       134
+      ]
+     ],
+     "page_url": "https://claude.ai/login?returnTo=%2F%3F",
+     "uuid": "7f2626c3-b28e-45e1-9cd8-46615b5e64d6"
+    },
+    {
+     "id": 86426,
+     "page_id": 19487,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/713b5612-ed34-4dfe-9df2-994b7ab0ea4d/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/713b5612-ed34-4dfe-9df2-994b7ab0ea4d/1.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/713b5612-ed34-4dfe-9df2-994b7ab0ea4d/2.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/713b5612-ed34-4dfe-9df2-994b7ab0ea4d_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       237,
+       234,
+       224
+      ],
+      [
+       185,
+       93,
+       63
+      ],
+      [
+       4,
+       4,
+       4
+      ],
+      [
+       89,
+       87,
+       77
+      ],
+      [
+       146,
+       144,
+       134
+      ]
+     ],
+     "page_url": "https://claude.ai/login?returnTo=%2F%3F",
+     "uuid": "f9544526-683a-481c-b45b-b8995c6bb2f0"
+    }
+   ],
+   "featured_screenshots": [
+    {
+     "id": 86502,
+     "page_id": 19872,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/049b3f65-97df-4187-9b0e-554091de9723/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/049b3f65-97df-4187-9b0e-554091de9723/1.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/049b3f65-97df-4187-9b0e-554091de9723_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       244,
+       242,
+       234
+      ],
+      [
+       69,
+       68,
+       58
+      ],
+      [
+       165,
+       162,
+       153
+      ],
+      [
+       210,
+       121,
+       93
+      ],
+      [
+       119,
+       117,
+       108
+      ]
+     ],
+     "page_url": "https://claude.ai/new",
+     "uuid": "bdd80489-0f06-481a-aaaf-742fd247ecb1"
+    },
+    {
+     "id": 86510,
+     "page_id": 19882,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/4f43c2f3-335c-4d90-afed-f869c1bd90a4/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/4f43c2f3-335c-4d90-afed-f869c1bd90a4_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       244,
+       243,
+       237
+      ],
+      [
+       46,
+       44,
+       37
+      ],
+      [
+       150,
+       148,
+       141
+      ],
+      [
+       90,
+       89,
+       81
+      ],
+      [
+       107,
+       105,
+       104
+      ]
+     ],
+     "page_url": "https://claude.ai/chat/ba014728-3867-47b7-bdde-0236af6b049b",
+     "uuid": "b7f86277-cbfa-41e8-879a-c96f8221b024"
+    },
+    {
+     "id": 86519,
+     "page_id": 19884,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/0a831575-0d86-41f2-ad32-f3acc6af8396/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/0a831575-0d86-41f2-ad32-f3acc6af8396_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       139,
+       132,
+       211
+      ],
+      [
+       47,
+       44,
+       38
+      ],
+      [
+       244,
+       243,
+       238
+      ],
+      [
+       142,
+       171,
+       147
+      ],
+      [
+       94,
+       94,
+       162
+      ]
+     ],
+     "page_url": "https://claude.ai/chat/44f84c93-6085-4242-99ce-b9fb4a0ec975",
+     "uuid": "6c0b1655-80f5-42f6-a9f2-a6563fc68791"
+    },
+    {
+     "id": 86526,
+     "page_id": 19885,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/eeb5b2b7-bfaa-4ecd-983f-6ee15b48fe74/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/eeb5b2b7-bfaa-4ecd-983f-6ee15b48fe74_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       62,
+       60,
+       51
+      ],
+      [
+       243,
+       242,
+       234
+      ],
+      [
+       200,
+       175,
+       160
+      ],
+      [
+       154,
+       98,
+       76
+      ],
+      [
+       75,
+       130,
+       192
+      ]
+     ],
+     "page_url": "https://claude.ai/settings/profile",
+     "uuid": "80fbe8eb-d8cc-4a4d-adf0-0d894dafce09"
+    },
+    {
+     "id": 86530,
+     "page_id": 19887,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/394ff061-c5fc-45ff-b90b-edbf5006af0a/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/394ff061-c5fc-45ff-b90b-edbf5006af0a_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       187,
+       93,
+       61
+      ],
+      [
+       243,
+       242,
+       234
+      ],
+      [
+       56,
+       54,
+       43
+      ],
+      [
+       219,
+       212,
+       195
+      ],
+      [
+       170,
+       161,
+       150
+      ]
+     ],
+     "page_url": "https://claude.ai/settings/account",
+     "uuid": "eaa8ca7d-42aa-4180-b940-f9eb9faed648"
+    },
+    {
+     "id": 86432,
+     "page_id": 19869,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/e8ddcbbb-2eff-4cd8-ab0e-0cb2eb2d0acd/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/e8ddcbbb-2eff-4cd8-ab0e-0cb2eb2d0acd_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       171,
+       85,
+       49
+      ],
+      [
+       39,
+       38,
+       33
+      ],
+      [
+       222,
+       219,
+       214
+      ],
+      [
+       116,
+       109,
+       101
+      ],
+      [
+       165,
+       161,
+       158
+      ]
+     ],
+     "page_url": "https://claude.ai/onboarding",
+     "uuid": "1fdbe86f-5d6c-4810-bf3d-e81bd67ee907"
+    },
+    {
+     "id": 86438,
+     "page_id": 19869,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/a28d86d1-e79b-485d-9ee4-8a305b1c7bdf/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/a28d86d1-e79b-485d-9ee4-8a305b1c7bdf_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       220,
+       217,
+       212
+      ],
+      [
+       39,
+       38,
+       33
+      ],
+      [
+       170,
+       85,
+       48
+      ],
+      [
+       116,
+       114,
+       109
+      ],
+      [
+       59,
+       58,
+       50
+      ]
+     ],
+     "page_url": "https://claude.ai/onboarding",
+     "uuid": "59fb3b15-9d6c-486b-a8d7-5fd74da2fb6a"
+    },
+    {
+     "id": 86450,
+     "page_id": 19873,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/95cfcf30-f75b-4425-85fe-0e782249cda1/0.jpg",
+      "https://images.refero.design/screenshots/claude.ai/desktop/95cfcf30-f75b-4425-85fe-0e782249cda1/1.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/95cfcf30-f75b-4425-85fe-0e782249cda1_thumb.jpg",
+     "site_id": 506,
+     "single_screen": false,
+     "colors": [
+      [
+       44,
+       45,
+       41
+      ],
+      [
+       207,
+       207,
+       203
+      ],
+      [
+       125,
+       124,
+       122
+      ],
+      [
+       155,
+       156,
+       148
+      ],
+      [
+       192,
+       124,
+       103
+      ]
+     ],
+     "page_url": "https://claude.ai/upgrade",
+     "uuid": "af010e2d-aab5-4fd6-b550-3bd31a916091"
+    },
+    {
+     "id": 86493,
+     "page_id": 19872,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/55622927-0476-4720-93ae-f698bae25e78/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/55622927-0476-4720-93ae-f698bae25e78_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       207,
+       205,
+       202
+      ],
+      [
+       41,
+       42,
+       38
+      ],
+      [
+       123,
+       119,
+       115
+      ],
+      [
+       60,
+       60,
+       52
+      ],
+      [
+       104,
+       97,
+       165
+      ]
+     ],
+     "page_url": "https://claude.ai/new",
+     "uuid": "5920e683-58ce-420a-ac4a-c1f5543269c4"
+    },
+    {
+     "id": 86529,
+     "page_id": 19886,
+     "url": [
+      "https://images.refero.design/screenshots/claude.ai/desktop/bf640851-ea9e-41d8-b75a-c78058fd1dd3/0.jpg"
+     ],
+     "thumbnail_url": "https://images.refero.design/screenshots/claude.ai/desktop/bf640851-ea9e-41d8-b75a-c78058fd1dd3_thumb.jpg",
+     "site_id": 506,
+     "single_screen": true,
+     "colors": [
+      [
+       44,
+       44,
+       41
+      ],
+      [
+       108,
+       93,
+       179
+      ],
+      [
+       232,
+       231,
+       228
+      ],
+      [
+       111,
+       107,
+       122
+      ],
+      [
+       156,
+       155,
+       148
+      ]
+     ],
+     "page_url": "https://claude.ai/settings/billing",
+     "uuid": "f0aeb944-a717-4552-8fde-8dad7b50529d"
+    }
+   ]
+  }
+ ]
+}

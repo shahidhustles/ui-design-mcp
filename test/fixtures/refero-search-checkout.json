@@ -1,0 +1,372 @@
+{
+ "pagination": {
+  "current": 1,
+  "previous": null,
+  "next": 2,
+  "per_page": 24,
+  "pages": 160,
+  "count": 3835
+ },
+ "records": [
+  {
+   "id": 160169,
+   "width": 2732,
+   "height": 3442,
+   "created_at": "2026-02-25T14:21:09.864Z",
+   "url": [
+    "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c/0.jpg",
+    "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c/1.jpg",
+    "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c/2.jpg"
+   ],
+   "thumbnail_url": "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c_thumb.jpg",
+   "single_screen": false,
+   "preview_url": "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c_preview.jpg",
+   "video_url": null,
+   "video_preview_url": null,
+   "colors": [
+    [
+     41,
+     42,
+     47
+    ],
+    [
+     251,
+     251,
+     251
+    ],
+    [
+     112,
+     115,
+     116
+    ],
+    [
+     146,
+     148,
+     150
+    ],
+    [
+     235,
+     52,
+     28
+    ]
+   ],
+   "uuid": "6278e7b5-2cbf-4f50-84e3-a445533eb50c",
+   "page_url": "https://www.adidas.com/us/checkout",
+   "site": {
+    "id": 46,
+    "domain": "adidas.com",
+    "favicon_url": "https://images.refero.design/favicon/adidas.com/f1d16f47-80f3-4e42-9e72-38e3ba071c37.jpg",
+    "description": "More than sportswear and workout clothes",
+    "name": "adidas"
+   },
+   "design_patterns": [],
+   "page_elements": [
+    {
+     "id": 58,
+     "kind": "input controls",
+     "name": "Button"
+    },
+    {
+     "id": 62,
+     "kind": "input controls",
+     "name": "Checkbox & Radio"
+    },
+    {
+     "id": 67,
+     "kind": "input controls",
+     "name": "Text Field"
+    },
+    {
+     "id": 92,
+     "kind": "bars",
+     "name": "Footer"
+    },
+    {
+     "id": 93,
+     "kind": "graphics",
+     "name": "Photo"
+    },
+    {
+     "id": 125,
+     "kind": "helper elements",
+     "name": "Currency"
+    }
+   ],
+   "fonts": [
+    {
+     "id": 2936,
+     "name": null,
+     "display_name": "Arial"
+    },
+    {
+     "id": 3119,
+     "name": null,
+     "display_name": "AdiHaus"
+    },
+    {
+     "id": 4652,
+     "name": null,
+     "display_name": "Adidas FG"
+    }
+   ],
+   "page_types": [
+    {
+     "id": 9,
+     "kind": "Commerce",
+     "name": "Checkout"
+    }
+   ],
+   "flow_ids": [
+    10243
+   ],
+   "search_uuid": null,
+   "bookmarked": false
+  },
+  {
+   "id": 145365,
+   "width": 2732,
+   "height": 2042,
+   "created_at": "2025-11-11T14:11:00.612Z",
+   "url": [
+    "https://images.refero.design/screenshots/wealthsimple.com/desktop/33ff753c-9ffe-4c75-bbec-615d22092400/0.jpg",
+    "https://images.refero.design/screenshots/wealthsimple.com/desktop/33ff753c-9ffe-4c75-bbec-615d22092400/1.jpg"
+   ],
+   "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/33ff753c-9ffe-4c75-bbec-615d22092400_thumb.jpg",
+   "single_screen": false,
+   "preview_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/33ff753c-9ffe-4c75-bbec-615d22092400_preview.jpg",
+   "video_url": null,
+   "video_preview_url": null,
+   "colors": [
+    [
+     53,
+     49,
+     48
+    ],
+    [
+     10,
+     211,
+     115
+    ],
+    [
+     37,
+     104,
+     180
+    ],
+    [
+     251,
+     251,
+     251
+    ],
+    [
+     177,
+     61,
+     42
+    ]
+   ],
+   "uuid": "0b94a7e1-d426-4ecf-a42f-03fd4330d909",
+   "page_url": "https://my.wealthsimple.com/tax/2024/?lang=en&activatedProfileId=c8766f21-ffbd-4b88-bc38-f216afb214e7",
+   "site": {
+    "id": 764,
+    "domain": "wealthsimple.com",
+    "favicon_url": "https://images.refero.design/favicon/wealthsimple.com/7d2955bc-6366-4bd1-ae60-d81335d0661c.jpg",
+    "description": "Better than your bank",
+    "name": "Wealthsimple"
+   },
+   "design_patterns": [
+    {
+     "id": 117,
+     "kind": "page state",
+     "name": "Error"
+    },
+    {
+     "id": 137,
+     "kind": "commerce & finance",
+     "name": "Payment Method"
+    }
+   ],
+   "page_elements": [
+    {
+     "id": 58,
+     "kind": "input controls",
+     "name": "Button"
+    },
+    {
+     "id": 67,
+     "kind": "input controls",
+     "name": "Text Field"
+    },
+    {
+     "id": 86,
+     "kind": "overlay",
+     "name": "Full-Screen Overlay"
+    },
+    {
+     "id": 94,
+     "kind": "graphics",
+     "name": "Icon"
+    },
+    {
+     "id": 125,
+     "kind": "helper elements",
+     "name": "Currency"
+    }
+   ],
+   "fonts": [
+    {
+     "id": 2963,
+     "name": null,
+     "display_name": "Futura PT"
+    },
+    {
+     "id": 4418,
+     "name": null,
+     "display_name": "Futura PT"
+    },
+    {
+     "id": 4420,
+     "name": null,
+     "display_name": "Futura PT"
+    },
+    {
+     "id": 4426,
+     "name": null,
+     "display_name": "Simple Font"
+    }
+   ],
+   "page_types": [
+    {
+     "id": 9,
+     "kind": "Commerce",
+     "name": "Checkout"
+    }
+   ],
+   "flow_ids": [
+    8509
+   ],
+   "search_uuid": null,
+   "bookmarked": false
+  },
+  {
+   "id": 145364,
+   "width": 2732,
+   "height": 1876,
+   "created_at": "2025-11-11T14:10:44.465Z",
+   "url": [
+    "https://images.refero.design/screenshots/wealthsimple.com/desktop/66f50ecc-4708-40cc-85da-381b86ff6ee5/0.jpg",
+    "https://images.refero.design/screenshots/wealthsimple.com/desktop/66f50ecc-4708-40cc-85da-381b86ff6ee5/1.jpg"
+   ],
+   "thumbnail_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/66f50ecc-4708-40cc-85da-381b86ff6ee5_thumb.jpg",
+   "single_screen": false,
+   "preview_url": "https://images.refero.design/screenshots/wealthsimple.com/desktop/66f50ecc-4708-40cc-85da-381b86ff6ee5_preview.jpg",
+   "video_url": null,
+   "video_preview_url": null,
+   "colors": [
+    [
+     53,
+     49,
+     49
+    ],
+    [
+     8,
+     211,
+     115
+    ],
+    [
+     37,
+     104,
+     180
+    ],
+    [
+     251,
+     251,
+     251
+    ],
+    [
+     228,
+     35,
+     27
+    ]
+   ],
+   "uuid": "f87d2cf7-183b-4188-ae10-30864ee67fa6",
+   "page_url": "https://my.wealthsimple.com/tax/2024/?lang=en&activatedProfileId=c8766f21-ffbd-4b88-bc38-f216afb214e7",
+   "site": {
+    "id": 764,
+    "domain": "wealthsimple.com",
+    "favicon_url": "https://images.refero.design/favicon/wealthsimple.com/7d2955bc-6366-4bd1-ae60-d81335d0661c.jpg",
+    "description": "Better than your bank",
+    "name": "Wealthsimple"
+   },
+   "design_patterns": [
+    {
+     "id": 137,
+     "kind": "commerce & finance",
+     "name": "Payment Method"
+    }
+   ],
+   "page_elements": [
+    {
+     "id": 58,
+     "kind": "input controls",
+     "name": "Button"
+    },
+    {
+     "id": 67,
+     "kind": "input controls",
+     "name": "Text Field"
+    },
+    {
+     "id": 86,
+     "kind": "overlay",
+     "name": "Full-Screen Overlay"
+    },
+    {
+     "id": 94,
+     "kind": "graphics",
+     "name": "Icon"
+    },
+    {
+     "id": 125,
+     "kind": "helper elements",
+     "name": "Currency"
+    }
+   ],
+   "fonts": [
+    {
+     "id": 2963,
+     "name": null,
+     "display_name": "Futura PT"
+    },
+    {
+     "id": 4418,
+     "name": null,
+     "display_name": "Futura PT"
+    },
+    {
+     "id": 4420,
+     "name": null,
+     "display_name": "Futura PT"
+    },
+    {
+     "id": 4426,
+     "name": null,
+     "display_name": "Simple Font"
+    }
+   ],
+   "page_types": [
+    {
+     "id": 9,
+     "kind": "Commerce",
+     "name": "Checkout"
+    }
+   ],
+   "flow_ids": [
+    8509
+   ],
+   "search_uuid": null,
+   "bookmarked": false
+  }
+ ],
+ "options": {
+  "search_uuid": null
+ }
+}

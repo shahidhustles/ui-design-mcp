@@ -1,0 +1,56 @@
+{
+ "id": 10243,
+ "name": "Checking out",
+ "description": "",
+ "site": {
+  "id": 46,
+  "domain": "adidas.com",
+  "favicon_url": "https://images.refero.design/favicon/adidas.com/f1d16f47-80f3-4e42-9e72-38e3ba071c37.jpg",
+  "description": "More than sportswear and workout clothes",
+  "name": "adidas",
+  "background_color": "a1aeba"
+ },
+ "screenshots": [
+  {
+   "id": 160168,
+   "url": [
+    "https://images.refero.design/screenshots/adidas.com/desktop/d7ccf636-8a87-4a53-8f74-b489006add5e/0.jpg",
+    "https://images.refero.design/screenshots/adidas.com/desktop/d7ccf636-8a87-4a53-8f74-b489006add5e/1.jpg"
+   ],
+   "thumbnail_url": "https://images.refero.design/screenshots/adidas.com/desktop/d7ccf636-8a87-4a53-8f74-b489006add5e_thumb.jpg",
+   "preview_url": "https://images.refero.design/screenshots/adidas.com/desktop/d7ccf636-8a87-4a53-8f74-b489006add5e_preview.jpg",
+   "uuid": "e4aeca10-26dd-4a3a-80af-c436a4d5b32c"
+  },
+  {
+   "id": 160169,
+   "url": [
+    "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c/0.jpg",
+    "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c/1.jpg",
+    "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c/2.jpg"
+   ],
+   "thumbnail_url": "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c_thumb.jpg",
+   "preview_url": "https://images.refero.design/screenshots/adidas.com/desktop/38265385-be82-45fa-ad45-e87d6ac7f07c_preview.jpg",
+   "uuid": "6278e7b5-2cbf-4f50-84e3-a445533eb50c"
+  },
+  {
+   "id": 160170,
+   "uuid": "8451d567-401b-4ee1-a55b-df4f95c334b9"
+  },
+  {
+   "id": 160171,
+   "uuid": "b2786d84-9a14-4558-a805-1013fec07d27"
+  },
+  {
+   "id": 160173,
+   "uuid": "350f33e0-bf65-4e27-9d1b-7ef2d19aebb6"
+  },
+  {
+   "id": 160174,
+   "uuid": "7077d5a3-3c89-474a-945f-5cdb8415940c"
+  },
+  {
+   "id": 160175,
+   "uuid": "5f7ad5ce-5597-4ad8-8603-4b90a744ba8b"
+  }
+ ]
+}

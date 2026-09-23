@@ -1,0 +1,157 @@
+{
+ "count": 2711,
+ "next": "https://api.screensdesign.com/v1/apps/?page=2",
+ "previous": null,
+ "results": [
+  {
+   "id": 2779,
+   "slug": "vincen-your-super-ai-agent",
+   "name": "Vincen - Your Super AI Agent",
+   "shortname": "Create Websites, Slides, Video",
+   "icon": "https://media.screensdesign.com/appicon-thumbs/66d41f3a1d944e92be74bce03061768f.webp",
+   "developer": {
+    "id": 2740,
+    "name": "Apptribe Dijital Hizmetler Limited Sirketi",
+    "slug": "apptribe-dijital-hizmetler-limited-sirketi"
+   },
+   "avs": {
+    "id": 3995,
+    "url": null,
+    "screens": [],
+    "paywall_type": "No Free Trial - Soft Paywall",
+    "onboarding_step_count": 1,
+    "has_onboarding_with_quiz": null
+   },
+   "revenue": 50000,
+   "revenue_list": [
+    {
+     "year": 2026,
+     "month": 8,
+     "revenue": 50000
+    },
+    {
+     "year": 2026,
+     "month": 7,
+     "revenue": 85000
+    },
+    {
+     "year": 2026,
+     "month": 6,
+     "revenue": 10000
+    }
+   ],
+   "downloads": 10000,
+   "rating_value": "4.70",
+   "advertised": true,
+   "released": "2026-04-29",
+   "updated": "2026-09-11",
+   "featured": false,
+   "latest_appvideo_id": 3995
+  },
+  {
+   "id": 2778,
+   "slug": "mise-meal-planner",
+   "name": "mise - meal planner",
+   "shortname": "Meal Prep & Grocery Lists",
+   "icon": "https://media.screensdesign.com/appicon-thumbs/265008dee74d4c00bd7aca0adfc3a95a.webp",
+   "developer": {
+    "id": 2739,
+    "name": "TEGS LABS LTD",
+    "slug": "tegs-labs-ltd"
+   },
+   "avs": {
+    "id": 4001,
+    "url": null,
+    "screens": [],
+    "paywall_type": "Free Trial - Hard Paywall",
+    "onboarding_step_count": 23,
+    "has_onboarding_with_quiz": null
+   },
+   "revenue": 300000,
+   "revenue_list": [
+    {
+     "year": 2026,
+     "month": 8,
+     "revenue": 300000
+    },
+    {
+     "year": 2026,
+     "month": 7,
+     "revenue": 350000
+    },
+    {
+     "year": 2026,
+     "month": 6,
+     "revenue": 15000
+    }
+   ],
+   "downloads": 300000,
+   "rating_value": "4.70",
+   "advertised": false,
+   "released": "2026-06-10",
+   "updated": "2026-09-16",
+   "featured": false,
+   "latest_appvideo_id": 4001
+  },
+  {
+   "id": 2777,
+   "slug": "livly-island-adopt-cute-pets",
+   "name": "Livly Island - Adopt Cute Pets",
+   "shortname": "Relaxing, calm & cozy pet game",
+   "icon": "https://media.screensdesign.com/appicon-thumbs/8b31b8d148834f198a0f2714e0ef426d.webp",
+   "developer": {
+    "id": 2738,
+    "name": "ENSAPIA Corporation",
+    "slug": "ensapia-corporation"
+   },
+   "avs": {
+    "id": 4002,
+    "url": null,
+    "screens": [],
+    "paywall_type": "No Paywall",
+    "onboarding_step_count": 13,
+    "has_onboarding_with_quiz": null
+   },
+   "revenue": 2250000,
+   "revenue_list": [
+    {
+     "year": 2026,
+     "month": 8,
+     "revenue": 2250000
+    },
+    {
+     "year": 2026,
+     "month": 7,
+     "revenue": 1750000
+    },
+    {
+     "year": 2026,
+     "month": 6,
+     "revenue": 750000
+    },
+    {
+     "year": 2026,
+     "month": 5,
+     "revenue": 1750000
+    },
+    {
+     "year": 2026,
+     "month": 4,
+     "revenue": 2000000
+    },
+    {
+     "year": 2026,
+     "month": 3,
+     "revenue": 2250000
+    }
+   ],
+   "downloads": 15000,
+   "rating_value": "4.60",
+   "advertised": true,
+   "released": "2021-07-15",
+   "updated": "2026-09-07",
+   "featured": false,
+   "latest_appvideo_id": 4002
+  }
+ ]
+}
