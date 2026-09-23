@@ -194,13 +194,13 @@ search route, cookie stays local with the user). Phase 3: `DRIBBBLE_TOKEN`.
 
 ## 8. Definition of done — Phase 1 (verify against live endpoints)
 
-- [ ] `npm run dev` starts the stdio server; `list_sources` shows refero+screensdesign+apple healthy.
-- [ ] `search_screens("checkout", platform="ios")` returns ≥5 Refero records with working `cachedUrls` (image file on disk, >10KB).
-- [ ] `search_screens("dashboard")` returns web records with `colors[]` populated.
-- [ ] `get_app("Spotify")` returns ordered screens (≥5) from ScreensDesign + Apple store screenshots + 720p session video URL.
-- [ ] `get_flows("onboarding")` returns ≥1 Refero flow with `steps.length > 1`.
-- [ ] Kill network mid-test → cached images still served (cache-hit path works).
-- [ ] Unit tests: Refero tag mapping, ScreensDesign `_K`-ref resolver (fixture HTML),
+- [x] `npm run dev` starts the stdio server; `list_sources` shows refero+screensdesign+apple healthy.
+- [x] `search_screens("checkout", platform="ios")` returns ≥5 Refero records with working `cachedUrls` (image file on disk, >10KB).
+- [x] `search_screens("dashboard")` returns web records with `colors[]` populated.
+- [x] `get_app("Spotify")` returns ordered screens (≥5) from ScreensDesign + Apple store screenshots + 720p session video URL.
+- [x] `get_flows("onboarding")` returns ≥1 Refero flow with `steps.length > 1`.
+- [x] Kill network mid-test → cached images still served (cache-hit path works).
+- [x] Unit tests: Refero tag mapping, ScreensDesign `_K`-ref resolver (fixture HTML),
       apple-lookup URL builder.
 
 ## 9. Conventions

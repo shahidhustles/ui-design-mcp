@@ -1,0 +1,102 @@
+# ui-design-mcp
+
+Give coding agents real-world UI references — actual app screens, named user flows,
+and full session recordings — from free design-reference backends. No API keys and
+no paid MCP tier: Mobbin / Refero / ScreensDesign all sell official MCPs, but the
+backends behind them are open.
+
+## Phase 1 sources
+
+| source | provides | notes |
+|---|---|---|
+| **Refero** (`api.refero.design`) | 74k+ real web + iOS screens with page-type / pattern / element facets, color palettes, fonts; named ordered flows | anonymous tier works; in practice web-only — iOS queries fall back to unfiltered results with a note |
+| **ScreensDesign** (`screensdesign.com`) | 2,711 top-grossing iOS apps: revenue, paywall type, per-screen AI captions, full 720p session recordings | per-app pages decoded lazily on first `get_app` and cached forever; one-time catalog sync |
+| **Apple iTunes lookup** | official App Store screenshots for any `store_id` | the fully-legal join channel — called from `get_app` when the catalog row has a `store_id` |
+
+## Tools
+
+| tool | arguments | what you get |
+|---|---|---|
+| `search_screens` | `query?`, `platform?`, `tags?`, `limit?` (≤48, default 10) | unified screen records from every search-capable source, interleaved; `cachedUrls` (local `file://` full-res) + ≤8 inline base64 thumbnails |
+| `get_app` | `name`, `platform?` | one app's full profile (revenue, paywall, rating…), its complete ordered screen sequence with per-screen captions, 720p `videoUrl`, plus official App Store screenshots |
+| `get_flows` | `query?` or `app?`, `platform?`, `limit?` | named user flows (Refero) — ordered screenshot sequences; or a whole app session as a flow (`app` wins when both given) |
+| `list_sources` | — | live health of every adapter (1 cheap request each), capabilities, local record counts, catalog progress, cache dir |
+
+## Install
+
+```sh
+git clone <this repo> && cd ui-design-mcp
+npm install
+npm run build
+```
+
+Point any MCP client at the built server:
+
+```json
+{
+  "mcpServers": {
+    "ui-design": {
+      "command": "node",
+      "args": ["/path/to/ui-design-mcp/dist/index.js"],
+      "env": { "UIMCP_CACHE_DIR": "/path/to/cache" }
+    }
+  }
+}
+```
+
+Or for Claude Code: `claude mcp add ui-design -- node /path/to/ui-design-mcp/dist/index.js`
+
+Dev mode (no build): `npm run dev` runs the server via `tsx`.
+
+## Environment
+
+| variable | default | meaning |
+|---|---|---|
+| `UIMCP_CACHE_DIR` | `./data` | root for the sqlite metadata DB and the on-disk image cache |
+| `UIMCP_RATE_LIMIT_MS` | `500` | minimum spacing between requests per source |
+| `UIMCP_MAX_RESULTS` | `24` | result cap applied on top of per-tool limits |
+| `UIMCP_TIMEOUT_MS` | `15000` | per-request timeout |
+| `UIMCP_RETRY_BASE_MS` | `500` | retry backoff base (attempt N waits base·2ᴺ, jittered) |
+| `UIMCP_FAKE_OFFLINE` | — | `1`/`true` throws before any network request (cache-hit tests) |
+| `UIMCP_CATALOG_TTL_DAYS` | `7` | ScreensDesign catalog staleness before re-sync |
+| `UIMCP_FACET_TTL_DAYS` | `7` | Refero facet dictionary staleness before refresh |
+
+## What gets cached
+
+```
+data/
+├── meta.sqlite              # catalog rows, facet dictionaries, decoded app pages,
+│                            # record counts, source health (WAL, node:sqlite)
+└── cache/<source>/          # images, content-addressed by sha1(url)
+    └── <sha1>.jpg|png|webp  # full-res (cachedUrls) and thumbnails (inline blocks)
+```
+
+Everything is a cache: a cold server still answers, it just makes network calls;
+a warm one answers from disk.
+
+## Caveats (Phase 1)
+
+- **First `get_app` can be slow.** The one-time ScreensDesign catalog sync
+  (2,711 apps) runs on the first per-app call if the catalog is stale. The API
+  throttles in ~30-request bursts followed by a ~11-minute `retry-after` window,
+  and degrades per-page size under load — a cold sync typically takes 30–60
+  minutes wall-clock. It is idempotent, resumes from where it stopped, and is
+  re-run only after the catalog TTL expires.
+- **Refero anonymous tier is web-only in practice.** `search_screens(platform:
+  "ios")` returns web results with a note when iOS coverage is thin.
+- **Response size is bounded.** ≤8 base64 thumbnail blocks per tool response;
+  full-res images stay on disk and are referenced via `cachedUrls`.
+- **A failing source never crashes the server** — it surfaces in the `notes`
+  array of the result.
+
+## Development
+
+```sh
+npm test                     # unit: decoder, mappers, http retries, sqlite, image cache
+npm run verify -- all        # live §8 verification (see scripts/verify.ts for subcommands)
+npm run dev                  # run the stdio server
+```
+
+`scripts/verify.ts` is a dependency-free NDJSON MCP client that spawns the real
+server and runs the PLAN.md §8 assertions: `list-sources`, `search-checkout`,
+`search-dashboard`, `get-app-spotify`, `get-flows-onboarding`, `offline-cache`.
