@@ -68,11 +68,9 @@ export function registerGetImageTool(server: McpServer, cfg: Config): void {
     {
       title: 'Get image',
       description:
-        'Fetch one screenshot and return it as an inline image block — no local Read tool needed, so ' +
-        'webp/webm/avif all work as bytes. Accepts the http(s) imageUrls or the file:// cachedUrls from ' +
-        'search_screens / get_app / get_flows (file:// is served from the local cache). ' +
-        'format="png"|"jpeg" transcodes (e.g. webp → png) for readers that cannot render webp; ' +
-        'maxDim downscales to keep the payload light.',
+        'Fetch one screenshot as an inline image block — use this instead of a Read tool, which often ' +
+        'cannot render webp. Accepts http(s) imageUrls or file:// cachedUrls from search_screens / get_app. ' +
+        'format "png"|"jpeg" transcodes; maxDim downscales (default 1600px).',
       inputSchema: {
         url: z.string().describe('http(s) image URL, or a file:// path from a cachedUrls entry'),
         format: z.enum(['auto', 'png', 'jpeg']).optional().default('auto').describe('Transcode to png/jpeg (webp → png)'),

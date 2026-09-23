@@ -20,7 +20,7 @@ backends behind them are open.
 | `search_screens` | `query?`, `platform?`, `tags?`, `limit?` (≤48, default 10) | unified screen records from every search-capable source, interleaved; `cachedUrls` (local `file://` full-res) + ≤8 inline base64 thumbnails |
 | `search_apps` | `query?`, `category?`, `limit?` (≤50, default 10) | browse the per-app catalogs to **choose** an app before `get_app` — live ScreensDesign name search (`?name=` substring, with match count: "music" → 48 apps), category filter on the local catalog |
 | `get_app` | `name`, `platform?` | one app's full profile (revenue, paywall, rating…), its complete ordered screen sequence with per-screen captions, 720p `videoUrl`, plus official App Store screenshots |
-| `get_flows` | `query?` or `app?`, `platform?`, `limit?` | named user flows (Refero) — ordered screenshot sequences; or a whole app session as a flow (`app` wins when both given) |
+| `get_flows` | `query?`, `platform?`, `limit?` | named user flows (Refero) — ordered screenshot sequences; for a whole app session use `get_app` |
 | `get_image` | `url`, `format?` (auto/png/jpeg), `maxDim?` (default 1600) | one screenshot returned **as an inline image block** — no local Read needed, webp/webm/avif work as bytes; `format` transcodes (webp→png), `maxDim` downscales |
 | `list_sources` | — | live health of every adapter (1 cheap request each), capabilities, local record counts, catalog progress, cache dir |
 

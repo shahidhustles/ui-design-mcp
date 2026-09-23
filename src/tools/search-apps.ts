@@ -14,10 +14,9 @@ export function registerSearchAppsTool(server: McpServer, store: MetadataStore, 
     {
       title: 'Search apps',
       description:
-        'Browse the per-app catalogs (ScreensDesign: 2,711 top-grossing iOS apps) to CHOOSE an app before ' +
-        'calling get_app. query does a live name-substring search with a match count (e.g. "music" → 48 apps: ' +
-        'Spotify, Deezer, …); category filters the locally-synced catalog. Each result has what get_app will ' +
-        'deliver: rating, revenue, paywall type, downloads — and a full ordered screen session behind it.',
+        'Browse per-app catalogs to choose an app before get_app. query does a live name search ' +
+        '(ScreensDesign: 2,711 top-grossing iOS apps; "music" → 48 hits with count). ' +
+        'Returns name, rating, revenue, paywall type, downloads — each with a full screen session behind get_app.',
       inputSchema: {
         query: z.string().optional().describe('Name substring, e.g. "spotify" or "music"'),
         category: z.string().optional().describe('App Store category, e.g. "Music" (local catalog only)'),

@@ -11,8 +11,7 @@ export function registerListSourcesTool(server: McpServer, store: MetadataStore,
     {
       title: 'List sources',
       description:
-        'Health and state of every source adapter: live check (1 cheap request each), capabilities, ' +
-        'local record counts, ScreensDesign catalog progress, and the cache directory.',
+        'Health + capabilities of every source (1 cheap live request each), local record counts, catalog progress.',
       inputSchema: z.object({}).shape,
     },
     async () => {

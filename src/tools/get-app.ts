@@ -13,9 +13,9 @@ export function registerGetAppTool(server: McpServer, store: MetadataStore, cfg:
     {
       title: 'Get app',
       description:
-        'Get one app\'s full profile and ordered screen sequence from ScreensDesign (2,711 top-grossing iOS apps: ' +
-        'revenue, paywall type, AI captions per screen, full 720p session recording URL), joined with official ' +
-        'App Store screenshots via the iTunes lookup API. First call may take a while (one-time catalog sync).',
+        'One app\'s full profile (rating, revenue, paywall type) + its complete ordered screen session ' +
+        'with AI captions per screen + 720p videoUrl, joined with official App Store screenshots. ' +
+        'First call per app fetches+decodes the session (~15s); cached after.',
       inputSchema: {
         name: z.string().describe('App name, e.g. "Spotify" (fuzzy match)'),
         platform: z.enum(['ios', 'android', 'web', 'desktop', 'unknown']).optional(),

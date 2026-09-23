@@ -13,26 +13,24 @@ export function registerGetFlowsTool(server: McpServer, store: MetadataStore, cf
     {
       title: 'Get flows',
       description:
-        'Get ordered user flows. By query: Refero\'s named flows (ordered screenshot sequences, e.g. "Signing Up & Onboarding"). ' +
-        'By app: the app\'s full recorded session as a flow — every frame in order plus the 720p MP4 recording (videoUrl). ' +
-        'Provide query OR app (app wins when both are given).',
+        'Named ordered user flows from Refero — multi-step screenshot sequences like "Signing Up & Onboarding". ' +
+        'For a whole app\'s recorded session use get_app instead.',
       inputSchema: {
         query: z.string().optional().describe('Flow search text, e.g. "onboarding"'),
-        app: z.string().optional().describe('App name for its full session recording, e.g. "Spotify"'),
         platform: z.enum(['ios', 'android', 'web', 'desktop', 'unknown']).optional(),
         limit: z.number().int().min(1).max(20).default(6),
       },
     },
-    async ({ query, app, platform, limit }: { query?: string; app?: string; platform?: Platform; limit: number }) => {
+    async ({ query, platform, limit }: { query?: string; platform?: Platform; limit: number }) => {
       try {
-        if (!query && !app) {
-          return errorResult('provide query or app');
+        if (!query) {
+          return errorResult('provide query (or use get_app for a whole app session)');
         }
         const notes: string[] = [];
         const adapters = adaptersWith('flows');
         const perAdapter = await fanOut(
           adapters,
-          (a) => a.getFlows!({ query, app, platform, limit }),
+          (a) => a.getFlows!({ query, platform, limit }),
           notes,
         );
         const merged = interleaveMerge(perAdapter, limit, (f: UIFlow) => f.id);

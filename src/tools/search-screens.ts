@@ -13,9 +13,9 @@ export function registerSearchScreensTool(server: McpServer, store: MetadataStor
     {
       title: 'Search screens',
       description:
-        'Search real-world UI screens across design-reference sources (Refero: 74k+ web + iOS screens, faceted by page type / pattern / element). ' +
-        'Returns unified records with remote image URLs, locally-cached paths (cachedUrls, file://), and source URLs. ' +
-        'If platform is requested but coverage is thin, falls back to unfiltered results and says so in notes.',
+        'Search real-world UI screens (Refero: 74k+ web + iOS screens, faceted by page type / pattern / element). ' +
+        'Records include imageUrls, cachedUrls (file:// full-res), colors[] hex, fonts, tags, plus inline thumbnails. ' +
+        'Use get_image for a full-res view of any result.',
       inputSchema: {
         query: z.string().optional().describe('Free text, e.g. "checkout" or "onboarding"'),
         platform: z.enum(['ios', 'android', 'web', 'desktop', 'unknown']).optional(),
