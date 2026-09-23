@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS app_pages (
   slug TEXT PRIMARY KEY,
   fetched_at TEXT NOT NULL,
   video_url TEXT,
-  frames_json TEXT NOT NULL
+  frames_json TEXT NOT NULL,
+  app_json TEXT
 );
 CREATE TABLE IF NOT EXISTS facets (
   kind TEXT NOT NULL,
@@ -99,6 +100,15 @@ export class MetadataStore {
     this.db = new DatabaseSync(filePath);
     this.db.exec('PRAGMA journal_mode = WAL;');
     this.db.exec(SCHEMA);
+    this.migrate();
+  }
+
+  /** Add columns introduced after a DB file already exists on disk. */
+  private migrate(): void {
+    const cols = this.db.prepare('PRAGMA table_info(app_pages)').all() as { name: string }[];
+    if (!cols.some((c) => c.name === 'app_json')) {
+      this.db.exec('ALTER TABLE app_pages ADD COLUMN app_json TEXT;');
+    }
   }
 
   close(): void {
@@ -216,24 +226,43 @@ export class MetadataStore {
 
   // ── Decoded ScreensDesign app pages ────────────────────────────────────
 
-  getAppPage(slug: string): { fetchedAt: string; videoUrl: string | null; framesJson: string } | null {
+  getAppPage(slug: string): {
+    fetchedAt: string;
+    videoUrl: string | null;
+    framesJson: string;
+    appJson: string | null;
+  } | null {
     const row = this.db
-      .prepare('SELECT fetched_at, video_url, frames_json FROM app_pages WHERE slug = ?')
-      .get(slug) as { fetched_at: string; video_url: string | null; frames_json: string } | undefined;
+      .prepare('SELECT fetched_at, video_url, frames_json, app_json FROM app_pages WHERE slug = ?')
+      .get(slug) as
+      | { fetched_at: string; video_url: string | null; frames_json: string; app_json: string | null }
+      | undefined;
     if (!row) return null;
-    return { fetchedAt: row.fetched_at, videoUrl: row.video_url, framesJson: row.frames_json };
+    return {
+      fetchedAt: row.fetched_at,
+      videoUrl: row.video_url,
+      framesJson: row.frames_json,
+      appJson: row.app_json,
+    };
   }
 
-  setAppPage(slug: string, videoUrl: string | null, framesJson: string): void {
+  setAppPage(slug: string, videoUrl: string | null, framesJson: string, appJson: string): void {
     this.db
       .prepare(
-        `INSERT INTO app_pages (slug, fetched_at, video_url, frames_json) VALUES (?, ?, ?, ?)
+        `INSERT INTO app_pages (slug, fetched_at, video_url, frames_json, app_json) VALUES (?, ?, ?, ?, ?)
          ON CONFLICT(slug) DO UPDATE SET
            fetched_at = excluded.fetched_at,
            video_url = excluded.video_url,
-           frames_json = excluded.frames_json`,
+           frames_json = excluded.frames_json,
+           app_json = excluded.app_json`,
       )
-      .run(slug, new Date().toISOString(), videoUrl, framesJson);
+      .run(slug, new Date().toISOString(), videoUrl, framesJson, appJson);
+  }
+
+  /** Exact slug match — the SSR fold needs this (findApp matches on name). */
+  findAppBySlug(slug: string): CatalogApp | null {
+    const row = this.db.prepare('SELECT * FROM apps WHERE slug = ?').get(slug) as AppRow | undefined;
+    return row ? rowToApp(row) : null;
   }
 
   // ── Records (for record counts) ────────────────────────────────────────

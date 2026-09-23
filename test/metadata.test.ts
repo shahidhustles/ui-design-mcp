@@ -78,12 +78,46 @@ describe('MetadataStore', () => {
     expect(store.getFacets('design_patterns')).toEqual([]);
   });
 
-  it('stores and returns decoded app pages', () => {
+  it('stores and returns decoded app pages (incl. the SSR app object)', () => {
     expect(store.getAppPage('spotify')).toBeNull();
-    store.setAppPage('spotify', 'https://vz-x.b-cdn.net/uuid/play_720p.mp4', '[1,2]');
+    const app = { store_id: '324684580', appstore_link: 'https://apps.apple.com/app/id324684580' };
+    store.setAppPage(
+      'spotify',
+      'https://vz-x.b-cdn.net/uuid/play_720p.mp4',
+      '[1,2]',
+      JSON.stringify(app),
+    );
     const page = store.getAppPage('spotify');
     expect(page?.videoUrl).toBe('https://vz-x.b-cdn.net/uuid/play_720p.mp4');
     expect(JSON.parse(page?.framesJson ?? '[]')).toEqual([1, 2]);
+    // The decoded app object must survive a cache hit — it carries store_id
+    // for the Apple join, which the catalog list endpoint omits.
+    expect(JSON.parse(page?.appJson ?? '{}')).toEqual(app);
+  });
+
+  it('findAppBySlug matches on slug, not name', () => {
+    const now = new Date().toISOString();
+    store.upsertApps(
+      [
+        {
+          id: 1,
+          slug: 'spotify-music-and-podcasts',
+          name: 'Spotify: Music and Podcasts',
+          storeId: '324684580',
+          category: 'Music',
+          rating: 4.7,
+          downloads: null,
+          revenue: null,
+          paywallType: null,
+          onboardingStepCount: null,
+          iconUrl: null,
+          appstoreLink: null,
+        },
+      ],
+      now,
+    );
+    expect(store.findAppBySlug('spotify-music-and-podcasts')?.storeId).toBe('324684580');
+    expect(store.findAppBySlug('nope')).toBeNull();
   });
 
   it('tracks record counts per source and source health', () => {

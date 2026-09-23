@@ -52,13 +52,19 @@ export function createScreensDesignAdapter(store: MetadataStore, cfg: Config): A
     const cached = store.getAppPage(slug);
     if (cached) {
       log(`app page cache hit: ${slug}`);
-      return { app: {}, frames: JSON.parse(cached.framesJson) as SdFrame[], videoUrl: cached.videoUrl ?? undefined };
+      return {
+        app: JSON.parse(cached.appJson ?? '{}') as Record<string, unknown>,
+        frames: JSON.parse(cached.framesJson) as SdFrame[],
+        videoUrl: cached.videoUrl ?? undefined,
+      };
     }
     const html = await fetchText(SOURCE, PAGE_URL(slug), cfg);
     const page = extractAppPage(html);
-    store.setAppPage(slug, page.videoUrl ?? null, JSON.stringify(page.frames));
+    store.setAppPage(slug, page.videoUrl ?? null, JSON.stringify(page.frames), JSON.stringify(page.app));
     // Fold the fields only the SSR payload provides back into the catalog row.
-    const row = store.findApp(String(page.app['slug'] ?? slug));
+    // findAppBySlug — findApp matches on the NAME column, and slug != name
+    // for most apps (e.g. 'spotify-music-and-podcasts').
+    const row = store.findAppBySlug(slug);
     if (row) {
       const merged: CatalogApp = {
         ...row,
