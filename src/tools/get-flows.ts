@@ -1,0 +1,57 @@
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import * as z from 'zod';
+import { adaptersWith } from '../adapters/adapter.js';
+import type { MetadataStore } from '../cache/metadata.js';
+import type { Config } from '../config.js';
+import type { Platform, UIFlow } from '../types.js';
+import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withImages } from './common.js';
+
+export function registerGetFlowsTool(server: McpServer, store: MetadataStore, cfg: Config): void {
+  void store;
+  server.registerTool(
+    'get_flows',
+    {
+      title: 'Get flows',
+      description:
+        'Get ordered user flows. By query: Refero\'s named flows (ordered screenshot sequences, e.g. "Signing Up & Onboarding"). ' +
+        'By app: the app\'s full recorded session as a flow — every frame in order plus the 720p MP4 recording (videoUrl). ' +
+        'Provide query OR app (app wins when both are given).',
+      inputSchema: {
+        query: z.string().optional().describe('Flow search text, e.g. "onboarding"'),
+        app: z.string().optional().describe('App name for its full session recording, e.g. "Spotify"'),
+        platform: z.enum(['ios', 'android', 'web', 'desktop', 'unknown']).optional(),
+        limit: z.number().int().min(1).max(20).default(6),
+      },
+    },
+    async ({ query, app, platform, limit }: { query?: string; app?: string; platform?: Platform; limit: number }) => {
+      try {
+        if (!query && !app) {
+          return errorResult('provide query or app');
+        }
+        const notes: string[] = [];
+        const adapters = adaptersWith('flows');
+        const perAdapter = await fanOut(
+          adapters,
+          (a) => a.getFlows!({ query, app, platform, limit }),
+          notes,
+        );
+        const merged = interleaveMerge(perAdapter, limit, (f: UIFlow) => f.id);
+        if (merged.length === 0) notes.push('no flows found');
+        // Cache the first step image of each flow (not every step).
+        await cacheFullRes(
+          merged.map((f) => ({ ...f, imageUrls: f.steps[0]?.imageUrls ?? f.imageUrls, cachedUrls: [] })),
+          merged.length,
+          cfg,
+          notes,
+        );
+        for (const f of merged) {
+          f.cachedUrls = f.steps[0]?.cachedUrls ?? [];
+        }
+        const blocks = await withImages(merged, 8, cfg, notes);
+        return toolResult({ count: merged.length, flows: merged, notes }, blocks);
+      } catch (e) {
+        return errorResult(e instanceof Error ? e.message : String(e));
+      }
+    },
+  );
+}
