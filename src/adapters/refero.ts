@@ -86,6 +86,19 @@ export const FACET_KINDS = ['page_types', 'design_patterns', 'page_elements', 'a
 export type FacetKind = (typeof FACET_KINDS)[number];
 
 /**
+ * Search-endpoint filter names (PLAN.md §3). `apps`/`sites` dictionaries
+ * filter as `app_id`/`site_id` — the /available endpoint names are not
+ * the filter names.
+ */
+const FACET_PARAM_NAMES: Record<FacetKind, string> = {
+  page_types: 'page_types',
+  design_patterns: 'design_patterns',
+  page_elements: 'page_elements',
+  apps: 'app_id',
+  sites: 'site_id',
+};
+
+/**
  * Map user tags to Refero facet id params. Exact lowercase name match,
  * priority page_types > design_patterns > page_elements > apps > sites.
  * One facet per tag; unmatched tags are reported, not fatal.
@@ -109,7 +122,7 @@ export function mapTagsToFacets(
       }
     }
     if (hit) {
-      params.append(`${hit.kind}[id][]`, hit.id);
+      params.append(`${FACET_PARAM_NAMES[hit.kind]}[id][]`, hit.id);
       matched.push(tag);
     } else {
       unknown.push(tag);
@@ -178,6 +191,12 @@ export async function loadFacets(store: MetadataStore, cfg: Config): Promise<voi
         pages = res.pages;
         page++;
       } while (page <= pages && page <= 30);
+      if (all.length === 0) {
+        // 200 with an empty list must not wipe the stored dictionary —
+        // setFacets is delete-all-then-insert.
+        log(`facet refresh for ${kind} returned 0 items — keeping stored dictionary`);
+        continue;
+      }
       store.setFacets(kind, all, new Date().toISOString());
       log(`loaded ${all.length} ${kind} facets`);
     } catch (e) {
@@ -289,10 +308,41 @@ export function mapFlow(f: ReferoFlow): UIFlow {
 
 // ── Adapter ────────────────────────────────────────────────────────────────
 
+/** Page-walk cap for searches (anon tier: 24/page, 10k max per query). */
+const MAX_SEARCH_PAGES = 5;
+
 export function createReferoAdapter(store: MetadataStore, cfg: Config): Adapter {
-  async function rawSearch(query: string | undefined): Promise<ReferoRecord[]> {
-    const body = await fetchJson<ReferoSearchResponse>(SOURCE, searchUrl(query), cfg);
+  async function rawSearch(query: string | undefined, page: number, extra?: URLSearchParams): Promise<ReferoRecord[]> {
+    const body = await fetchJson<ReferoSearchResponse>(SOURCE, searchUrl(query, { page, extra }), cfg);
     return body.records ?? [];
+  }
+
+  /**
+   * Page walk for searchScreens: follow page 2, 3… until `limit` records
+   * are collected, the API returns an empty page, or MAX_SEARCH_PAGES is
+   * hit. Dedupes by record uuid across pages. Undefined limit = one page.
+   */
+  async function searchPages(
+    query: string | undefined,
+    limit: number | undefined,
+    extra?: URLSearchParams,
+  ): Promise<ReferoRecord[]> {
+    const seen = new Set<string>();
+    const out: ReferoRecord[] = [];
+    const maxPages = limit === undefined ? 1 : MAX_SEARCH_PAGES;
+    for (let page = 1; page <= maxPages; page++) {
+      const records = await rawSearch(query, page, extra);
+      let fresh = 0;
+      for (const r of records) {
+        if (seen.has(r.uuid)) continue;
+        seen.add(r.uuid);
+        fresh++;
+        if (limit === undefined || out.length < limit) out.push(r);
+      }
+      if (fresh === 0) break; // empty page (or all duplicates)
+      if (limit !== undefined && out.length >= limit) break;
+    }
+    return out;
   }
 
   function byPlatform(records: ReferoRecord[], platform: Platform | undefined): ReferoRecord[] {
@@ -324,7 +374,7 @@ export function createReferoAdapter(store: MetadataStore, cfg: Config): Adapter 
       for (const kind of FACET_KINDS) facets[kind] = store.getFacets(kind);
       const { params, unknown } = mapTagsToFacets(q.tags, facets);
       if (unknown.length > 0) log(`unmatched tags (ignored): ${unknown.join(', ')}`);
-      const records = byPlatform(await rawSearch(q.query), q.platform).map(mapRecord);
+      const records = byPlatform(await searchPages(q.query, q.limit, params), q.platform).map(mapRecord);
       for (const rec of records) {
         store.upsertRecord({
           id: rec.id,
@@ -340,7 +390,7 @@ export function createReferoAdapter(store: MetadataStore, cfg: Config): Adapter 
 
     async getFlows(q: FlowQuery): Promise<UIFlow[]> {
       const limit = Math.min(q.limit ?? 5, 10);
-      const records = byPlatform(await rawSearch(q.query ?? q.app), q.platform);
+      const records = byPlatform(await rawSearch(q.query ?? q.app, 1), q.platform);
       const ids: number[] = [];
       for (const r of records) {
         for (const fid of r.flow_ids ?? []) if (!ids.includes(fid)) ids.push(fid);
