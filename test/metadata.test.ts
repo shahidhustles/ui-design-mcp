@@ -120,6 +120,25 @@ describe('MetadataStore', () => {
     expect(store.findAppBySlug('nope')).toBeNull();
   });
 
+  it('searchAppsLocal: substring with exact-match priority, rating-ordered, capped', () => {
+    const now = new Date().toISOString();
+    store.upsertApps(
+      [
+        { id: 11, slug: 'deepcut', name: 'DeepCut', storeId: null, category: 'Music', rating: 4.0, downloads: null, revenue: null, paywallType: null, onboardingStepCount: null, iconUrl: null, appstoreLink: null },
+        { id: 12, slug: 'deepcut-remix', name: 'DeepCut Remix', storeId: null, category: 'Music', rating: 4.9, downloads: null, revenue: null, paywallType: null, onboardingStepCount: null, iconUrl: null, appstoreLink: null },
+      ],
+      now,
+    );
+    const both = store.searchAppsLocal('deepcut', undefined, 5);
+    expect(both[0]?.name).toBe('DeepCut'); // exact match beats the substring hit
+    expect(both.map((a) => a.name)).toContain('DeepCut Remix');
+    const top = store.searchAppsLocal(undefined, 'Music', 1);
+    expect(top.length).toBe(1);
+    expect(top[0]?.rating).toBe(4.9); // best rating in category
+    const all = store.searchAppsLocal(undefined, undefined, 3);
+    expect(all.length).toBeLessThanOrEqual(3);
+  });
+
   it('tracks record counts per source and source health', () => {
     const now = '2026-09-23T00:00:00Z';
     store.upsertRecord({ id: 'refero:1', source: 'refero', kind: 'screen', platform: 'web', payloadJson: '{}', createdAt: now });

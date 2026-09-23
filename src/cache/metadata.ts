@@ -176,6 +176,31 @@ export class MetadataStore {
     return null;
   }
 
+  /**
+   * Local catalog browse: optional name substring (exact matches first),
+   * optional category filter, best rating first.
+   */
+  searchAppsLocal(query: string | undefined, category: string | undefined, limit: number): CatalogApp[] {
+    const where: string[] = [];
+    const params: (string | number | null)[] = [];
+    if (category) {
+      where.push('category = ? COLLATE NOCASE');
+      params.push(category);
+    }
+    if (query) {
+      where.push(`(name LIKE ? || '%' OR name LIKE '%' || ? || '%')`);
+      params.push(query, query);
+    }
+    const order = query
+      ? 'CASE WHEN name = ? COLLATE NOCASE THEN 0 WHEN name LIKE ? || \'%\' THEN 1 ELSE 2 END, rating IS NULL, rating DESC, name'
+      : 'rating IS NULL, rating DESC, name';
+    if (query) params.push(query, query);
+    params.push(limit);
+    const sql = `SELECT * FROM apps ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY ${order} LIMIT ?`;
+    const rows = this.db.prepare(sql).all(...params) as unknown as AppRow[];
+    return rows.map(rowToApp);
+  }
+
   appCount(): number {
     const row = this.db.prepare('SELECT COUNT(*) AS c FROM apps').get() as { c: number };
     return row.c;

@@ -5,9 +5,9 @@ import { log } from '../../log.js';
 import type { CatalogApp } from '../../types.js';
 
 export const SOURCE = 'screensdesign';
-const CATALOG_API = 'https://api.screensdesign.com/v1/apps/';
+export const CATALOG_API = 'https://api.screensdesign.com/v1/apps/';
 
-interface CatalogPage {
+export interface CatalogPage {
   count: number;
   next: string | null;
   previous: string | null;

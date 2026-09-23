@@ -1,4 +1,4 @@
-import type { AppRecord, Platform, UIScreen, UIFlow } from '../types.js';
+import type { AppRecord, CatalogApp, Platform, UIScreen, UIFlow } from '../types.js';
 
 export interface AdapterCapabilities {
   platforms: Platform[];
@@ -11,6 +11,8 @@ export interface AdapterCapabilities {
   perApp?: boolean;
   /** Can join on an App Store id (Apple iTunes) */
   byStoreId?: boolean;
+  /** Can browse its per-app catalog (search_apps) */
+  appSearch?: boolean;
 }
 
 export interface SearchQuery {
@@ -30,6 +32,14 @@ export interface FlowQuery {
 export interface AppQuery {
   name: string;
   platform?: Platform;
+}
+
+export interface AppSearchQuery {
+  /** Name substring (live search where the source supports it) */
+  query?: string;
+  /** App Store category (local catalog) */
+  category?: string;
+  limit?: number;
 }
 
 export interface AppResult {
@@ -57,6 +67,7 @@ export interface Adapter {
   getFlows?(q: FlowQuery): Promise<UIFlow[]>;
   getApp?(q: AppQuery): Promise<AppResult>;
   byStoreId?(storeId: string, country?: string): Promise<AppResult>;
+  searchApps?(q: AppSearchQuery): Promise<CatalogApp[]>;
 }
 
 const adapters = new Map<string, Adapter>();
@@ -69,7 +80,7 @@ export function getAdapters(): Adapter[] {
   return [...adapters.values()];
 }
 
-export function adaptersWith(cap: 'search' | 'flows' | 'perApp' | 'byStoreId'): Adapter[] {
+export function adaptersWith(cap: 'search' | 'flows' | 'perApp' | 'byStoreId' | 'appSearch'): Adapter[] {
   return getAdapters().filter((a) => a.capabilities[cap]);
 }
 

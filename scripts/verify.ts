@@ -25,7 +25,11 @@ interface Rpc {
 
 interface Client {
   init(): Promise<void>;
-  callTool(name: string, args: Record<string, unknown>, timeoutMs?: number): Promise<{ isError: boolean; payload: any; text: string }>;
+  callTool(
+    name: string,
+    args: Record<string, unknown>,
+    timeoutMs?: number,
+  ): Promise<{ isError: boolean; payload: any; text: string; imageBlocks: number }>;
   close(): void;
   stderr(): string;
 }
@@ -95,13 +99,14 @@ function createClient(extraEnv: Record<string, string> = {}): Client {
       if (msg.error) throw new Error(`RPC error from ${name}: ${msg.error.message}`);
       const content: Array<{ type: string; text?: string }> = Array.isArray(msg.result?.content) ? msg.result.content : [];
       const text = content.filter((b) => b.type === 'text').map((b) => b.text ?? '').join('\n');
+      const imageBlocks = content.filter((b) => b.type === 'image').length;
       let payload: any = null;
       try {
         payload = JSON.parse(text);
       } catch {
         payload = { rawText: text };
       }
-      return { isError: Boolean(msg.result?.isError), payload, text };
+      return { isError: Boolean(msg.result?.isError), payload, text, imageBlocks };
     },
     close() {
       child.kill();
@@ -268,6 +273,48 @@ async function offlineCache(failures: string[]): Promise<void> {
   }
 }
 
+/** §8.7 — search_apps: live name search finds Spotify, music query returns several apps. */
+async function searchApps(failures: string[]): Promise<void> {
+  const c = createClient();
+  try {
+    await c.init();
+    const r = await c.callTool('search_apps', { query: 'spotify', limit: 5 });
+    check(failures, !r.isError, 'search_apps(spotify) ok');
+    const apps: any[] = r.payload?.apps ?? [];
+    check(
+      failures,
+      apps.some((a) => /spotify/i.test(a?.name ?? '')),
+      `spotify found (got: ${apps.map((a) => a?.name).join(' | ') || 'none'})`,
+    );
+    const r2 = await c.callTool('search_apps', { query: 'music', limit: 10 });
+    const apps2: any[] = r2.payload?.apps ?? [];
+    check(failures, apps2.length >= 5, `search_apps(music) returns ≥5 apps (got ${apps2.length})`);
+  } finally {
+    c.close();
+  }
+}
+
+/** §8.8 — get_image: full-res Spotify frame returned inline, webp→png + downscale. */
+async function getImage(failures: string[]): Promise<void> {
+  const c = createClient();
+  try {
+    await c.init();
+    const app = await c.callTool('get_app', { name: 'Spotify' });
+    const screens: any[] = app.payload?.screens ?? [];
+    const url = screens.find((s) => s?.source === 'screensdesign')?.imageUrls?.[0];
+    check(failures, Boolean(url), 'spotify frame URL available');
+    const r = await c.callTool('get_image', { url: url as string, format: 'png', maxDim: 800 }, 60_000);
+    check(failures, !r.isError, 'get_image ok');
+    check(failures, r.imageBlocks === 1, 'image block present in the response');
+    const p = r.payload;
+    check(failures, p?.mimeType === 'image/png', `webp transcoded to png (got ${p?.mimeType})`);
+    check(failures, (p?.width ?? 0) <= 800 && (p?.height ?? 0) <= 800, `downscaled (got ${p?.width}x${p?.height})`);
+    check(failures, fs.existsSync(fileUrl(String(p?.file ?? 'file:///missing'))), 'local cache file exists');
+  } finally {
+    c.close();
+  }
+}
+
 const COMMANDS: Record<string, { description: string; run: (failures: string[]) => Promise<void> }> = {
   'list-sources': { description: '§8.1 all three sources healthy', run: listSources },
   'search-checkout': { description: '§8.2 checkout search + full-res cache on disk', run: searchCheckout },
@@ -275,9 +322,20 @@ const COMMANDS: Record<string, { description: string; run: (failures: string[]) 
   'get-app-spotify': { description: '§8.4 Spotify depth: screens, store shots, video', run: getAppSpotify },
   'get-flows-onboarding': { description: '§8.5 Refero onboarding flows', run: getFlowsOnboarding },
   'offline-cache': { description: '§8.6 warm cache survives fake-offline', run: offlineCache },
+  'search-apps': { description: '§8.7 live app-catalog search', run: searchApps },
+  'get-image': { description: '§8.8 inline image fetch + webp→png transcode', run: getImage },
 };
 
-const ALL = ['list-sources', 'search-checkout', 'search-dashboard', 'get-app-spotify', 'get-flows-onboarding', 'offline-cache'];
+const ALL = [
+  'list-sources',
+  'search-checkout',
+  'search-dashboard',
+  'get-app-spotify',
+  'get-flows-onboarding',
+  'offline-cache',
+  'search-apps',
+  'get-image',
+];
 
 async function main(): Promise<void> {
   const command = process.argv[2] ?? 'all';

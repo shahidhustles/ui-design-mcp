@@ -4,8 +4,8 @@ import { fetchJson, fetchText } from '../../http.js';
 import { log } from '../../log.js';
 import type { AppRecord, CatalogApp, UIScreen, UIFlow } from '../../types.js';
 import { SourceError } from '../../types.js';
-import type { Adapter, AppQuery, AppResult, FlowQuery, Health } from '../adapter.js';
-import { catalogFresh, SOURCE, syncCatalog } from './catalog.js';
+import type { Adapter, AppQuery, AppResult, AppSearchQuery, FlowQuery, Health } from '../adapter.js';
+import { CATALOG_API, catalogFresh, mapCatalogApp, SOURCE, syncCatalog, type CatalogPage } from './catalog.js';
 import { extractAppPage, type SdFrame } from './decode.js';
 
 const PAGE_URL = (slug: string) => `https://screensdesign.com/apps/${slug}/`;
@@ -109,6 +109,7 @@ export function createScreensDesignAdapter(store: MetadataStore, cfg: Config): A
       kinds: ['screen', 'flow'],
       perApp: true,
       flows: true,
+      appSearch: true,
     },
 
     async healthCheck(): Promise<Health> {
@@ -118,6 +119,29 @@ export function createScreensDesignAdapter(store: MetadataStore, cfg: Config): A
       } catch (e) {
         return { ok: false, note: e instanceof Error ? e.message : String(e) };
       }
+    },
+
+    /**
+     * Browse the app catalog. `?name=` is the API's live substring search
+     * (verified 2026-09-23: name=music → 48 hits, count field included);
+     * category / no-query paths use the locally synced catalog.
+     */
+    async searchApps(q: AppSearchQuery): Promise<CatalogApp[]> {
+      const limit = Math.min(q.limit ?? 10, 50);
+      if (q.query) {
+        try {
+          const body = await fetchJson<CatalogPage>(
+            SOURCE,
+            `${CATALOG_API}?name=${encodeURIComponent(q.query)}&page=1`,
+            cfg,
+          );
+          const apps = (body.results ?? []).map(mapCatalogApp).slice(0, limit);
+          if (apps.length > 0) return apps;
+        } catch (e) {
+          log(`search_apps live query failed — local catalog fallback: ${e instanceof Error ? e.message : String(e)}`);
+        }
+      }
+      return store.searchAppsLocal(q.query, q.category, limit);
     },
 
     getApp: doGetApp,
