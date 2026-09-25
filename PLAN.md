@@ -39,7 +39,7 @@ ui-design-mcp/
 │  │  ├─ landbook.ts         # PHASE 3
 │  │  ├─ awwwards.ts         # PHASE 3
 │  │  ├─ saasframe.ts        # PHASE 3
-│  │  ├─ pttrns.ts           # PHASE 3
+│  │  ├─ pttrns.ts           # DONE 2026-09-25 (→ find_components)
 │  │  ├─ mobbin.ts           # PHASE 2 (first; cookie route primary, RSC fallback)
 │  │  └─ dribbble.ts         # PHASE 3 (user OAuth token)
 │  └─ tools/
@@ -47,7 +47,7 @@ ui-design-mcp/
 │     ├─ get-app.ts
 │     ├─ get-flows.ts
 │     ├─ find-sites.ts       # PHASE 3
-│     ├─ find-components.ts  # PHASE 3
+│     ├─ find-components.ts  # DONE (SAS phase 2, +Pttrns 2026-09-25)
 │     └─ get-store-screenshots.ts
 ├─ RESEARCH.md  PLAN.md
 └─ data/ (gitignore)
@@ -233,7 +233,14 @@ Appshots.
 - **Awwwards:** `/websites/?page=N` (32/page) + `/sites/<slug>/content` JSON fragment;
   full-res = strip `media/cache/<size>/` prefix; open CDN.
 - **SaaSFrame:** `sitemap.xml` (8,466) → JSON-LD `about.image` full-page captures.
-- **Pttrns:** `/patterns?d3ab045c_page=N` (78×100) + `/patterns/{id}` (app + categories).
+- **Pttrns:** ~~`/patterns?d3ab045c_page=N` (78×100) + `/patterns/{id}` (app + categories).~~ **DONE 2026-09-25** —
+  shipped as `find_components`'s category + app-name axes (iOS, component-grain): the 100-category
+  taxonomy is parsed from the SSR `/patterns` page; category → pattern-ids in **one**
+  `api.jetboost.io/filter?boosterId=ckif2du7qfmz607153hgl2o8b&q={slug}` call (returns
+  `{"<pattern-id>": true, …}` — the site's own /patterns?categories=… flow); then only the picked
+  `limit` `/patterns/{id}` detail pages are fetched (app + the three metadata blocks, where
+  `w-condition-invisible` marks non-applicable labels) — no 7,754-pattern catalog sync.
+  `/applications/{slug}` serves the app axis (unknown slug → 500, fetched noRetry).
 - **Dribbble:** official API v2 with the user's own OAuth token (`DRIBBBLE_TOKEN`, free tier
   ~200 req/hr) for shots/search — or undocumented internal JSON if the free tier's rate cap
   is too tight. Design shots, not app flows — complementary to the app-side sources.
@@ -263,6 +270,20 @@ Appshots.
   - [x] `search-components`: ≥3 records with `kind:"component"`, cached image on disk.
   - [x] `get-app-spotify` and `offline-cache` — unchanged, still pass.
 - [x] Manual NDJSON probe of both new tools via `npm run dev`.
+
+### Phase 3 (in progress) — Pttrns done 2026-09-25, Mobbin + Page Flows + galleries next
+
+- [x] Pttrns adapter: taxonomy (100 categories from SSR) → Jetboost filter (1 call) →
+      picked detail pages only; app axis via `/applications/{slug}`; iOS platform,
+      `-p-500` thumbnails; meta-cached taxonomy (the healthCheck doubles as the cache
+      warm-up — the one full-page-HTML healthCheck, deliberately).
+- [x] `find_components` now fuses Pttrns (category/app-name) with the SAS widget library;
+      `get_image` routes `website-files.com` → `pttrns` cache dir.
+- [x] Tests: taxonomy/detail/app-page parsers + mappers + adapter (fixture-driven, 18 tests).
+- [x] verify §8.10 extended (Pttrns "login" patterns cached on disk >10KB); §8.1 now 6 sources.
+- [ ] Mobbin (cookie route + anon sitemap fallback) — see §7.
+- [ ] Page Flows (flow videos) — see §7.
+- [ ] Web galleries (Land-book / Awwwards / SaaSFrame) — see §7.
 
 ## 9. Conventions
 

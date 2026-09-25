@@ -5,7 +5,7 @@ description: Use the ui-design MCP when the task is about looking at or learning
 
 # ui-design — real-world design references
 
-Seven tools backed by free design-reference backends (Refero: 74k+ web/iOS screens; ScreensDesign: 2,711 top-grossing iOS apps with full recorded sessions; Nicely Done: 13k+ curated onboarding flows; Simple App Shipper: 500 iOS apps + a component library; Apple iTunes: official store screenshots). No paid API keys.
+Seven tools backed by free design-reference backends (Refero: 74k+ web/iOS screens; ScreensDesign: 2,711 top-grossing iOS apps with full recorded sessions; Nicely Done: 13k+ curated onboarding flows; Simple App Shipper: 500 iOS apps + a component library; Pttrns: 7,754 iOS UI patterns across 100 categories + ~1,000 named apps; Apple iTunes: official store screenshots). No paid API keys.
 
 | Tool | One-liner |
 |---|---|
@@ -13,7 +13,7 @@ Seven tools backed by free design-reference backends (Refero: 74k+ web/iOS scree
 | `get_app` | One app's full profile + complete ordered screen session (AI caption per screen) + 720p video + official store shots. iOS depth from ScreensDesign and Simple App Shipper. |
 | `get_flows` | Named ordered user flows from Refero ("onboarding" → multi-step sequences). For a whole app session use `get_app`. |
 | `get_onboarding` | Real product **onboarding flows** (Nicely Done): `app` (all of a product's flows), `category` ("signing-up", "onboarding", …), or `query`. Ordered step captures with pattern tags. |
-| `find_components` | Component-level design examples (Simple App Shipper): buttons, cards, lists, charts, tabs, navigation bars — one captured screen per component, with a description. |
+| `find_components` | Component- and screen-type design examples. Pttrns (iOS): real patterns by **category** ("login", "signup", "guided tour", "button", "empty states") or by **app name** ("airbnb") — with app attribution. Simple App Shipper (OS-agnostic): widget library (buttons, cards, lists, charts, tabs). |
 | `get_image` | One screenshot returned **as an inline image** — use this, never your Read tool, for full-res views (webp won't render in Read). |
 | `list_sources` | Health + record counts + catalog progress. Run once at the start if anything looks off. |
 
@@ -27,7 +27,7 @@ Rule of thumb: **apps first when cloning a product, screens first when styling a
 **Choosing between the three lookups:**
 - `search {type:"screens"}` — generic "show me interfaces like X" (palettes, fonts, tags, any page type).
 - `get_onboarding` — the task is specifically **onboarding / signup / first-run**: it's organized per product and per flow category, so it's sharper than a free-text search for that job.
-- `find_components` — the task is a **single UI component** (a button, a tab bar, a chart): the only source with component-grain records.
+- `find_components` — the task is a **single UI component** (a button, a tab bar, a chart) or a **native-app screen type** ("how do iOS apps do login / onboarding / empty states"): Pttrns (real iOS patterns, per app) + Simple App Shipper (OS-agnostic widget library).
 
 ## `get_onboarding` — how to use it (observed behavior, 2026-09-25)
 
@@ -45,6 +45,16 @@ Three selectors, in order of precision. The corpus is **web products** (SaaS onb
 No selector → top of the catalog. Observed quirk: the search cross-matches near-synonyms (`"sign up"` can surface Signing-**in** flows first) — if the result's category isn't what you intended, read the flow's category tag and re-call with the right `category` slug.
 
 Read the `notes` array in every result — it reports fallbacks (thin platform coverage → unfiltered results served, sharp unavailable, no matches → try shorter query). Trust notes before re-running the same call.
+
+## `find_components` — how to use it (observed behavior, 2026-09-25)
+
+One query, two sources fused (Pttrns patterns are `platform: "ios"`; Simple App Shipper examples are `platform: "unknown"`).
+
+1. **Category words** (Pttrns, iOS) — ~100 categories exist: screen types (`login`, `signup`, `setup`, `guided-tour`, `launch-screen`, `checkout`, `purchase`, `home`, `settings`, `profile-account`, `empty-states`, `search`, `share`), UI elements (`button`, `card`, `chart`, `banner`, `dialog`, `sheet-bottom`, `bottom-bar`, `side-nav`, `navigation`, `progress`, `loading-bar`, `spinner`), and business verticals (`shopping`, `productivity`, `health-fitness`, `finance`, `food-drink`, `music`, `news`, `sports`, …). Matching is case-insensitive on slug or title, and a few near-synonyms resolve (`onboarding` → guided tour, `sign up` → signup, `tab bar` → bottom bar). Results are the category's patterns newest-first, **each attributed to its app** (name + icon in `app`), with the pattern's category labels in `tags[]`.
+2. **App names** (Pttrns, iOS) — any of the ~1,000 catalog apps: "airbnb", "target", "loom"… returns that app's patterns in site order. Best after you've picked a reference app.
+3. **Widget-library words** (Simple App Shipper, OS-agnostic) — buttons, cards, lists, charts, tabs, navigation bars; example-level text matching works ("donut" → the donut chart example).
+
+Empty result with a note → the word matched neither a category nor an app: try the closest category word or an app name. For "how does app X handle its onboarding" prefer `get_onboarding` (web products) or `find_components {component: "X"}` + `guided-tour` (iOS apps).
 
 ## Workflow A — "Improve our UI" (existing project, competitor study)
 
@@ -74,5 +84,5 @@ User wants a new app in a niche; features and design should be learned from what
 - **`cachedUrls` (file://) are local full-res files** — `get_image` serves them without network; fine offline.
 - **Persist research as markdown in the repo** (`DESIGN_RESEARCH.md`) — both workflows span sessions; a re-browse is wasted calls.
 - **`get_app` is iOS-only** (ScreensDesign + Simple App Shipper depth); `search screens` covers web + iOS via Refero. `get_onboarding` is a **web-product** corpus (Nicely Done) — onboarding for SaaS/web signups, not mobile app onboarding.
-- **`find_components` records are platform-`unknown`** (the library doesn't say which OS each design targets) — don't hard-filter them by `platform`.
+- **`find_components` is mixed-platform**: Pttrns records are `ios` (native-app patterns), Simple App Shipper records are `unknown` (the library doesn't say which OS each design targets) — pass `platform: "ios"` only when you specifically want native patterns; otherwise don't hard-filter.
 - **Phase 3 will add sources** (Mobbin, Page Flows, web galleries) — the workflows above don't change, only coverage grows.
