@@ -20,13 +20,21 @@ export interface AppRecord {
   version?: string;
 }
 
+/** App attribution on a record (source's own naming). */
+export interface AppRef {
+  name: string;
+  slug?: string;
+  storeId?: string;
+  logoUrl?: string;
+}
+
 export interface UIScreen {
   /** `${source}:${nativeId}` */
   id: string;
   source: string;
   kind: Kind;
   platform: Platform;
-  app?: { name: string; slug?: string; storeId?: string; logoUrl?: string };
+  app?: AppRef;
   /** Screen/flow name or AI caption */
   title?: string;
   /** Normalized lowercase tags: screen types, patterns, elements */

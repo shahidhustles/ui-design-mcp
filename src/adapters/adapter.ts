@@ -13,6 +13,10 @@ export interface AdapterCapabilities {
   byStoreId?: boolean;
   /** Can browse its per-app catalog (search_apps) */
   appSearch?: boolean;
+  /** Can return product onboarding flows by app / category / query */
+  onboarding?: boolean;
+  /** Can return component-level design examples */
+  components?: boolean;
 }
 
 export interface SearchQuery {
@@ -42,6 +46,24 @@ export interface AppSearchQuery {
   limit?: number;
 }
 
+export interface OnboardingQuery {
+  /** Product/app name — all of its onboarding flows */
+  app?: string;
+  /** Flow category slug or title ("signing-up", "onboarding", …) */
+  category?: string;
+  /** Free text, matched against flow categories */
+  query?: string;
+  platform?: Platform;
+  limit?: number;
+}
+
+export interface ComponentQuery {
+  /** Component name ("button", "card", "tab", …) */
+  query?: string;
+  platform?: Platform;
+  limit?: number;
+}
+
 export interface AppResult {
   app: AppRecord;
   screens: UIScreen[];
@@ -68,6 +90,8 @@ export interface Adapter {
   getApp?(q: AppQuery): Promise<AppResult>;
   byStoreId?(storeId: string, country?: string): Promise<AppResult>;
   searchApps?(q: AppSearchQuery): Promise<CatalogApp[]>;
+  getOnboarding?(q: OnboardingQuery): Promise<UIFlow[]>;
+  searchComponents?(q: ComponentQuery): Promise<UIScreen[]>;
 }
 
 const adapters = new Map<string, Adapter>();
@@ -80,7 +104,9 @@ export function getAdapters(): Adapter[] {
   return [...adapters.values()];
 }
 
-export function adaptersWith(cap: 'search' | 'flows' | 'perApp' | 'byStoreId' | 'appSearch'): Adapter[] {
+export function adaptersWith(
+  cap: 'search' | 'flows' | 'perApp' | 'byStoreId' | 'appSearch' | 'onboarding' | 'components',
+): Adapter[] {
   return getAdapters().filter((a) => a.capabilities[cap]);
 }
 

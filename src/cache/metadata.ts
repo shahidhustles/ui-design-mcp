@@ -47,12 +47,41 @@ CREATE TABLE IF NOT EXISTS sources (
   note TEXT,
   checked_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS nd_products (
+  id INTEGER PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  baseline TEXT,
+  logo_url TEXT,
+  flow_count INTEGER,
+  fetched_at TEXT
+);
+CREATE TABLE IF NOT EXISTS nd_flow_categories (
+  slug TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  main_category TEXT,
+  alt_keywords TEXT,
+  description TEXT,
+  sample_flows_json TEXT,
+  flow_count INTEGER,
+  fetched_at TEXT
+);
+CREATE TABLE IF NOT EXISTS sas_apps (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  bundle_id TEXT,
+  category TEXT,
+  screen_count INTEGER,
+  fetched_at TEXT
+);
 CREATE TABLE IF NOT EXISTS meta (
   key TEXT PRIMARY KEY,
   value TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_apps_name ON apps(name);
 CREATE INDEX IF NOT EXISTS idx_records_source ON records(source, kind);
+CREATE INDEX IF NOT EXISTS idx_nd_products_name ON nd_products(name);
+CREATE INDEX IF NOT EXISTS idx_sas_apps_name ON sas_apps(name);
 `;
 
 interface AppRow {
@@ -71,6 +100,11 @@ interface AppRow {
   synced_at: string | null;
 }
 
+/** Escape LIKE wildcards so user input is matched literally. */
+function likeEsc(s: string): string {
+  return s.replace(/[\\%_]/g, (m) => '\\' + m);
+}
+
 function rowToApp(row: AppRow): CatalogApp {
   return {
     id: row.id,
@@ -86,6 +120,36 @@ function rowToApp(row: AppRow): CatalogApp {
     iconUrl: row.icon_url,
     appstoreLink: row.appstore_link,
   };
+}
+
+interface NdProductRow {
+  id: number;
+  slug: string;
+  name: string;
+  baseline: string | null;
+  logo_url: string | null;
+  flow_count: number | null;
+  fetched_at: string | null;
+}
+
+interface NdFlowCategoryRow {
+  slug: string;
+  title: string;
+  main_category: string | null;
+  alt_keywords: string | null;
+  description: string | null;
+  sample_flows_json: string | null;
+  flow_count: number | null;
+  fetched_at: string | null;
+}
+
+interface SasAppRow {
+  id: string;
+  name: string;
+  bundle_id: string | null;
+  category: string | null;
+  screen_count: number | null;
+  fetched_at: string | null;
 }
 
 /**
@@ -108,6 +172,10 @@ export class MetadataStore {
     const cols = this.db.prepare('PRAGMA table_info(app_pages)').all() as { name: string }[];
     if (!cols.some((c) => c.name === 'app_json')) {
       this.db.exec('ALTER TABLE app_pages ADD COLUMN app_json TEXT;');
+    }
+    const catCols = this.db.prepare('PRAGMA table_info(nd_flow_categories)').all() as { name: string }[];
+    if (!catCols.some((c) => c.name === 'flow_count')) {
+      this.db.exec('ALTER TABLE nd_flow_categories ADD COLUMN flow_count INTEGER;');
     }
   }
 
@@ -164,13 +232,14 @@ export class MetadataStore {
 
   /** Exact (case-insensitive) → prefix → substring, best rating first. */
   findApp(name: string): CatalogApp | null {
+    const q = likeEsc(name);
     const queries = [
       `SELECT * FROM apps WHERE name = ? COLLATE NOCASE ORDER BY rating IS NULL, rating DESC LIMIT 1`,
-      `SELECT * FROM apps WHERE name LIKE ? || '%' ORDER BY rating IS NULL, rating DESC LIMIT 1`,
-      `SELECT * FROM apps WHERE name LIKE '%' || ? || '%' ORDER BY rating IS NULL, rating DESC LIMIT 1`,
+      `SELECT * FROM apps WHERE name LIKE ? || '%' ESCAPE '\\' ORDER BY rating IS NULL, rating DESC LIMIT 1`,
+      `SELECT * FROM apps WHERE name LIKE '%' || ? || '%' ESCAPE '\\' ORDER BY rating IS NULL, rating DESC LIMIT 1`,
     ];
     for (const sql of queries) {
-      const row = this.db.prepare(sql).get(name) as AppRow | undefined;
+      const row = this.db.prepare(sql).get(q) as AppRow | undefined;
       if (row) return rowToApp(row);
     }
     return null;
@@ -188,13 +257,13 @@ export class MetadataStore {
       params.push(category);
     }
     if (query) {
-      where.push(`(name LIKE ? || '%' OR name LIKE '%' || ? || '%')`);
-      params.push(query, query);
+      where.push(`(name LIKE ? || '%' ESCAPE '\\' OR name LIKE '%' || ? || '%' ESCAPE '\\')`);
+      params.push(likeEsc(query), likeEsc(query));
     }
     const order = query
-      ? 'CASE WHEN name = ? COLLATE NOCASE THEN 0 WHEN name LIKE ? || \'%\' THEN 1 ELSE 2 END, rating IS NULL, rating DESC, name'
+      ? 'CASE WHEN name = ? COLLATE NOCASE THEN 0 WHEN name LIKE ? || \'%\' ESCAPE \'\\\' THEN 1 ELSE 2 END, rating IS NULL, rating DESC, name'
       : 'rating IS NULL, rating DESC, name';
-    if (query) params.push(query, query);
+    if (query) params.push(query, likeEsc(query));
     params.push(limit);
     const sql = `SELECT * FROM apps ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY ${order} LIMIT ?`;
     const rows = this.db.prepare(sql).all(...params) as unknown as AppRow[];
@@ -288,6 +357,174 @@ export class MetadataStore {
   findAppBySlug(slug: string): CatalogApp | null {
     const row = this.db.prepare('SELECT * FROM apps WHERE slug = ?').get(slug) as AppRow | undefined;
     return row ? rowToApp(row) : null;
+  }
+
+  // ── Generic per-source catalog freshness ───────────────────────────────
+
+  /** ISO timestamp of the last successful fetch of a source's catalog. */
+  catalogFetchedAt(source: string): string | null {
+    return this.getMeta(`catalog_fetched_at:${source}`);
+  }
+
+  setCatalogFetchedAt(source: string, iso: string): void {
+    this.setMeta(`catalog_fetched_at:${source}`, iso);
+  }
+
+  /** True when the source catalog was fetched within ttlDays (never fetched → false). */
+  catalogFresh(source: string, ttlDays: number): boolean {
+    const at = this.getMeta(`catalog_fetched_at:${source}`);
+    if (!at) return false;
+    const ageMs = Date.now() - Date.parse(at);
+    return Number.isFinite(ageMs) && ageMs >= 0 && ageMs < ttlDays * 86_400_000;
+  }
+
+  // ── Nicely Done product catalog ────────────────────────────────────────
+
+  upsertNdProducts(products: { id: number; slug: string; name: string; baseline: string | null; logoUrl: string | null; flowCount: number | null }[], fetchedAt: string): number {
+    // Conflict on the stable PK: a product's slug can change while its id
+    // (the PK) stays put — a slug-keyed conflict would raise a PK violation.
+    const ins = this.db.prepare(`
+      INSERT INTO nd_products (id, slug, name, baseline, logo_url, flow_count, fetched_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        slug = excluded.slug,
+        name = excluded.name,
+        baseline = excluded.baseline,
+        logo_url = excluded.logo_url,
+        flow_count = excluded.flow_count,
+        fetched_at = excluded.fetched_at
+    `);
+    this.db.exec('BEGIN');
+    try {
+      for (const p of products) {
+        ins.run(p.id, p.slug, p.name, p.baseline, p.logoUrl, p.flowCount, fetchedAt);
+      }
+      this.setCatalogFetchedAt('nicelydone', fetchedAt);
+      this.db.exec('COMMIT');
+    } catch (e) {
+      this.db.exec('ROLLBACK');
+      throw e;
+    }
+    return products.length;
+  }
+
+  /** Exact (case-insensitive) → prefix → substring, most flows first. */
+  findNdProduct(name: string): { id: number; slug: string; name: string; flowCount: number } | null {
+    const q = likeEsc(name);
+    const queries = [
+      `SELECT * FROM nd_products WHERE name = ? COLLATE NOCASE ORDER BY flow_count IS NULL, flow_count DESC LIMIT 1`,
+      `SELECT * FROM nd_products WHERE name LIKE ? || '%' ESCAPE '\\' ORDER BY flow_count IS NULL, flow_count DESC LIMIT 1`,
+      `SELECT * FROM nd_products WHERE name LIKE '%' || ? || '%' ESCAPE '\\' ORDER BY flow_count IS NULL, flow_count DESC LIMIT 1`,
+    ];
+    for (const sql of queries) {
+      const row = this.db.prepare(sql).get(q) as NdProductRow | undefined;
+      if (row) return { id: row.id, slug: row.slug, name: row.name, flowCount: row.flow_count ?? 0 };
+    }
+    return null;
+  }
+
+  ndProductCount(): number {
+    const row = this.db.prepare('SELECT COUNT(*) AS c FROM nd_products').get() as { c: number };
+    return row.c;
+  }
+
+  // ── Nicely Done flow-category taxonomy ─────────────────────────────────
+
+  setNdFlowCategories(cats: { slug: string; title: string; mainCategory: string | null; altKeywords: string | null; description: string | null; sampleFlowsJson: string | null; flowCount: number | null }[], fetchedAt: string): number {
+    const del = this.db.prepare('DELETE FROM nd_flow_categories');
+    const ins = this.db.prepare(`
+      INSERT INTO nd_flow_categories (slug, title, main_category, alt_keywords, description, sample_flows_json, flow_count, fetched_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    this.db.exec('BEGIN');
+    try {
+      del.run();
+      for (const c of cats) {
+        ins.run(c.slug, c.title, c.mainCategory, c.altKeywords, c.description, c.sampleFlowsJson, c.flowCount, fetchedAt);
+      }
+      this.setCatalogFetchedAt('nicelydone-categories', fetchedAt);
+      this.db.exec('COMMIT');
+    } catch (e) {
+      this.db.exec('ROLLBACK');
+      throw e;
+    }
+    return cats.length;
+  }
+
+  /** Match by slug (exact) → title (case-insensitive) → substring, then by alt_keywords. Ties → largest category. */
+  findNdFlowCategory(name: string): NdFlowCategoryRow | null {
+    const order = 'ORDER BY flow_count IS NULL, flow_count DESC, title';
+    const bySlug = this.db.prepare(`SELECT * FROM nd_flow_categories WHERE slug = ? ${order} LIMIT 1`).get(name) as NdFlowCategoryRow | undefined;
+    if (bySlug) return bySlug;
+    const q = likeEsc(name);
+    const byTitle = this.db
+      .prepare(`SELECT * FROM nd_flow_categories WHERE title = ? COLLATE NOCASE ${order} LIMIT 1`)
+      .get(name) as NdFlowCategoryRow | undefined;
+    if (byTitle) return byTitle;
+    const bySub = this.db
+      .prepare(`SELECT * FROM nd_flow_categories WHERE title LIKE ? || '%' ESCAPE '\\' OR title LIKE '%' || ? || '%' ESCAPE '\\' ${order} LIMIT 1`)
+      .get(q, q) as NdFlowCategoryRow | undefined;
+    if (bySub) return bySub;
+    const byKw = this.db
+      .prepare(`SELECT * FROM nd_flow_categories WHERE alt_keywords LIKE '%' || ? || '%' ESCAPE '\\' ${order} LIMIT 1`)
+      .get(q) as NdFlowCategoryRow | undefined;
+    return byKw ?? null;
+  }
+
+  allNdFlowCategories(): NdFlowCategoryRow[] {
+    return this.db.prepare('SELECT * FROM nd_flow_categories ORDER BY title').all() as unknown as NdFlowCategoryRow[];
+  }
+
+  ndCategoryCount(): number {
+    const row = this.db.prepare('SELECT COUNT(*) AS c FROM nd_flow_categories').get() as { c: number };
+    return row.c;
+  }
+
+  // ── Simple App Shipper app catalog ─────────────────────────────────────
+
+  upsertSasApps(apps: { id: string; name: string; bundleId: string | null; category: string | null; screenCount: number | null }[], fetchedAt: string): number {
+    const ins = this.db.prepare(`
+      INSERT INTO sas_apps (id, name, bundle_id, category, screen_count, fetched_at)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        name = excluded.name,
+        bundle_id = excluded.bundle_id,
+        category = excluded.category,
+        screen_count = excluded.screen_count,
+        fetched_at = excluded.fetched_at
+    `);
+    this.db.exec('BEGIN');
+    try {
+      for (const a of apps) {
+        ins.run(a.id, a.name, a.bundleId, a.category, a.screenCount, fetchedAt);
+      }
+      this.setCatalogFetchedAt('simpleappshipper', fetchedAt);
+      this.db.exec('COMMIT');
+    } catch (e) {
+      this.db.exec('ROLLBACK');
+      throw e;
+    }
+    return apps.length;
+  }
+
+  /** Exact (case-insensitive) → prefix → substring, most screens first. */
+  findSasApp(name: string): { id: string; name: string; category: string | null } | null {
+    const q = likeEsc(name);
+    const queries = [
+      `SELECT * FROM sas_apps WHERE name = ? COLLATE NOCASE ORDER BY screen_count IS NULL, screen_count DESC LIMIT 1`,
+      `SELECT * FROM sas_apps WHERE name LIKE ? || '%' ESCAPE '\\' ORDER BY screen_count IS NULL, screen_count DESC LIMIT 1`,
+      `SELECT * FROM sas_apps WHERE name LIKE '%' || ? || '%' ESCAPE '\\' ORDER BY screen_count IS NULL, screen_count DESC LIMIT 1`,
+    ];
+    for (const sql of queries) {
+      const row = this.db.prepare(sql).get(q) as SasAppRow | undefined;
+      if (row) return { id: row.id, name: row.name, category: row.category };
+    }
+    return null;
+  }
+
+  sasAppCount(): number {
+    const row = this.db.prepare('SELECT COUNT(*) AS c FROM sas_apps').get() as { c: number };
+    return row.c;
   }
 
   // ── Records (for record counts) ────────────────────────────────────────
