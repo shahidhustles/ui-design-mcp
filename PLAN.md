@@ -162,18 +162,71 @@ decode page → `UIScreen[]` in flow order + videoUrl. Nightly full sync = 55 AP
 `UIMCP_MAX_RESULTS` (default 24). Phase 2: `MOBBIN_COOKIE` (free Mobbin account — primary
 search route, cookie stays local with the user). Phase 3: `DRIBBBLE_TOKEN`.
 
-## 6. Phase 2 — Mobbin first, then bulk corpora (same adapter interface, ~1 day each incl. sync job)
+## 6. Phase 2 — dedicated tools for the two zero-auth niches (DONE 2026-09-25)
+
+Decision (2026-09-23/24): rather than one more generic search, ship **two
+dedicated tools** over two zero-auth, zero-new-env-var sources that fill gaps
+nothing else covers. No sync CLI — Phase 1's on-demand + cache model holds.
+
+| Source | New tool | What it uniquely provides |
+|---|---|---|
+| **Nicely Done** (nicelydone.club) | `get_onboarding(app?, category?, query?, platform?, limit≤20)` | 13k+ curated **onboarding flows**, organized per product and per flow category. Refero is web-only in practice and has no onboarding-first corpus. |
+| **Simple App Shipper** (simpleappshipper.com/library) | `find_components(component, platform?, limit≤30)` + `get_app` perApp depth | **Component-grain** records (`kind: "component"`) — the only source with buttons/cards/tabs/charts as first-class. Also adds 500 iOS apps (app + all screens in one call) to `get_app`. Its 3,685 screens deliberately do **not** join free-text `search` (would overlap Refero). |
+
+**Nicely Done mechanics** (probe-verified 2026-09-24/25):
+- Catalog: `/api/content/apps` (669 products, one call) → `nd_products` table.
+- Category path: SSR pages `/flows/{slug}` and `/apps/{slug}/flows` embed the flow
+  list in the Nuxt `__NUXT_DATA__` payload (devalue flat-array encoding, decoded in
+  `nicelydone/decode.ts`). Unknown slug → SSR 500 → fall back to the 12 taxonomy
+  sample flows cached in sqlite.
+- Query path: `/api/search/global/refinements?q=…&contentType=flows` returns the
+  site's own ranked category chips (empty for nonsense queries — the built-in
+  guard); top chips → category slugs.
+- Taxonomy endpoint `/api/content/meta` (93 categories + sample flows) is
+  **best-effort**: observed 2026-09-25 returning populated counts but empty
+  category arrays, so the category path must not depend on it.
+- Images: `assets.nicelydone.club/t/900x484/{uuid}.jpg` — the only public transform.
+
+**Simple App Shipper mechanics** (probe-verified 2026-09-25):
+- `/api/sitemap` (500 apps, one call) → `sas_apps` table; `/api/apps/{id}` returns
+  app + full `screens[]` in one call, screens ordered by `flow_index`.
+- `/api/ui-elements` (6 component categories, ~20 design examples) → component
+  records. PNGs on `releases.simpleappshipper.com` (no auth).
+
+**Deferred to Phase 3:** Mobbin (cookie route — user provides `MOBBIN_COOKIE` when
+built; RSC fallback as the anonymous path) and Page Flows (flow videos). **Cut:**
+Appshots.
+
+## 6a. (superseded) original Phase 2 plan — Mobbin first, then bulk corpora
+
+<details><summary>the pre-decision table, kept for the endpoint research</summary>
 
 | Order | Source | Core call | Notes |
 |---|---|---|---|
-| 0 | **Mobbin** (see §7.1) | cookie route: `POST /api/search-bar/search`, `/api/app/fetch-app-versions-screens`, `/api/discover/fetch-discover-page-apps`, `/api/screen/fetch-screen-info` | 621k screens / 323k flows — top value. Free-account cookie `sb-ujasntkfphywizsdaapi-auth-token.0/.1` (config). Fallback (no cookie): `sitemap.xml` → 1,330 `/explore/*` pages, parse Next 15 RSC flight stream (60 screens or 12 ordered flows/page) + `bytescale.mobbin.com` CDN (no auth). |
+| 0 | **Mobbin** (see §7) | cookie route: `POST /api/search-bar/search`, `/api/app/fetch-app-versions-screens`, `/api/discover/fetch-discover-page-apps`, `/api/screen/fetch-screen-info` | 621k screens / 323k flows — top value. Free-account cookie `sb-ujasntkfphywizsdaapi-auth-token.0/.1` (config). Fallback (no cookie): `sitemap.xml` → 1,330 `/explore/*` pages, parse Next 15 RSC flight stream (60 screens or 12 ordered flows/page) + `bytescale.mobbin.com` CDN (no auth). |
 | 1 | Page Flows | `post-sitemap.xml` → SSR `/post/<platform>/<flow>/<product>/` → `<source src="/media/videos/*.mp4">` + posters | free CSV taxonomy at `/static/website/csv/{flows,elements,screens,products,flow_synonyms}.csv` |
 | 2 | Appshots | `be.appshots.design/api/v1/neo/get_all_screens_filtered/?content_type=screens&platform=ios&page=N&page_size=100` (+`_apps_`, `_flows_`, `get_all_filters`) | anon `is_limited:true`; some watermarked thumbs; flow detail endpoint 404 anon (filtered endpoint inlines screens — use that) |
 | 3 | Simple App Shipper | `/api/sitemap` (500 apps) → `/api/apps/{id}` (app+screens in one call); `/api/screens?limit=100&offset=N` (3,685 total); `/api/ui-elements` | CORS open; PNGs on `releases.simpleappshipper.com` |
 | 4 | Nicely Done | `nicelydone.club/api/{apps,screens,flows}?page=N` | `/api/screens` caps at 1,000 — per-app `__NUXT_DATA__` SSR pages for the rest; only `900x484` image transform public |
 
-## 7. Phase 3 — web galleries + Dribbble
+</details>
 
+## 7. Phase 3 — Mobbin + Page Flows + web galleries
+
+- **Mobbin** (top value, from the superseded §6a row 0): primary = cookie route —
+  the user provides `MOBBIN_COOKIE` (free account) when this is built;
+  `POST /api/search-bar/search {query,experience,platform}`,
+  `/api/app/fetch-app-versions-screens {appId}`, `/api/discover/fetch-discover-page-apps`,
+  `/api/screen/fetch-screen-info` (live cookie-gated routes verified 2026-09-22; anon
+  returns `200 {error:{message:"unauthenticated"}}`). Anonymous fallback:
+  `sitemap.xml` → 1,330 `/explore/*` pages, concat `self.__next_f.push([1,…])` chunks
+  → 60 screens or 12 ordered flows per page + `bytescale.mobbin.com` CDN (no auth).
+  Legacy `/api/content/*` + 2023 Supabase RPCs are **dead**.
+- **Page Flows:** `post-sitemap.xml` (8,544 URLs) → SSR
+  `/post/<platform>/<flow>/<product>/` → `<source src="/media/videos/*.mp4">`
+  (full recording, no auth) + poster frames. Free CSV taxonomy:
+  `/static/website/csv/{flows,elements,screens,products,flow_synonyms}.csv`.
+  The only source with end-to-end **flow videos** (Airbnb, Uber, Netflix…).
 - **Land-book:** `/design/{cat}?page=N` (20/page, 10,460 sites; `?view=mobile` swaps capture;
   `?color=%23hex` etc. are server-side). Full-res originals: detail-page JSON-LD →
   unsigned `cdn.land-book.com/website/{id}/{file}` (signature not enforced). `llms.txt` + `rss.xml` for sync.
@@ -184,15 +237,10 @@ search route, cookie stays local with the user). Phase 3: `DRIBBBLE_TOKEN`.
 - **Dribbble:** official API v2 with the user's own OAuth token (`DRIBBBLE_TOKEN`, free tier
   ~200 req/hr) for shots/search — or undocumented internal JSON if the free tier's rate cap
   is too tight. Design shots, not app flows — complementary to the app-side sources.
-- **Mobbin (moved to Phase 2, row 0 of §6):** primary = cookie route; RSC fallback details:
-  `sitemap.xml` → 1,330 `/explore/*` pages, concat `self.__next_f.push([1,…])` chunks →
-  60 screens or 12 ordered flows per page + `bytescale.mobbin.com` CDN (no auth).
-  Live cookie-gated routes (verified 2026-09-22; anon returns
-  `200 {error:{message:"unauthenticated"}}`): `POST /api/search-bar/search {query,experience,platform}`,
-  `/api/app/fetch-app-versions-screens {appId}`, `/api/discover/fetch-discover-page-apps`,
-  `/api/screen/fetch-screen-info`. Legacy `/api/content/*` + 2023 Supabase RPCs are **dead**.
 
-## 8. Definition of done — Phase 1 (verify against live endpoints)
+## 8. Definition of done
+
+### Phase 1 (verify against live endpoints) — DONE
 
 - [x] `npm run dev` starts the stdio server; `list_sources` shows refero+screensdesign+apple healthy.
 - [x] `search_screens("checkout", platform="ios")` returns ≥5 Refero records with working `cachedUrls` (image file on disk, >10KB).
@@ -202,6 +250,19 @@ search route, cookie stays local with the user). Phase 3: `DRIBBBLE_TOKEN`.
 - [x] Kill network mid-test → cached images still served (cache-hit path works).
 - [x] Unit tests: Refero tag mapping, ScreensDesign `_K`-ref resolver (fixture HTML),
       apple-lookup URL builder.
+
+### Phase 2 (verify against live endpoints) — DONE 2026-09-25
+
+- [x] `npm test` — all green (106 tests, incl. ND devalue decoder + mapper + adapter,
+      SAS mappers + adapter, fixture-driven).
+- [x] `npm run build` — clean.
+- [x] `npm run verify -- all` — **10 subcommands green**, including:
+  - [x] `list-sources`: 5 sources healthy (nicelydone + simpleappshipper present).
+  - [x] `get-onboarding`: ordered onboarding flow, `steps.length > 1`, first-step image
+        cached on disk >10KB, ≥1 inline image block.
+  - [x] `search-components`: ≥3 records with `kind:"component"`, cached image on disk.
+  - [x] `get-app-spotify` and `offline-cache` — unchanged, still pass.
+- [x] Manual NDJSON probe of both new tools via `npm run dev`.
 
 ## 9. Conventions
 

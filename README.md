@@ -5,12 +5,14 @@ and full session recordings — from free design-reference backends. No API keys
 no paid MCP tier: Mobbin / Refero / ScreensDesign all sell official MCPs, but the
 backends behind them are open.
 
-## Phase 1 sources
+## Sources
 
 | source | provides | notes |
 |---|---|---|
 | **Refero** (`api.refero.design`) | 74k+ real web + iOS screens with page-type / pattern / element facets, color palettes, fonts; named ordered flows | anonymous tier works; in practice web-only — iOS queries fall back to unfiltered results with a note |
 | **ScreensDesign** (`screensdesign.com`) | 2,711 top-grossing iOS apps: revenue, paywall type, per-screen AI captions, full 720p session recordings | per-app pages decoded lazily on first `get_app` and cached forever; one-time catalog sync |
+| **Nicely Done** (`nicelydone.club`) | 13k+ curated web-product **onboarding flows**, per product and per flow category (12,784 flows across 669 products in the browse catalog) | powers `get_onboarding`; SSR pages decoded from the Nuxt `__NUXT_DATA__` payload; images at the public `900x484` transform; taxonomy endpoint is best-effort (observed intermittently empty) |
+| **Simple App Shipper** (`simpleappshipper.com/library`) | 500 iOS apps (app + all screens in one call, `flow_index`-ordered) and a **component library** (buttons, cards, lists, charts, tabs, navigation bars) | powers `find_components` + extra `get_app` depth; 3,685 screens stay out of free-text `search` on purpose; PNG CDN no-auth |
 | **Apple iTunes lookup** | official App Store screenshots for any `store_id` | the fully-legal join channel — called from `get_app` when the catalog row has a `store_id` |
 
 ## Tools
@@ -20,6 +22,8 @@ backends behind them are open.
 | `search` | `type: "screens" \| "apps"` (required), `query?`, `platform?`, `tags?` (screens), `category?` (apps), `limit?` (default 10) | **the entry point — one tool, no "which search?" confusion.** `type "screens"`: unified screen records from every search-capable source, interleaved; `colors[]` hex, fonts, tags, `cachedUrls` (local `file://` full-res) + ≤8 inline base64 thumbnails. `type "apps"`: browse the per-app catalogs to **choose** an app before `get_app` — live ScreensDesign name search ("music" → 48 apps), category filter on the local catalog |
 | `get_app` | `name`, `platform?` | one app's full profile (revenue, paywall, rating…), its complete ordered screen sequence with per-screen captions, 720p `videoUrl`, plus official App Store screenshots |
 | `get_flows` | `query?`, `platform?`, `limit?` | named user flows (Refero) — ordered screenshot sequences; for a whole app session use `get_app` |
+| `get_onboarding` | `app?`, `category?`, `query?`, `platform?`, `limit?` (default 6, max 20) | real product **onboarding flows** (Nicely Done) — ordered step captures with pattern tags. `app` = all of a product's flows, `category` = "signing-up" / "onboarding" / …, `query` = free text (the site's own search ranks the matching categories) |
+| `find_components` | `component` (required), `platform?`, `limit?` (default 12, max 30) | **component-level** design examples (Simple App Shipper): buttons, cards, lists, charts, tabs, navigation bars — one captured screen per component, with description |
 | `get_image` | `url`, `format?` (auto/png/jpeg), `maxDim?` (default 1600) | one screenshot returned **as an inline image block** — no local Read needed, webp/webm/avif work as bytes; `format` transcodes (webp→png), `maxDim` downscales |
 | `list_sources` | — | live health of every adapter (1 cheap request each), capabilities, local record counts, catalog progress, cache dir |
 
@@ -75,7 +79,7 @@ data/
 Everything is a cache: a cold server still answers, it just makes network calls;
 a warm one answers from disk.
 
-## Caveats (Phase 1)
+## Caveats
 
 - **First `get_app` can be slow.** The one-time ScreensDesign catalog sync
   (2,711 apps) runs on the first per-app call if the catalog is stale. The API
@@ -99,5 +103,7 @@ npm run dev                  # run the stdio server
 ```
 
 `scripts/verify.ts` is a dependency-free NDJSON MCP client that spawns the real
-server and runs the PLAN.md §8 assertions: `list-sources`, `search-checkout`,
-`search-dashboard`, `get-app-spotify`, `get-flows-onboarding`, `offline-cache`.
+server and runs the PLAN.md §8 assertions — 10 subcommands: `list-sources`,
+`search-checkout`, `search-dashboard`, `get-app-spotify`, `get-flows-onboarding`,
+`offline-cache`, `search-apps`, `get-image`, `get-onboarding`, `search-components`
+(`npm run verify -- all` or one at a time; `help` lists them).
