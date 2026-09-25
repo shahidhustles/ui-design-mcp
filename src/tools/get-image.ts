@@ -16,6 +16,8 @@ export function sourceForUrl(url: string): string {
   if (host.includes('screensdesign.com')) return 'screensdesign';
   if (host.includes('refero.design')) return 'refero';
   if (host.includes('mzstatic.com') || host.endsWith('apple.com')) return 'apple';
+  if (host.includes('nicelydone.club')) return 'nicelydone';
+  if (host.includes('simpleappshipper.com')) return 'simpleappshipper';
   return 'web';
 }
 

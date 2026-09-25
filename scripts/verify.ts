@@ -5,7 +5,8 @@
  * assertions per subcommand. Non-zero exit on any failed check.
  *
  *   npm run verify -- list-sources | search-checkout | search-dashboard
- *                 | get-app-spotify | get-flows-onboarding | offline-cache | all
+ *                 | get-app-spotify | get-flows-onboarding | offline-cache
+ *                 | search-apps | get-image | get-onboarding | search-components | all
  *
  * The server inherits this process's environment — point UIMCP_CACHE_DIR
  * at a warm cache if you don't want the one-time catalog sync to run.
@@ -135,7 +136,11 @@ async function listSources(failures: string[]): Promise<void> {
     check(failures, !r.isError, 'list_sources ok');
     const p = r.payload;
     const names = (p?.sources ?? []).map((s: any) => s.name).sort();
-    check(failures, JSON.stringify(names) === JSON.stringify(['apple', 'refero', 'screensdesign']), `3 sources reported (got ${names.join(',')})`);
+    check(
+      failures,
+      JSON.stringify(names) === JSON.stringify(['apple', 'nicelydone', 'refero', 'screensdesign', 'simpleappshipper']),
+      `5 sources reported (got ${names.join(',')})`,
+    );
     for (const s of p?.sources ?? []) {
       check(failures, s.ok === true, `${s.name} ok:true${s.note ? ` (note: ${s.note})` : ''}`);
     }
@@ -315,8 +320,56 @@ async function getImage(failures: string[]): Promise<void> {
   }
 }
 
+/** §8.9 — Nicely Done onboarding: ordered multi-step flows, first-step image cached on disk, inline thumbnail. */
+async function getOnboarding(failures: string[]): Promise<void> {
+  const c = createClient();
+  try {
+    await c.init();
+    const r = await c.callTool('get_onboarding', { category: 'signing-up', limit: 6 });
+    check(failures, !r.isError, 'get_onboarding(category:signing-up) ok');
+    const flows: any[] = r.payload?.flows ?? [];
+    const nd = flows.filter((f) => f?.source === 'nicelydone');
+    check(failures, nd.length >= 1, `≥1 Nicely Done flow (got ${nd.length} of ${flows.length})`);
+    check(failures, nd.every((f) => Array.isArray(f.steps) && f.steps.length > 1), 'every flow has >1 ordered step');
+    const first = nd[0]?.cachedUrls?.[0] ? fileUrl(nd[0].cachedUrls[0]) : undefined;
+    check(
+      failures,
+      Boolean(first && fs.existsSync(first) && fs.statSync(first).size > 10 * 1024),
+      `first flow's first-step image cached on disk >10KB (${first ?? 'no cachedUrls'})`,
+    );
+    check(failures, r.imageBlocks >= 1, `≥1 inline image block (got ${r.imageBlocks})`);
+  } finally {
+    c.close();
+  }
+}
+
+/** §8.10 — Simple App Shipper components: component-grain records with cached images. */
+async function searchComponents(failures: string[]): Promise<void> {
+  const c = createClient();
+  try {
+    await c.init();
+    const r = await c.callTool('find_components', { component: 'button', limit: 12 });
+    check(failures, !r.isError, 'find_components(button) ok');
+    const comps: any[] = r.payload?.components ?? [];
+    const components = comps.filter((x) => x?.kind === 'component');
+    check(failures, components.length >= 3, `≥3 component records (got ${components.length} of ${comps.length})`);
+    const target = Math.min(5, components.length);
+    let cachedOk = 0;
+    for (const rec of components.slice(0, target)) {
+      const url = rec?.cachedUrls?.[0];
+      const file = url ? fileUrl(url) : undefined;
+      const ok = Boolean(file && fs.existsSync(file) && fs.statSync(file).size > 10 * 1024);
+      if (ok) cachedOk++;
+      check(failures, ok, `component ${rec?.id ?? '?'} cached on disk >10KB (${file ?? 'no cachedUrls'})`);
+    }
+    check(failures, cachedOk === target, `first ${target} components cached (${cachedOk}/${target})`);
+  } finally {
+    c.close();
+  }
+}
+
 const COMMANDS: Record<string, { description: string; run: (failures: string[]) => Promise<void> }> = {
-  'list-sources': { description: '§8.1 all three sources healthy', run: listSources },
+  'list-sources': { description: '§8.1 all five sources healthy', run: listSources },
   'search-checkout': { description: '§8.2 checkout search + full-res cache on disk', run: searchCheckout },
   'search-dashboard': { description: '§8.3 dashboard search, web coverage + palette', run: searchDashboard },
   'get-app-spotify': { description: '§8.4 Spotify depth: screens, store shots, video', run: getAppSpotify },
@@ -324,6 +377,8 @@ const COMMANDS: Record<string, { description: string; run: (failures: string[]) 
   'offline-cache': { description: '§8.6 warm cache survives fake-offline', run: offlineCache },
   'search-apps': { description: '§8.7 live app-catalog search', run: searchApps },
   'get-image': { description: '§8.8 inline image fetch + webp→png transcode', run: getImage },
+  'get-onboarding': { description: '§8.9 Nicely Done onboarding flows + cached first step', run: getOnboarding },
+  'search-components': { description: '§8.10 Simple App Shipper component records', run: searchComponents },
 };
 
 const ALL = [
@@ -335,6 +390,8 @@ const ALL = [
   'offline-cache',
   'search-apps',
   'get-image',
+  'get-onboarding',
+  'search-components',
 ];
 
 async function main(): Promise<void> {

@@ -25,7 +25,7 @@ export function registerGetAppTool(server: McpServer, store: MetadataStore, cfg:
       try {
         const notes: string[] = [];
         if (platform && platform !== 'ios' && platform !== 'unknown') {
-          notes.push(`phase 1 per-app depth covers ios only (requested ${platform})`);
+          notes.push(`per-app depth covers ios only (requested ${platform})`);
         }
         const perApp = adaptersWith('perApp');
         const results = await fanOut(perApp, (a) => a.getApp!({ name, platform }), notes);
@@ -42,6 +42,12 @@ export function registerGetAppTool(server: McpServer, store: MetadataStore, cfg:
           for (const s of res.screens) if (!screensById.has(s.id)) screensById.set(s.id, s);
         }
         const appScreens = [...screensById.values()];
+        // Two per-app sources (ScreensDesign + Simple App Shipper) can both carry
+        // the same app — the combined list is then not one recorded session.
+        const contributing = new Set(appScreens.map((s) => s.source));
+        if (contributing.size > 1) {
+          notes.push(`screens merged from ${[...contributing].join(' + ')} — a combined set, not a single recorded session`);
+        }
 
         // Official store-screenshot join (Apple) via store_id.
         let storeScreens: UIScreen[] = [];
