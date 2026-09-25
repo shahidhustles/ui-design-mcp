@@ -54,6 +54,20 @@ Or for Claude Code: `claude mcp add ui-design -- node /path/to/ui-design-mcp/dis
 
 Dev mode (no build): `npm run dev` runs the server via `tsx`.
 
+## Skill
+
+A packaged agent skill ships in `.agents/skills/ui-design/` — a playbook for
+driving this MCP: when to reach for each tool, the working `get_onboarding`
+category slugs and `find_components` vocabulary, and the two end-to-end workflows
+(improve an existing UI; build an app from a studied clone). It's model-invoked
+and uses progressive disclosure — `SKILL.md` stays lean, `reference/` files load
+only when that tool is in play.
+
+Install it alongside the server for any Agent-Skills harness:
+
+- **Claude Code** — symlinked into `.claude/skills/` in this repo (or copy the folder).
+- **Command Code** — copy or symlink into `~/.commandcode/skills/` (global) or the project's `.agents/skills/`.
+
 ## Environment
 
 | variable | default | meaning |
