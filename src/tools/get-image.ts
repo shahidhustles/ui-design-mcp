@@ -18,6 +18,8 @@ export function sourceForUrl(url: string): string {
   if (host.includes('mzstatic.com') || host.endsWith('apple.com')) return 'apple';
   if (host.includes('nicelydone.club')) return 'nicelydone';
   if (host.includes('simpleappshipper.com')) return 'simpleappshipper';
+  // cdn.prod.website-files.com is Pttrns' Webflow CDN (site id in the path).
+  if (host.includes('website-files.com')) return 'pttrns';
   return 'web';
 }
 

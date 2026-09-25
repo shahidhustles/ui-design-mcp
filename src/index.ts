@@ -4,6 +4,7 @@ import path from 'node:path';
 import { registerAdapter } from './adapters/adapter.js';
 import { createAppleAdapter } from './adapters/apple-itunes.js';
 import { createNicelyDoneAdapter } from './adapters/nicelydone/index.js';
+import { createPttrnsAdapter } from './adapters/pttrns.js';
 import { createReferoAdapter } from './adapters/refero.js';
 import { createScreensDesignAdapter } from './adapters/screensdesign/index.js';
 import { createSimpleAppShipperAdapter } from './adapters/simpleappshipper.js';
@@ -26,6 +27,7 @@ async function main(): Promise<void> {
   registerAdapter(createScreensDesignAdapter(store, cfg));
   registerAdapter(createAppleAdapter(cfg));
   registerAdapter(createNicelyDoneAdapter(store, cfg));
+  registerAdapter(createPttrnsAdapter(store, cfg));
   registerAdapter(createSimpleAppShipperAdapter(store, cfg));
 
   const server = new McpServer({ name: 'ui-design', version: '0.2.0' });

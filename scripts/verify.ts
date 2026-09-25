@@ -138,8 +138,9 @@ async function listSources(failures: string[]): Promise<void> {
     const names = (p?.sources ?? []).map((s: any) => s.name).sort();
     check(
       failures,
-      JSON.stringify(names) === JSON.stringify(['apple', 'nicelydone', 'refero', 'screensdesign', 'simpleappshipper']),
-      `5 sources reported (got ${names.join(',')})`,
+      JSON.stringify(names) ===
+        JSON.stringify(['apple', 'nicelydone', 'pttrns', 'refero', 'screensdesign', 'simpleappshipper']),
+      `6 sources reported (got ${names.join(',')})`,
     );
     for (const s of p?.sources ?? []) {
       check(failures, s.ok === true, `${s.name} ok:true${s.note ? ` (note: ${s.note})` : ''}`);
@@ -343,7 +344,7 @@ async function getOnboarding(failures: string[]): Promise<void> {
   }
 }
 
-/** §8.10 — Simple App Shipper components: component-grain records with cached images. */
+/** §8.10 — Components: Simple App Shipper widget library + Pttrns screen-type patterns, cached on disk. */
 async function searchComponents(failures: string[]): Promise<void> {
   const c = createClient();
   try {
@@ -363,13 +364,29 @@ async function searchComponents(failures: string[]): Promise<void> {
       check(failures, ok, `component ${rec?.id ?? '?'} cached on disk >10KB (${file ?? 'no cachedUrls'})`);
     }
     check(failures, cachedOk === target, `first ${target} components cached (${cachedOk}/${target})`);
+
+    // Pttrns axis: screen-type category → real iOS patterns with cached full-res screenshots.
+    const p = await c.callTool('find_components', { component: 'login', limit: 8 });
+    check(failures, !p.isError, 'find_components(login) ok');
+    const pttrns: any[] = ((p.payload?.components ?? []) as any[]).filter((x) => x?.source === 'pttrns');
+    check(failures, pttrns.length >= 3, `≥3 Pttrns patterns for "login" (got ${pttrns.length})`);
+    check(failures, pttrns.every((x) => x.platform === 'ios'), 'every Pttrns record is ios');
+    const withCache = pttrns.filter((x) => x?.cachedUrls?.[0]);
+    check(failures, withCache.length >= 1, `≥1 Pttrns pattern with a cached screenshot (got ${withCache.length})`);
+    const first = withCache[0];
+    const file = first?.cachedUrls?.[0] ? fileUrl(first.cachedUrls[0]) : undefined;
+    check(
+      failures,
+      Boolean(file && fs.existsSync(file) && fs.statSync(file).size > 10 * 1024),
+      `Pttrns pattern ${first?.id ?? '?'} cached on disk >10KB (${file ?? 'no cachedUrls'})`,
+    );
   } finally {
     c.close();
   }
 }
 
 const COMMANDS: Record<string, { description: string; run: (failures: string[]) => Promise<void> }> = {
-  'list-sources': { description: '§8.1 all five sources healthy', run: listSources },
+  'list-sources': { description: '§8.1 all six sources healthy', run: listSources },
   'search-checkout': { description: '§8.2 checkout search + full-res cache on disk', run: searchCheckout },
   'search-dashboard': { description: '§8.3 dashboard search, web coverage + palette', run: searchDashboard },
   'get-app-spotify': { description: '§8.4 Spotify depth: screens, store shots, video', run: getAppSpotify },
@@ -378,7 +395,7 @@ const COMMANDS: Record<string, { description: string; run: (failures: string[]) 
   'search-apps': { description: '§8.7 live app-catalog search', run: searchApps },
   'get-image': { description: '§8.8 inline image fetch + webp→png transcode', run: getImage },
   'get-onboarding': { description: '§8.9 Nicely Done onboarding flows + cached first step', run: getOnboarding },
-  'search-components': { description: '§8.10 Simple App Shipper component records', run: searchComponents },
+  'search-components': { description: '§8.10 SAS components + Pttrns screen-type patterns', run: searchComponents },
 };
 
 const ALL = [
