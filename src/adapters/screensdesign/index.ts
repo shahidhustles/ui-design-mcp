@@ -28,15 +28,42 @@ function toScreen(slug: string, app: AppRecord, f: SdFrame): UIScreen {
 }
 
 export function createScreensDesignAdapter(store: MetadataStore, cfg: Config): Adapter {
+  /**
+   * Name → catalog row, cheapest route first:
+   *   1. local catalog (instant whenever it exists),
+   *   2. the live name-search API — ONE request, the same call `search apps`
+   *      uses; candidates are upserted so the local matcher (exact → prefix
+   *      → substring, rating-ranked) picks the same row the warm path would,
+   *   3. last resort: the full (resumable) catalog sync — only if the live
+   *      lookup found nothing (API down, or the catalog is partial/stale and
+   *      the app genuinely needs the sync to be found).
+   * A cold `get_app` is therefore ~1 request instead of a ~55-page sync.
+   */
   async function resolveCatalogApp(name: string): Promise<CatalogApp> {
-    if (!catalogFresh(store, cfg)) {
-      log(`catalog stale or missing — running one-time sync (~55 pages)`);
-      await syncCatalog(store, cfg);
-    }
     let app = store.findApp(name);
-    if (!app && store.catalogPartial()) {
-      // A 429-truncated catalog may simply not contain this app yet.
-      log(`"${name}" missing from partial catalog — resuming sync`);
+    if (app) return app;
+    try {
+      const body = await fetchJson<CatalogPage>(
+        SOURCE,
+        `${CATALOG_API}?name=${encodeURIComponent(name)}&page=1`,
+        cfg,
+      );
+      const candidates = (body.results ?? []).map(mapCatalogApp);
+      if (candidates.length > 0) {
+        store.upsertApps(candidates, new Date().toISOString());
+        app = store.findApp(name);
+        if (app) {
+          log(`catalog miss for "${name}" — resolved via live name search (${candidates.length} candidates upserted)`);
+          return app;
+        }
+      }
+    } catch (e) {
+      log(`live app lookup failed — falling back to catalog sync: ${e instanceof Error ? e.message : String(e)}`);
+    }
+    if (!catalogFresh(store, cfg) || store.catalogPartial()) {
+      // Stale/missing catalog, or a 429-truncated one that may simply not
+      // contain this app yet — sync (resumable) and look again.
+      log(`catalog stale/partial — running one-time sync (~55 pages) for "${name}"`);
       await syncCatalog(store, cfg);
       app = store.findApp(name);
     }
@@ -66,11 +93,20 @@ export function createScreensDesignAdapter(store: MetadataStore, cfg: Config): A
     // for most apps (e.g. 'spotify-music-and-podcasts').
     const row = store.findAppBySlug(slug);
     if (row) {
+      // The SSR payload encodes category_primary as {id, name} (the catalog
+      // API returns a plain string) — unwrap before the string column.
+      const rawCat = page.app['category_primary'];
+      const pageCategory =
+        typeof rawCat === 'string' && rawCat
+          ? rawCat
+          : rawCat && typeof rawCat === 'object' && typeof (rawCat as { name?: unknown }).name === 'string'
+            ? ((rawCat as { name: string }).name)
+            : undefined;
       const merged: CatalogApp = {
         ...row,
         storeId: (page.app['store_id'] as string | undefined) ?? row.storeId,
         appstoreLink: (page.app['appstore_link'] as string | undefined) ?? row.appstoreLink,
-        category: (page.app['category_primary'] as string | undefined) ?? row.category,
+        category: pageCategory ?? row.category,
       };
       store.upsertApps([merged], new Date().toISOString());
     }
