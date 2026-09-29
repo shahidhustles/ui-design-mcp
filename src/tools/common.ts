@@ -4,11 +4,15 @@ import type { Config } from '../config.js';
 import type { Adapter } from '../adapters/adapter.js';
 import type { UIScreen } from '../types.js';
 
-/** Text payload (JSON) + optional inline image blocks. */
+/**
+ * Text payload (JSON) + optional inline image blocks. The payload is also
+ * returned as `structuredContent` so MCP App widgets (and hosts that prefer
+ * structured results) get the same data without parsing the text block.
+ */
 export function toolResult(payload: Record<string, unknown>, imageBlocks: { data: string; mimeType: string }[] = []): CallToolResult {
   const content: (TextContent | ImageContent)[] = [{ type: 'text', text: JSON.stringify(payload, null, 2) }];
   for (const img of imageBlocks) content.push({ type: 'image', data: img.data, mimeType: img.mimeType });
-  return { content };
+  return { content, structuredContent: payload };
 }
 
 /** Tool-level failure: `isError` so the agent sees it, not a protocol crash. */

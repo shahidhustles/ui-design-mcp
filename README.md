@@ -26,7 +26,47 @@ backends behind them are open.
 | `get_onboarding` | `app?`, `category?`, `query?`, `platform?`, `limit?` (default 6, max 20) | real product **onboarding flows** (Nicely Done) — ordered step captures with pattern tags. `app` = all of a product's flows, `category` = "signing-up" / "onboarding" / …, `query` = free text (the site's own search ranks the matching categories) |
 | `find_components` | `component` (required), `platform?`, `limit?` (default 12, max 30) | **component-level + screen-type** design examples. Pttrns (iOS): real patterns by category ("login", "signup", "guided tour", "button", "empty states") **or by app name** ("airbnb") — with app attribution. Simple App Shipper (OS-agnostic): the widget library — buttons, cards, lists, charts, tabs, navigation bars |
 | `get_image` | `url`, `format?` (auto/png/jpeg), `maxDim?` (default 1600) | one screenshot returned **as an inline image block** — no local Read needed, webp/webm/avif work as bytes; `format` transcodes (webp→png), `maxDim` downscales |
+| `save_references` | `projectRoot` (absolute), `folder?` (default `references/ui`), `items` (`{url,title?}[]`, 1–30) | saves only the AI's chosen screenshots or video into the project; accepts media URLs and `file://` cached images, keeps item order in filenames, and reports saved absolute paths plus per-item failures |
 | `list_sources` | — | live health of every adapter (1 cheap request each), capabilities, local record counts, catalog progress, cache dir |
+
+## MCP Apps gallery
+
+The six media tools (`search`, `get_app`, `get_flows`, `get_onboarding`,
+`find_components`, `get_image`) advertise the
+[MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview) extension
+(`io.modelcontextprotocol/ui`): each tool carries `_meta.ui.resourceUri`
+pointing at `ui://ui-design/gallery.html`, a single-file vanilla-JS app served
+by the server. Hosts that support MCP Apps render it in a sandboxed iframe
+next to the conversation. The tool result is returned without a user action.
+The app shows its screenshots, video, and text in a compact scrollable gallery:
+
+- Scroll through the returned screens and flow steps. Video controls appear
+  when the result includes a video URL.
+- Expand **Tool payload** to inspect the returned text, structured data, and
+  inline image blocks. The host controls how it presents these to the model.
+- Open a card for a larger view, or open its source page (`ui/open-link`).
+
+When the user asks to keep particular references, the AI calls
+`save_references` with the relevant URLs and the app repository's absolute
+path. For example, it can save the ordered steps returned by `get_onboarding`
+under `references/onboarding`. The gallery does not write project files.
+
+The app speaks the spec `2026-01-26` bridge (JSON-RPC over postMessage):
+`ui/initialize` handshake, `ui/notifications/tool-input` / `tool-result`,
+`tools/call` for image previews, `ui/open-link`, host theming via
+`hostContext.styles` CSS variables, and a CSP allowlist declared on the
+resource for the direct-URL image/video fallback.
+
+**Client support** (official matrix,
+[modelcontextprotocol.io/extensions/client-matrix](https://modelcontextprotocol.io/extensions/client-matrix)):
+Claude (web + Desktop), ChatGPT (incl. Codex in the ChatGPT app — the same
+in-conversation rendering Higgsfield's MCP uses), Cursor, VS Code Copilot,
+Microsoft 365 Copilot, Goose, Postman, MCPJam, Archestra.AI, PostHog Code.
+Hosts without the extension ignore `_meta.ui` entirely — every tool result
+still carries `structuredContent` plus ≤8 inline base64 image blocks, so the
+model (and any plain client) keeps working. Test a local server with the
+official basic-host: `git clone https://github.com/modelcontextprotocol/ext-apps
+&& cd ext-apps/examples/basic-host && npm i && SERVERS='["http://localhost:3001/mcp"]' npm start`.
 
 ## Install
 
@@ -112,7 +152,7 @@ a warm one answers from disk.
 ## Development
 
 ```sh
-npm test                     # unit: decoder, mappers, http retries, sqlite, image cache
+npm test                     # unit: decoder, mappers, http retries, sqlite, image cache, MCP Apps UI resource
 npm run verify -- all        # live §8 verification (see scripts/verify.ts for subcommands)
 npm run dev                  # run the stdio server
 ```

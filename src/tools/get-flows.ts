@@ -1,20 +1,25 @@
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod';
 import { adaptersWith } from '../adapters/adapter.js';
 import type { MetadataStore } from '../cache/metadata.js';
 import type { Config } from '../config.js';
 import type { Platform, UIFlow } from '../types.js';
+import { UI_META } from '../ui.js';
 import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withImages } from './common.js';
 
 export function registerGetFlowsTool(server: McpServer, store: MetadataStore, cfg: Config): void {
   void store;
-  server.registerTool(
+  registerAppTool(
+    server,
     'get_flows',
     {
       title: 'Get flows',
       description:
         'Named ordered user flows from Refero — multi-step screenshot sequences like "Signing Up & Onboarding". ' +
-        'For a whole app\'s recorded session use get_app instead.',
+        'For a whole app\'s recorded session use get_app instead. ' +
+        'MCP Apps hosts render each flow as a scrollable step strip.',
+      _meta: UI_META,
       inputSchema: {
         query: z.string().optional().describe('Flow search text, e.g. "onboarding"'),
         platform: z.enum(['ios', 'android', 'web', 'desktop', 'unknown']).optional(),

@@ -1,9 +1,11 @@
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod';
 import { adaptersWith } from '../adapters/adapter.js';
 import type { MetadataStore } from '../cache/metadata.js';
 import type { Config } from '../config.js';
 import type { Platform, UIScreen } from '../types.js';
+import { UI_META } from '../ui.js';
 import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withImages } from './common.js';
 
 /**
@@ -14,14 +16,17 @@ import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withIma
  */
 export function registerFindComponentsTool(server: McpServer, store: MetadataStore, cfg: Config): void {
   void store;
-  server.registerTool(
+  registerAppTool(
+    server,
     'find_components',
     {
       title: 'Find components',
       description:
         'Component-level and screen-type UI design examples (Pttrns: login/signup/onboarding screens, buttons, ' +
         'navigation — by category or app name, iOS; Simple App Shipper: buttons, cards, lists, charts, tabs). ' +
-        'For whole screens use search, for onboarding flows use get_onboarding.',
+        'For whole screens use search, for onboarding flows use get_onboarding. ' +
+        'MCP Apps hosts also render an interactive gallery of the results.',
+      _meta: UI_META,
       inputSchema: {
         component: z
           .string()

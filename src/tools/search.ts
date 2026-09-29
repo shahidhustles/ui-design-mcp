@@ -1,9 +1,11 @@
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod';
 import { adaptersWith } from '../adapters/adapter.js';
 import type { MetadataStore } from '../cache/metadata.js';
 import type { Config } from '../config.js';
 import type { CatalogApp, Platform } from '../types.js';
+import { UI_META } from '../ui.js';
 import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withImages } from './common.js';
 
 /**
@@ -14,7 +16,8 @@ import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withIma
  */
 export function registerSearchTool(server: McpServer, store: MetadataStore, cfg: Config): void {
   void store;
-  server.registerTool(
+  registerAppTool(
+    server,
     'search',
     {
       title: 'Search',
@@ -23,7 +26,9 @@ export function registerSearchTool(server: McpServer, store: MetadataStore, cfg:
         'type "screens": real-world UI screens (Refero: 74k+ web + iOS, faceted by page type / pattern / element) — ' +
         'returns colors[] hex, fonts, tags and inline thumbnails; use get_image for full-res views. ' +
         'type "apps": per-app catalogs (ScreensDesign: 2,711 top-grossing iOS apps, live name search) — ' +
-        'use this to CHOOSE an app before get_app. Screens take query/platform/tags; apps take query/category.',
+        'use this to CHOOSE an app before get_app. Screens take query/platform/tags; apps take query/category. ' +
+        'MCP Apps hosts (Claude, ChatGPT, …) also render an interactive gallery of the results.',
+      _meta: UI_META,
       inputSchema: {
         type: z.enum(['screens', 'apps']).describe('"screens" = UI screens to study; "apps" = whole apps to pick one'),
         query: z.string().optional().describe('Free text: "checkout", "onboarding", "journal", "spotify"'),

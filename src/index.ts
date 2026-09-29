@@ -18,6 +18,8 @@ import { registerGetImageTool } from './tools/get-image.js';
 import { registerGetOnboardingTool } from './tools/get-onboarding.js';
 import { registerListSourcesTool } from './tools/list-sources.js';
 import { registerSearchTool } from './tools/search.js';
+import { registerSaveReferencesTool } from './tools/save-references.js';
+import { registerUiResource } from './ui.js';
 
 async function main(): Promise<void> {
   const cfg = loadConfig();
@@ -30,7 +32,8 @@ async function main(): Promise<void> {
   registerAdapter(createPttrnsAdapter(store, cfg));
   registerAdapter(createSimpleAppShipperAdapter(store, cfg));
 
-  const server = new McpServer({ name: 'ui-design', version: '0.2.0' });
+  const server = new McpServer({ name: 'ui-design', version: '0.3.0' });
+  registerUiResource(server);
   registerSearchTool(server, store, cfg);
   registerGetAppTool(server, store, cfg);
   registerGetFlowsTool(server, store, cfg);
@@ -38,6 +41,7 @@ async function main(): Promise<void> {
   registerListSourcesTool(server, store, cfg);
   registerGetOnboardingTool(server, store, cfg);
   registerFindComponentsTool(server, store, cfg);
+  registerSaveReferencesTool(server, cfg);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);

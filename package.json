@@ -16,6 +16,7 @@
     "verify": "node --disable-warning=ExperimentalWarning node_modules/tsx/dist/cli.mjs scripts/verify.ts"
   },
   "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.7.5",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "sharp": "^0.35.4",
     "zod": "^3.25.76"

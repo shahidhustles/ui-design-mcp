@@ -1,11 +1,11 @@
 ---
 name: ui-design
-description: Real-world UI reference via the ui-design MCP — search actual product screens (palettes, fonts, page-type tags), tear down whole iOS apps (recorded sessions, per-screen captions, revenue and paywall), pull curated onboarding flows, and find component or screen-type patterns. Use when studying competitors, improving an existing interface, cloning or building an app, or extracting design tokens (palette, typography, layout patterns) from real products.
+description: Real-world UI references via the ui-design MCP. Search product screens, study recorded app sessions and onboarding flows, find component patterns, and save chosen images or videos into a project reference folder when the user asks to keep them.
 ---
 
 # ui-design — real-world design references
 
-Seven tools on the `ui-design` MCP server, backed by free design-reference sources: 74k+ web/iOS screens (Refero), 2,700 top-grossing iOS apps with recorded sessions (ScreensDesign), 12k+ curated onboarding flows (Nicely Done), 500 apps plus a component library (Simple App Shipper), 7,700 iOS UI patterns (Pttrns), and official App Store screenshots (Apple iTunes). No API keys.
+Eight tools on the `ui-design` MCP server, backed by free design-reference sources: 74k+ web/iOS screens (Refero), 2,700 top-grossing iOS apps with recorded sessions (ScreensDesign), 12k+ curated onboarding flows (Nicely Done), 500 apps plus a component library (Simple App Shipper), 7,700 iOS UI patterns (Pttrns), and official App Store screenshots (Apple iTunes). No API keys.
 
 Call tools as `ui-design:<tool>` (e.g. `ui-design:search`).
 
@@ -21,6 +21,7 @@ Call tools as `ui-design:<tool>` (e.g. `ui-design:search`).
 | `ui-design:find_components` | Component + screen-type patterns (iOS, by category or app name) and an OS-agnostic widget library. | `component` (req), `limit` |
 | `ui-design:get_flows` | Named multi-step user flows (Refero) as ordered screenshot sequences. | `query` (req), `limit` |
 | `ui-design:get_image` | One screenshot as an inline full-res image; transcodes webp, downscales. | `url` (req), `format?`, `maxDim?` |
+| `ui-design:save_references` | Save chosen images or videos in the project, with ordered filenames and absolute paths in the result. | `projectRoot` (req), `folder?`, `items` (req) |
 | `ui-design:list_sources` | Health + record counts + catalog progress of every source. | — |
 
 ## Pick the tool
@@ -34,6 +35,7 @@ Match the task to one lookup first:
 - **A whole app's recorded session → `ui-design:get_app`** once you've picked the app via `search {type:"apps"}`.
 - **A named multi-step sequence → `ui-design:get_flows`** (e.g. "signing up" as ordered screenshots).
 - **A close look at any screen → `ui-design:get_image`.** Use this for full-res, not a Read tool — it transcodes webp/webm/avif and downscales.
+- **Keep references in the project → `ui-design:save_references`.** When the user asks to save a flow, screenshots, or video, choose only the relevant media from the tool result. Pass the current project's absolute root and a relative folder such as `references/onboarding`. Use each screen's `cachedUrls[0]` or `imageUrls[0]`, plus `videoUrl` when requested. Keep the `items` array in flow order. Report the saved paths and any failures. The user does not need to select cards in the gallery.
 
 Rule of thumb: **apps first when cloning a product, screens first when styling a page.** The chains run `search apps → get_app → get_image` and `search screens → get_image`.
 

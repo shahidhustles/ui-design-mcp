@@ -1,8 +1,10 @@
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod';
 import { existsSync, readFileSync } from 'node:fs';
 import { ensureImage, readImage } from '../cache/images.js';
 import type { Config } from '../config.js';
+import { UI_META } from '../ui.js';
 import { errorResult, toolResult } from './common.js';
 
 /** Map an image host to its cache source dir so existing cache files are reused. */
@@ -67,14 +69,17 @@ export async function serve(
 }
 
 export function registerGetImageTool(server: McpServer, cfg: Config): void {
-  server.registerTool(
+  registerAppTool(
+    server,
     'get_image',
     {
       title: 'Get image',
       description:
         'Fetch one screenshot as an inline image block — use this instead of a Read tool, which often ' +
         'cannot render webp. Accepts http(s) imageUrls or file:// cachedUrls from search_screens / get_app. ' +
-        'format "png"|"jpeg" transcodes; maxDim downscales (default 1600px).',
+        'format "png"|"jpeg" transcodes; maxDim downscales (default 1600px). ' +
+        'MCP Apps hosts render the returned image in a compact gallery.',
+      _meta: UI_META,
       inputSchema: {
         url: z.string().describe('http(s) image URL, or a file:// path from a cachedUrls entry'),
         format: z.enum(['auto', 'png', 'jpeg']).optional().default('auto').describe('Transcode to png/jpeg (webp → png)'),

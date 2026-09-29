@@ -1,9 +1,11 @@
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod';
 import { adaptersWith } from '../adapters/adapter.js';
 import type { MetadataStore } from '../cache/metadata.js';
 import type { Config } from '../config.js';
 import type { Platform, UIFlow } from '../types.js';
+import { UI_META } from '../ui.js';
 import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withImages } from './common.js';
 
 /**
@@ -14,14 +16,17 @@ import { cacheFullRes, errorResult, fanOut, interleaveMerge, toolResult, withIma
  */
 export function registerGetOnboardingTool(server: McpServer, store: MetadataStore, cfg: Config): void {
   void store;
-  server.registerTool(
+  registerAppTool(
+    server,
     'get_onboarding',
     {
       title: 'Get onboarding',
       description:
         'Real product onboarding flows (Nicely Done: 12k+ curated web-product flows, 669 products) — ' +
         'ordered step captures with pattern tags. Give app (all of a product\'s flows), category ' +
-        '("signing-up", "onboarding", "verifying-identity", …), or query. Images are 900px; use get_image for more.',
+        '("signing-up", "onboarding", "verifying-identity", …), or query. Images are 900px; use get_image for more. ' +
+        'MCP Apps hosts render each flow as a scrollable step strip.',
+      _meta: UI_META,
       inputSchema: {
         app: z.string().optional().describe('Product name, e.g. "Dovetail" — returns all of its onboarding flows'),
         category: z

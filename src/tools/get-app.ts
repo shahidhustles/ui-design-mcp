@@ -1,21 +1,26 @@
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod';
 import { adaptersWith } from '../adapters/adapter.js';
 import type { MetadataStore } from '../cache/metadata.js';
 import type { Config } from '../config.js';
 import type { Platform, UIScreen } from '../types.js';
+import { UI_META } from '../ui.js';
 import { cacheFullRes, errorResult, fanOut, toolResult, withImages } from './common.js';
 
 export function registerGetAppTool(server: McpServer, store: MetadataStore, cfg: Config): void {
   void store;
-  server.registerTool(
+  registerAppTool(
+    server,
     'get_app',
     {
       title: 'Get app',
       description:
         'One app\'s full profile (rating, revenue, paywall type) + its complete ordered screen session ' +
         'with AI captions per screen + 720p videoUrl, joined with official App Store screenshots. ' +
-        'First call per app fetches+decodes the session (~15s); cached after.',
+        'First call per app fetches+decodes the session (~15s); cached after. ' +
+        'MCP Apps hosts render the session inline (video player + screen grid).',
+      _meta: UI_META,
       inputSchema: {
         name: z.string().describe('App name, e.g. "Spotify" (fuzzy match)'),
         platform: z.enum(['ios', 'android', 'web', 'desktop', 'unknown']).optional(),
